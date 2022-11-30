@@ -1,0 +1,313 @@
+﻿<Window x:Class="the_game.store"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:the_game"
+        mc:Ignorable="d"
+        Title="store" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Window.Background>
+        <RadialGradientBrush RadiusX="0.6" RadiusY="0.6">
+            <GradientStop Color="#FF65727B" Offset="0"/>
+            <GradientStop Color="#FF1D2027" Offset="1"/>
+        </RadialGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="13*"/>
+                <ColumnDefinition Width="27*"/>
+                <ColumnDefinition Width="27*"/>
+                <ColumnDefinition Width="13*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Button Content="&lt;-" x:Name="exitButton" Click="exitButton_Click" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="25,10,25,10" FontFamily="MS Gothic" FontSize="22" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="7"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TextBlock x:Name="name" HorizontalAlignment="Left" Padding="0,0,0,0" Margin="10,0,0,0" TextWrapping="Wrap" Text="PLAYER" VerticalAlignment="Bottom" FontFamily="Stencil" FontWeight="Bold" FontSize="20" Foreground="#FFB3B3B3"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <TextBlock x:Name="level" HorizontalAlignment="Left" Padding="0,0,0,0" Margin="10,0,0,0" TextWrapping="Wrap" Text="УРОВЕНЬ test" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" FontSize="13" Foreground="#FFB3B3B3"/>
+                </Grid>
+            </Grid>
+            <Grid   Grid.Column="2">
+                <TextBlock x:Name="cash" HorizontalAlignment="Right" Padding="0,0,0,0" Margin="0,0,10,0" TextWrapping="Wrap" Text="test $" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" FontFamily="Impact" Foreground="#FFB3B3B3"/>
+            </Grid>
+        </Grid>
+        <Grid   Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="7*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Margin="10,5,0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid Margin="8,15,8,0">
+                        <Grid Background="#FF464E56">
+                            <Image x:Name="img_weapon_donned" Stretch="UniformToFill"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid Margin="8,0,8,80">
+                        <Label x:Name="weapon_rarity_donned" Margin="0,0,0,0" Background="#FFA24F4F"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid Margin="8,15,8,0">
+                        <Grid Background="#FF464E56">
+                            <Image x:Name="img_armor_donned" Stretch="UniformToFill"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid Margin="8,0,8,80">
+                        <Label x:Name="armor_rarity_donned" Margin="0,0,0,0" Background="#FFA24F4F"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid   Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="45*"/>
+                    <RowDefinition Height="187*"/>
+                    <RowDefinition Height="52*"/>
+                    <RowDefinition Height="52*"/>
+                </Grid.RowDefinitions>
+                <Grid   Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="9*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="test" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3"/>
+                    </Grid>
+                </Grid>
+                <Grid   Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="9*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Button x:Name="prev" Click="prev_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Height="40" Width="25" Margin="0,0,0,0" Padding="0,0,0,0" Background="{x:Null}" Opacity="0.65" BorderBrush="{x:Null}">
+                            <TextBlock Text="&lt;" VerticalAlignment="Center" FontSize="22" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
+                        </Button>
+                    </Grid>
+                    <Grid Margin="7,7,7,7" Grid.Column="1" Background="#FF14171C" Opacity="0.65">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="185*"/>
+                            <RowDefinition Height="8*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="7,7,7,0">
+                            <Image x:Name="weaponNow"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Label x:Name="weapon_rarity_now" Background="#FFE8CE79"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Button x:Name="next" Click="next_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Height="40" Width="25" Margin="0,0,0,0" Padding="0,0,0,0" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <TextBlock Text=">" VerticalAlignment="Center" FontSize="22" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Grid   Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="18*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="18*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1" Margin="0,0,7,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25*"/>
+                            <RowDefinition Height="33*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <TextBlock Text="ЦЕНА" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <TextBlock x:Name="wCost" Text="test $" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Foreground="#FFB3B3B3"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Column="2" Margin="7,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25*"/>
+                            <RowDefinition Height="33*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <TextBlock Text="УРОН" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <TextBlock Text="test" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Foreground="#FFB3B3B3"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid   Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="18*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="18*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1" Margin="0,10,5,0">
+                        <Button x:Name="buy" Click="buy_Click" Content="КУПИТЬ" Padding="5,5,5,5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                    <Grid Grid.Column="2" Margin="5,10,0,0">
+                        <Button Content="НАДЕТЬ" x:Name="put" Click="put_Click"  Padding="5,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid   Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="45*"/>
+                    <RowDefinition Height="187*"/>
+                    <RowDefinition Height="52*"/>
+                    <RowDefinition Height="52*"/>
+                </Grid.RowDefinitions>
+                <Grid   Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="9*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="test" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3"/>
+                    </Grid>
+                </Grid>
+                <Grid   Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="9*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Button x:Name="prevA" Click="prevA_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Height="40" Width="25" Margin="0,0,0,0" Padding="0,0,0,0" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <TextBlock Text="&lt;" VerticalAlignment="Center" FontSize="22" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
+                        </Button>
+                    </Grid>
+                    <Grid Margin="7,7,7,7" Grid.Column="1" Background="#FF14171C" Opacity="0.65">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="185*"/>
+                            <RowDefinition Height="8*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="7,7,7,0">
+                            <Image x:Name="armorNow"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Label x:Name="armor_rarity_now" Background="#FFE8CE79"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Button x:Name="nextA" Click="nextA_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Height="40" Width="25" Margin="0,0,0,0" Padding="0,0,0,0" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <TextBlock Text=">" VerticalAlignment="Center" FontSize="22" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Grid   Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="18*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="18*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1" Margin="0,0,7,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25*"/>
+                            <RowDefinition Height="33*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <TextBlock Text="ЦЕНА" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <TextBlock x:Name="aCost" Text="test $" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Foreground="#FFB3B3B3"/>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Column="2" Margin="7,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25*"/>
+                            <RowDefinition Height="33*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <TextBlock Text="БРОНЯ" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <TextBlock Text="test" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Foreground="#FFB3B3B3"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid   Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="18*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="18*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1" Margin="0,10,5,0">
+                        <Button x:Name="buyA" Click="buyA_Click" Padding="5,5,5,5" Content="КУПИТЬ" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                    <Grid Grid.Column="2" Margin="5,10,0,0">
+                        <Button x:Name="putA" Click="putA_Click" Content="НАДЕТЬ" Padding="5,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
