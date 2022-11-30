@@ -128,6 +128,19 @@
                         <Button Style="{StaticResource ImageButtonStyle}" Click="ImageButton_Click">
                             <Image x:Name="foto" Source="/test.jpg" Stretch="UniformToFill"/>
                         </Button>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="31*"/>
+                                <ColumnDefinition Width="6*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="31*"/>
+                                <RowDefinition Height="6*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="1" Grid.Row="1">
+                                <Button x:Name="profile_icon_change_button" Click="profile_icon_change_button_Click" Background="#FF525252" BorderBrush="Black" Foreground="White" Opacity="0.65"/>
+                            </Grid>
+                        </Grid>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>

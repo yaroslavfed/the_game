@@ -163,7 +163,7 @@ namespace the_game
 
         private void ImageButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("ImageButton_Click");
+            MessageBox.Show("ImageButton");
         }
 
         public class Item
@@ -295,7 +295,12 @@ namespace the_game
 
         private void invInfoButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("infInfo");
+            MessageBox.Show("invInfoButton");
+        }
+
+        private void profile_icon_change_button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("profile_icon_change_button");
         }
     }
 }
