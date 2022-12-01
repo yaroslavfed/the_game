@@ -7,9 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown"
         WindowState="Maximized">
-    <!--WindowStyle="None">-->
     <Grid>
-        <Label Content="PRESS ENTER KEY" Margin="10,217,509,103" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="18"/>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="63*"/>
+            <ColumnDefinition Width="137*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="237*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="137*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0" Margin="0,5,0,0" Grid.Row="1">
+            <Label Content="PRESS ENTER KEY" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="20" Grid.Row="2"/>
+        </Grid>
     </Grid>
 </Window>
