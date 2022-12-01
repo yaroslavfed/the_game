@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:the_game"
         mc:Ignorable="d"
-        Title="store" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="store" Height="450" Width="800" Loaded="Window_Loaded"
+        WindowState="Maximized">
     <Window.Resources>
         <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
             <Setter Property="Template">

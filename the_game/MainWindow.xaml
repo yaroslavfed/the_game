@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:the_game"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
+        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown"
+        WindowState="Maximized">
+    <!--WindowStyle="None">-->
     <Grid>
         <Label Content="PRESS ENTER KEY" Margin="10,217,509,103" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="18"/>
 
