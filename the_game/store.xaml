@@ -67,34 +67,34 @@
                 <ColumnDefinition Width="7*"/>
                 <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" Margin="10,5,0,5">
+            <Grid Grid.Column="0" Margin="10,5,0,5" Opacity="0.65">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Grid Margin="8,15,8,0">
-                        <Grid Background="#FF464E56">
-                            <Image x:Name="img_weapon_donned" Stretch="UniformToFill"/>
-                        </Grid>
+                <Grid Grid.Row="1" Margin="10,0,10,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Background="#FF464E56">
+                        <Image x:Name="img_weapon_donned"/>
                     </Grid>
-                </Grid>
-                <Grid Grid.Row="1">
-                    <Grid Margin="8,0,8,80">
+                    <Grid Grid.Row="1">
                         <Label x:Name="weapon_rarity_donned" Margin="0,0,0,0" Background="#FFA24F4F"/>
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="2">
-                    <Grid Margin="8,15,8,0">
-                        <Grid Background="#FF464E56">
-                            <Image x:Name="img_armor_donned" Stretch="UniformToFill"/>
-                        </Grid>
+                <Grid Grid.Row="2" Margin="10,10,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Background="#FF464E56">
+                        <Image x:Name="img_armor_donned"/>
                     </Grid>
-                </Grid>
-                <Grid Grid.Row="3">
-                    <Grid Margin="8,0,8,80">
+                    <Grid Grid.Row="1">
                         <Label x:Name="armor_rarity_donned" Margin="0,0,0,0" Background="#FFA24F4F"/>
                     </Grid>
                 </Grid>
