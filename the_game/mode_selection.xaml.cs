@@ -30,7 +30,7 @@ namespace the_game
             {
                 record = sr.ReadLine();
             }
-            record_player.Text = "Рекорд: " + record + " волн";
+            record_player.Text = "Рекорд:\t" + record + " волн";
         }
 
         private void single_game_start_Click(object sender, RoutedEventArgs e)

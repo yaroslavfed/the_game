@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:the_game"
         mc:Ignorable="d"
-        Title="Profile" Height="450" Width="800" MinWidth="800" MinHeight="450" Loaded="Window_Loaded"
+        Title="Profile" Height="900" Width="1600" Loaded="Window_Loaded"
         WindowState="Maximized">
     <Window.Resources>
         <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
@@ -61,7 +61,7 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="2" Margin="0,0,0,0">
                     <!-- Кнопка входа в магазин -->
-                    <Button Margin="7,7,7,7" Content="Store" Click="store_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                    <Button Margin="7,7,7,7" Content="Store" Click="store_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="26">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="6"/>
@@ -71,7 +71,7 @@
                 </Grid>
                 <Grid Grid.Row="3" Margin="0,0,0,0">
                     <!-- Кнопка выхода -->
-                    <Button x:Name="exit" Margin="7,7,7,7" Content="Home" Click="exit_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                    <Button x:Name="exit" Margin="7,7,7,7" Content="Home" Click="exit_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="26">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="6"/>
@@ -81,7 +81,7 @@
                 </Grid>
                 <Grid Grid.Row="1" Margin="0,0,0,0">
                     <!-- Кнопка играть -->
-                    <Button x:Name="to_map" Margin="7,7,7,7" Content="Map" Click="to_map_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                    <Button x:Name="to_map" Margin="7,7,7,7" Content="Map" Click="to_map_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="26">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="6"/>
@@ -99,7 +99,7 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <!-- Вывод внутреигровой валюты -->
-                    <Label x:Name="cash" HorizontalAlignment="Center" VerticalAlignment="Center" Content="test $" FontWeight="Bold" FontSize="18" Foreground="#FF797C81" FontFamily="Impact"></Label>
+                    <Label x:Name="cash" HorizontalAlignment="Center" VerticalAlignment="Center" Content="test $" FontWeight="Bold" FontSize="48" Foreground="#FF797C81" FontFamily="Impact"></Label>
                 </Grid>
                 <Grid Grid.Row="1">
                     <!-- Вывод донатной валюты -->
@@ -139,7 +139,7 @@
                                 <RowDefinition Height="6*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Column="1" Grid.Row="1">
-                                <Button x:Name="profile_icon_change_button" Click="profile_icon_change_button_Click" Background="#FF525252" BorderBrush="Black" Foreground="White" Opacity="0.65"/>
+                                <Button x:Name="profile_icon_change_button" Click="profile_icon_change_button_Click" Background="#FF525252" BorderBrush="Black"/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -149,17 +149,17 @@
                             <RowDefinition Height="16*"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Margin="0,0,0,3">
-                            <Label x:Name="name" Content="Player" FontSize="24" FontFamily="Stencil" VerticalContentAlignment="Bottom" Foreground="#FFB3B3B3" Padding="20,0,0,0"/>
+                            <Label x:Name="name" Content="Player" FontSize="54" FontFamily="Stencil" VerticalContentAlignment="Bottom" Foreground="#FFB3B3B3" Padding="20,0,0,0"/>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <Label x:Name="level" Content="УРОВЕНЬ 13" FontSize="14" FontFamily="Yu Gothic UI Semibold" Foreground="#FFB3B3B3" Padding="20,0,0,0"/>
+                            <Label x:Name="level" Content="УРОВЕНЬ 13" FontSize="30" FontFamily="Yu Gothic UI Semibold" Foreground="#FFB3B3B3" Padding="20,0,0,0"/>
                         </Grid>
                     </Grid>
                 </Grid>
                 <UniformGrid Grid.Row="1" Rows="1" Columns="3" Margin="3,3,3,3">
                     <!-- Блоки -->
                     <Grid Margin="0,0,2,0" Background="#FF14171C" Opacity="0.65">
-                        <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="СКОРО" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+                        <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="СКОРО" VerticalAlignment="Center" FontSize="34" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
                     </Grid>
                     <!-- Левый -->
                     <Grid Margin="2,0,2,0" Background="#FF14171C" Opacity="0.65">
@@ -169,10 +169,10 @@
                                 <RowDefinition Height="85*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Margin="0,0,0,1">
-                                <TextBlock HorizontalAlignment="Center" Margin="8,28,8,0" TextWrapping="Wrap" Text="ИНВЕНТАРЬ" VerticalAlignment="Bottom" FontSize="14" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+                                <TextBlock HorizontalAlignment="Center" Margin="8,28,8,0" TextWrapping="Wrap" Text="ИНВЕНТАРЬ" VerticalAlignment="Bottom" FontSize="28" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
                             </Grid>
                             <Grid Grid.Row="1">
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="Здесь будет отображаться ваш инвентарь" Width="83" TextAlignment="Center" TextWrapping="WrapWithOverflow" Margin="8,10,8,0" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="Здесь будет отображаться ваш инвентарь" TextAlignment="Center" TextWrapping="WrapWithOverflow" Margin="12,15,12,0" FontFamily="Modern No. 20" Foreground="#FFB3B3B3" FontSize="22"/>
                             </Grid>
                         </Grid>
                         <Grid x:Name="invList" Margin="3,3,3,3" Width="auto">
@@ -203,10 +203,10 @@
                                     <RowDefinition Height="89*"/>
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0" Margin="0,0,0,1">
-                                    <TextBlock HorizontalAlignment="Center" Margin="8,0,8,0" TextWrapping="Wrap" Text="БАЗА ЗНАНИЙ" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3" TextAlignment="Center" FontSize="14"/>
+                                    <TextBlock HorizontalAlignment="Center" Margin="8,0,8,0" TextWrapping="Wrap" Text="БАЗА ЗНАНИЙ" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3" TextAlignment="Center" FontSize="26"/>
                                 </Grid>
                                 <Grid Grid.Row="1">
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="Нажми, чтобы прочитать информацию о оружии и броне" Width="83" TextAlignment="Center" TextWrapping="WrapWithOverflow" Margin="8,5,8,0" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="Нажми, чтобы прочитать информацию о оружии и броне" TextAlignment="Center" TextWrapping="WrapWithOverflow" Margin="18,15,18,0" FontFamily="Modern No. 20" Foreground="#FFB3B3B3" FontSize="22"/>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -278,7 +278,7 @@
                                 <RowDefinition Height="37*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
-                                <Label Content="ХАРАКТЕРИСТИКА ПЕРСОНАЖА" VerticalContentAlignment="Center" FontSize="8" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+                                <Label Content="ХАРАКТЕРИСТИКА ПЕРСОНАЖА" VerticalContentAlignment="Center" FontSize="18" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
                             </Grid>
                             <Grid Grid.Row="1">
                                 <UniformGrid Rows="2" Columns="2">
@@ -302,10 +302,10 @@
                                                 <RowDefinition Height="18*"/>
                                             </Grid.RowDefinitions>
                                             <Grid Grid.Row="0">
-                                                <TextBlock x:Name="health" HorizontalAlignment="Left" Padding="2,0,0,1" FontSize="10" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3" TextWrapping="Wrap" Text="test" VerticalAlignment="Bottom"/>
+                                                <TextBlock x:Name="health" HorizontalAlignment="Left" Padding="2,0,0,1" FontSize="24" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3" TextWrapping="Wrap" Text="test" VerticalAlignment="Bottom"/>
                                             </Grid>
                                             <Grid Grid.Row="1">
-                                                <TextBlock HorizontalAlignment="Left" Padding="2,1,0,0" FontSize="8" FontFamily="Modern No. 20" Foreground="#FF6D9B76" TextWrapping="Wrap" Text="ЗДОРОВЬЕ" VerticalAlignment="Top"/>
+                                                <TextBlock HorizontalAlignment="Left" Padding="2,1,0,0" FontSize="14" FontFamily="Modern No. 20" Foreground="#FF6D9B76" TextWrapping="Wrap" Text="ЗДОРОВЬЕ" VerticalAlignment="Top"/>
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -331,10 +331,10 @@
                                                 <RowDefinition Height="18*"/>
                                             </Grid.RowDefinitions>
                                             <Grid Grid.Row="0">
-                                                <TextBlock x:Name="damage" HorizontalAlignment="Left" Padding="2,0,0,1" FontSize="10" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3" TextWrapping="Wrap" Text="test" VerticalAlignment="Bottom"/>
+                                                <TextBlock x:Name="damage" HorizontalAlignment="Left" Padding="2,0,0,1" FontSize="24" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3" TextWrapping="Wrap" Text="test" VerticalAlignment="Bottom"/>
                                             </Grid>
                                             <Grid Grid.Row="1">
-                                                <TextBlock HorizontalAlignment="Left" Padding="2,1,0,0" FontSize="8" FontFamily="Modern No. 20" Foreground="#6d839b" TextWrapping="Wrap" Text="УРОН" VerticalAlignment="Top"/>
+                                                <TextBlock HorizontalAlignment="Left" Padding="2,1,0,0" FontSize="14" FontFamily="Modern No. 20" Foreground="#6d839b" TextWrapping="Wrap" Text="УРОН" VerticalAlignment="Top"/>
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -358,10 +358,10 @@
                                                 <RowDefinition Height="18*"/>
                                             </Grid.RowDefinitions>
                                             <Grid Grid.Row="0">
-                                                <TextBlock x:Name="armor" HorizontalAlignment="Left" Padding="2,0,0,1" FontSize="10" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3" TextWrapping="Wrap" Text="test" VerticalAlignment="Bottom"/>
+                                                <TextBlock x:Name="armor" HorizontalAlignment="Left" Padding="2,0,0,1" FontSize="24" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3" TextWrapping="Wrap" Text="test" VerticalAlignment="Bottom"/>
                                             </Grid>
                                             <Grid Grid.Row="1">
-                                                <TextBlock HorizontalAlignment="Left" Padding="2,1,0,0" FontSize="8" FontFamily="Modern No. 20" Foreground="#FF8A1E1C" TextWrapping="Wrap" Text="ЗАЩИТА" VerticalAlignment="Top"/>
+                                                <TextBlock HorizontalAlignment="Left" Padding="2,1,0,0" FontSize="14" FontFamily="Modern No. 20" Foreground="#FF8A1E1C" TextWrapping="Wrap" Text="ЗАЩИТА" VerticalAlignment="Top"/>
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -371,7 +371,7 @@
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="3" Margin="3,3,3,3"  Background="#FF14171C" Opacity="0.65">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="В СЕТИ" VerticalAlignment="Center" FontFamily="Modern No. 20" Foreground="#FFB3B3B3" FontWeight="Bold" FontSize="9"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="В СЕТИ" VerticalAlignment="Center" FontFamily="Modern No. 20" Foreground="#FFB3B3B3" FontWeight="Bold" FontSize="22"/>
                 </Grid>
                 <!-- Состояние -->
             </Grid>
