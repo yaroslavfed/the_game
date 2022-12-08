@@ -26,15 +26,21 @@ namespace the_game
             InitializeComponent();
         }
 
+        public static readonly string media_back_path = System.IO.Directory.GetCurrentDirectory() + @"\background_video\";
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
             {
-                //MessageBox.Show(System.IO.Directory.GetCurrentDirectory());
                 start_page start = new start_page();
                 this.Close();
                 start.Show();
             }
+        }
+
+        private void MediaElement_Loaded(object sender, RoutedEventArgs e)
+        {
+            media_back.Source = new Uri(System.IO.Path.Combine(media_back_path, "backdrop.mp4"));
         }
     }
 }

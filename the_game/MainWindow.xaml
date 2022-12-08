@@ -5,20 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:the_game"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown"
+        Title="MainWindow" Height="900" Width="1600" KeyDown="Window_KeyDown"
         WindowState="Maximized">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="63*"/>
-            <ColumnDefinition Width="137*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="237*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="137*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Column="0" Margin="0,5,0,0" Grid.Row="1">
-            <Label Content="PRESS ENTER KEY" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="20" Grid.Row="2"/>
+        <MediaElement Name="myMediaElement" LoadedBehavior="Manual" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill" Loaded="MediaElement_Loaded">
+            <MediaElement.Triggers>
+                <EventTrigger RoutedEvent="MediaElement.Loaded">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <MediaTimeline x:Name="media_back" Storyboard.TargetName="myMediaElement" RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </MediaElement.Triggers>
+        </MediaElement>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="283*"/>
+                <RowDefinition Height="87*"/>
+                <RowDefinition Height="72*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="0" Margin="0,5,0,0" Grid.Row="1">
+                <Label Content="PRESS ENTER KEY" Foreground="#FFB3B3B3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="40" Grid.Row="2" FontFamily="Segoe UI Variable Display Semibold" FontWeight="Bold"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
