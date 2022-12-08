@@ -144,7 +144,7 @@ namespace the_game
 
         private void to_map_Click(object sender, RoutedEventArgs e)
         {
-            mode_selection mode = new mode_selection();
+            mode_selection mode = new mode_selection(id);
             mode.Show();
             this.Close();
         }

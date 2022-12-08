@@ -1,27 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace the_game
 {
-    /// <summary>
-    /// Логика взаимодействия для mode_selection.xaml
-    /// </summary>
     public partial class mode_selection : Window
     {
-        public mode_selection()
+        public mode_selection(string id)
         {
             InitializeComponent();
+            this.id = id;
+        }
+        readonly string id;
+
+        string nickname;
+        string record;
+
+        public static readonly string userPath = System.IO.Directory.GetCurrentDirectory() + @"\users\";
+        public static readonly string user_record_Path = System.IO.Directory.GetCurrentDirectory() + @"\records\";
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(userPath, id + ".txt")))
+            {
+                nickname = sr.ReadLine();
+            }
+            nickname_player.Text = nickname;
+
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(user_record_Path, id + ".txt")))
+            {
+                record = sr.ReadLine();
+            }
+            record_player.Text = "Рекорд: " + record + " волн";
+        }
+
+        private void single_game_start_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

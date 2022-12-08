@@ -5,8 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:the_game"
         mc:Ignorable="d"
-        Title="mode_selection" Height="450" Width="800">
+        Title="mode_selection" Height="900" Width="1600" Loaded="Window_Loaded"
+        WindowState="Maximized">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.Background>
+            <RadialGradientBrush RadiusX="0.6" RadiusY="0.6">
+                <GradientStop Color="#FF65727B" Offset="0"/>
+                <GradientStop Color="#FF1D2027" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--Одиночная игра-->
+        <Grid Grid.Column="0" Margin="30,30,10,30" Background="#FF14171C" Opacity="0.65">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock HorizontalAlignment="Center" Margin="0,0,0,50" TextWrapping="Wrap" Text="Одиночная игра" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="60" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <TextBlock x:Name="nickname_player" Padding="70,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" Text="nicname" VerticalAlignment="Center" FontSize="48" FontWeight="Bold" FontFamily="Stencil" Foreground="#FFB3B3B3"/>
+            </Grid>
+            <Grid Grid.Row="2">
+                <TextBlock x:Name="record_player" Padding="70,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Рекорд: " VerticalAlignment="Top" FontSize="48" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Button x:Name="single_game_start" Click="single_game_start_Click" Content="В БОЙ" Margin="100,60,100,75" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold" FontSize="36">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+        </Grid>
+        <!--Кооперативная игра-->
+        <Grid Grid.Column="1" Margin="10,30,30,30" Background="#FF14171C" Opacity="0.65">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock HorizontalAlignment="Center" Margin="0,0,0,50" TextWrapping="Wrap" Text="Совместная игра" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="60" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+            </Grid>
+            <Grid Grid.Row="1">
+            </Grid>
+            <Grid Grid.Row="2">
+                <TextBlock Text="СКОРО" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="48" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+            </Grid>
+            <Grid Grid.Row="3">
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
