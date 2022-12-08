@@ -40,7 +40,9 @@ namespace the_game
 
         private void game_exit_Click(object sender, RoutedEventArgs e)
         {
-
+            profile player = new profile(id);
+            player.Show();
+            this.Close();
         }
     }
 }
