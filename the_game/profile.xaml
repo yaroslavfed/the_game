@@ -139,10 +139,10 @@
                                 <RowDefinition Height="6*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Column="1" Grid.Row="1">
-                                <Button x:Name="profile_icon_change_button" Click="profile_icon_change_button_Click" Opacity="0.85" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                                <Button x:Name="profile_icon_change_button" Click="profile_icon_change_button_Click" Opacity="0.85" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="#FF14171C">
                                     <Button.Resources>
                                         <Style TargetType="Border">
-                                            <Setter Property="CornerRadius" Value="3"/>
+                                            <Setter Property="CornerRadius" Value="5,0,0,0"/>
                                         </Style>
                                     </Button.Resources>
                                 </Button>
@@ -377,7 +377,7 @@
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="3" Margin="3,3,3,3"  Background="#FF14171C" Opacity="0.65">
-                    <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="В СЕТИ" VerticalAlignment="Center" FontFamily="Modern No. 20" Foreground="#FFB3B3B3" FontWeight="Bold" FontSize="22"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="В СЕТИ" VerticalAlignment="Center" FontFamily="Modern No. 20" Foreground="#FFB3B3B3" FontWeight="Bold" FontSize="22"/>
                 </Grid>
                 <!-- Состояние -->
             </Grid>
