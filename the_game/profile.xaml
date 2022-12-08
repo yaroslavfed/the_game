@@ -139,7 +139,13 @@
                                 <RowDefinition Height="6*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Column="1" Grid.Row="1">
-                                <Button x:Name="profile_icon_change_button" Click="profile_icon_change_button_Click" Background="#FF525252" BorderBrush="Black"/>
+                                <Button x:Name="profile_icon_change_button" Click="profile_icon_change_button_Click" Opacity="0.85" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="3"/>
+                                        </Style>
+                                    </Button.Resources>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Grid>
