@@ -144,14 +144,9 @@ namespace the_game
 
         private void to_map_Click(object sender, RoutedEventArgs e)
         {
-            //Form3 map = new Form3(id, haveDD, haveHeal, damageInfo, protectionInfo)
-            //{
-            //    StartPosition = FormStartPosition.Manual,
-            //    Location = Location,
-            //    Size = Size
-            //};
-            //map.Show();
-            //this.Close();
+            mode_selection mode = new mode_selection();
+            mode.Show();
+            this.Close();
         }
 
         private void store_Click(object sender, RoutedEventArgs e)
