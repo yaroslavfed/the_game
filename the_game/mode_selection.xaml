@@ -47,13 +47,28 @@
                 <TextBlock x:Name="record_player" Padding="70,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Рекорд: " VerticalAlignment="Top" FontSize="48" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
             </Grid>
             <Grid Grid.Row="3">
-                <Button x:Name="single_game_start" Click="single_game_start_Click" Content="В БОЙ" Margin="100,60,100,75" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold" FontSize="36">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Button x:Name="single_game_start" Click="single_game_start_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="40,15,20,15" Content="В БОЙ" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold" FontSize="36">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15,0,0,15"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Button x:Name="game_exit" Click="game_exit_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="20,15,40,15" Content="ВЫХОД" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold" FontSize="36">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="0,15,15,0"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
             </Grid>
         </Grid>
         <!--Кооперативная игра-->

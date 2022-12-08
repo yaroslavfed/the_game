@@ -37,5 +37,10 @@ namespace the_game
         {
 
         }
+
+        private void game_exit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
