@@ -15,18 +15,15 @@ namespace the_game
         string nickname;
         string record;
 
-        public static readonly string userPath = System.IO.Directory.GetCurrentDirectory() + @"\users\";
-        public static readonly string user_record_Path = System.IO.Directory.GetCurrentDirectory() + @"\records\";
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(userPath, id + ".txt")))
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")))
             {
                 nickname = sr.ReadLine();
             }
             nickname_player.Text = nickname;
 
-            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(user_record_Path, id + ".txt")))
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.user_record_Path, id + ".txt")))
             {
                 record = sr.ReadLine();
             }
@@ -35,7 +32,9 @@ namespace the_game
 
         private void single_game_start_Click(object sender, RoutedEventArgs e)
         {
-
+            battlefield battle = new battlefield(id);
+            battle.Show();
+            this.Close();
         }
 
         private void game_exit_Click(object sender, RoutedEventArgs e)

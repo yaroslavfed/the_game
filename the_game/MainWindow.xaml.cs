@@ -26,8 +26,6 @@ namespace the_game
             InitializeComponent();
         }
 
-        public static readonly string media_back_path = System.IO.Directory.GetCurrentDirectory() + @"\background_video\";
-
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
@@ -40,7 +38,7 @@ namespace the_game
 
         private void MediaElement_Loaded(object sender, RoutedEventArgs e)
         {
-            media_back.Source = new Uri(System.IO.Path.Combine(media_back_path, "backdrop.mp4"));
+            media_back.Source = new Uri(System.IO.Path.Combine(resource_paths.media_back_path, "backdrop.mp4"));
         }
     }
 }

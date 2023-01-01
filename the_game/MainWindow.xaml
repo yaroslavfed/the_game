@@ -32,7 +32,7 @@
                 <RowDefinition Height="72*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Column="0" Margin="0,5,0,0" Grid.Row="1">
-                <Label Content="PRESS ENTER KEY" Foreground="#FFB3B3B3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="40" Grid.Row="2" FontFamily="Segoe UI Variable Display Semibold" FontWeight="Bold"/>
+                <Label Content="PRESS ENTER KEY" Foreground="#FFB3B3B3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="40" Grid.Row="2" FontFamily="Bahnschrift" FontWeight="Bold"/>
             </Grid>
         </Grid>
     </Grid>

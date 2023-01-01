@@ -32,14 +32,6 @@ namespace the_game
         string protectionInfo;
         string healthInfo;
 
-        public static readonly string userPath = System.IO.Directory.GetCurrentDirectory() + @"\users\";
-        public static readonly string iconPath = System.IO.Directory.GetCurrentDirectory() + @"\img\usersIcon\";
-        public static readonly string hero_icon_Path = System.IO.Directory.GetCurrentDirectory() + @"\img\heroIcon\";
-        public static readonly string weaponPath = System.IO.Directory.GetCurrentDirectory() + @"\img\wIcon\";
-        public static readonly string armorPath = System.IO.Directory.GetCurrentDirectory() + @"\img\aIcon\";
-        public static readonly string spellsPath = System.IO.Directory.GetCurrentDirectory() + @"\img\spells\";
-        public static readonly string inventoryPath = System.IO.Directory.GetCurrentDirectory() + @"\inventory\";
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             System.Windows.Threading.DispatcherTimer itemInTime = new System.Windows.Threading.DispatcherTimer();
@@ -52,7 +44,7 @@ namespace the_game
             invInfo.Interval = new TimeSpan(1);
             invInfo.Start();
 
-            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(userPath, id + ".txt")))
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")))
             {
                 nickname = sr.ReadLine();
                 levelNow = sr.ReadLine();
@@ -66,8 +58,8 @@ namespace the_game
             level.Content = "УРОВЕНЬ " + levelNow;
             //lvlprogress.Value = Convert.ToInt32(exp);
 
-            foto.Source = new BitmapImage(new Uri(System.IO.Path.Combine(iconPath, id + ".jpg")));
-            person.Source = new BitmapImage(new Uri(System.IO.Path.Combine(hero_icon_Path, "person_test_3.png")));
+            foto.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.iconPath, id + ".jpg")));
+            person.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.hero_icon_Path, "person_test_3.png")));
             cash.Content = money + "$";
 
             damageInfo = "0";
@@ -80,32 +72,32 @@ namespace the_game
 
             if (Convert.ToInt32(levelNow) >= 25)
             {
-                ddSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(spellsPath, "dd.jpg")));
+                ddSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "dd.jpg")));
                 haveDD = true;
             }
             else
             {
-                ddSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(spellsPath, "ddF.jpg")));
+                ddSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "ddF.jpg")));
             }
 
             if (Convert.ToInt32(levelNow) >= 50)
             {
-                healSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(spellsPath, "heal.jpg")));
+                healSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "heal.jpg")));
                 haveHeal = true;
             }
             else
             {
-                healSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(spellsPath, "healF.jpg")));
+                healSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "healF.jpg")));
             }
         }
 
         private void itemInTime_Tick(object sender, EventArgs e)
         {
-            weapon = File.ReadLines(System.IO.Path.Combine(userPath, id + ".txt")).Skip(4).First();
-            protection = File.ReadLines(System.IO.Path.Combine(userPath, id + ".txt")).Skip(6).First();
+            weapon = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(4).First();
+            protection = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(6).First();
 
-            weaponIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(weaponPath, weapon + ".jpg")));
-            armorIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(armorPath, protection + ".jpg")));
+            weaponIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, weapon + ".jpg")));
+            armorIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, protection + ".jpg")));
 
             if (selection == true)
             {
@@ -121,12 +113,12 @@ namespace the_game
 
         private void invInfo_Tick(object sender, EventArgs e)
         {
-            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(inventoryPath, weapon + ".txt")))
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.inventoryPath, weapon + ".txt")))
             {
                 damageInfo = sr.ReadLine();
             }
 
-            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(inventoryPath, protection + ".txt")))
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.inventoryPath, protection + ".txt")))
             {
                 protectionInfo = sr.ReadLine();
             }
@@ -173,7 +165,7 @@ namespace the_game
             View.Header = "Оружие";
             View.Width = listView.Width;
             listView.Visibility = Visibility.Visible;
-            string weaponsOwn = File.ReadLines(System.IO.Path.Combine(userPath, id + ".txt")).Skip(5).First();
+            string weaponsOwn = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(5).First();
             string[] subs = weaponsOwn.Split(' ');
 
             foreach (var sub in subs)
@@ -184,7 +176,7 @@ namespace the_game
                 Item dataItem = new()
                 {
                     number = index,
-                    itemImg = System.IO.Path.Combine(weaponPath, index + ".jpg")
+                    itemImg = System.IO.Path.Combine(resource_paths.weaponPath, index + ".jpg")
                 };
 
                 listView.Items.Add(dataItem);
@@ -199,7 +191,7 @@ namespace the_game
             View.Header = "Броня";
             View.Width = invList.Width;
             listView.Visibility = Visibility.Visible;
-            string armorOwn = File.ReadLines(System.IO.Path.Combine(userPath, id + ".txt")).Skip(7).First();
+            string armorOwn = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(7).First();
             string[] subs = armorOwn.Split(' ');
 
             foreach (var sub in subs)
@@ -210,7 +202,7 @@ namespace the_game
                 Item dataItem = new Item()
                 {
                     number = index,
-                    itemImg = System.IO.Path.Combine(armorPath, index + ".jpg")
+                    itemImg = System.IO.Path.Combine(resource_paths.armorPath, index + ".jpg")
                 };
 
                 listView.Items.Add(dataItem);
@@ -232,7 +224,7 @@ namespace the_game
 
                     newValue = line;
 
-                    string path = System.IO.Path.Combine(userPath, id + ".txt");
+                    string path = System.IO.Path.Combine(resource_paths.userPath, id + ".txt");
 
                     int i = 0;
                     string tempPath = path + ".tmp";
@@ -259,7 +251,7 @@ namespace the_game
 
                     newValue1 = line;
 
-                    string path1 = System.IO.Path.Combine(userPath, id + ".txt");
+                    string path1 = System.IO.Path.Combine(resource_paths.userPath, id + ".txt");
 
                     int t = 0;
                     string tempPath1 = path1 + ".tmp";

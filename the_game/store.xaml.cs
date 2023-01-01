@@ -55,11 +55,6 @@ namespace the_game
         string[] w_subs;
         string[] a_subs;
 
-        public static readonly string userPath = System.IO.Directory.GetCurrentDirectory() + @"\users\";
-        public static readonly string weaponPath = System.IO.Directory.GetCurrentDirectory() + @"\img\wIcon\";
-        public static readonly string armorPath = System.IO.Directory.GetCurrentDirectory() + @"\img\aIcon\";
-        public static readonly string inventoryPath = System.IO.Directory.GetCurrentDirectory() + @"\inventory\";
-
         List<string> rarity_color = new List<string>() { "#97D6E8", "#3F48CB", "#9F46A1", "#FE00A5", "#FEC80D", "#EB1A23" };
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -69,14 +64,14 @@ namespace the_game
             invInTime.Interval = new TimeSpan(1);
             invInTime.Start();
 
-            nickname = File.ReadLines(System.IO.Path.Combine(userPath, id + ".txt")).First();
-            levelNow = File.ReadLines(System.IO.Path.Combine(userPath, id + ".txt")).Skip(1).First();
+            nickname = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).First();
+            levelNow = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(1).First();
 
             name.Text = nickname;
             level.Text = "УРОВЕНЬ " + levelNow;
 
-            count = new DirectoryInfo(weaponPath).GetFiles().Length;
-            countA = new DirectoryInfo(armorPath).GetFiles().Length;
+            count = new DirectoryInfo(resource_paths.weaponPath).GetFiles().Length;
+            countA = new DirectoryInfo(resource_paths.armorPath).GetFiles().Length;
 
             recalculation(ref weaponsOwn, ref weaponDonned, 5, 4, ref w_subs, ref nums);
             recalculation(ref armorsOwn, ref armorDonned, 7, 6, ref a_subs, ref numsA);
@@ -84,8 +79,8 @@ namespace the_game
 
         private void recalculation(ref string ItemsOwn, ref string ItemDonned, int nLine, int donnedLine, ref string[] subs, ref int num)
         {
-            ItemDonned = File.ReadLines(System.IO.Path.Combine(userPath, id + ".txt")).Skip(donnedLine).First();
-            ItemsOwn = File.ReadLines(System.IO.Path.Combine(userPath, id + ".txt")).Skip(nLine).First();
+            ItemDonned = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(donnedLine).First();
+            ItemsOwn = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(nLine).First();
 
             subs = ItemsOwn.Split(' ');
 
@@ -149,17 +144,17 @@ namespace the_game
 
         private void invInTime_Tick(object sender, EventArgs e)
         {
-            money = Convert.ToInt32(File.ReadLines(System.IO.Path.Combine(userPath, id + ".txt")).Skip(3).First());
+            money = Convert.ToInt32(File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(3).First());
             cash.Text = money + " $";
 
             filenameW = "1" + Convert.ToString(weaponNum);
             filenameA = "2" + Convert.ToString(armorNum);
 
-            weaponNow.Source = new BitmapImage(new Uri(System.IO.Path.Combine(weaponPath, filenameW + ".jpg")));
-            armorNow.Source = new BitmapImage(new Uri(System.IO.Path.Combine(armorPath, filenameA + ".jpg")));
+            weaponNow.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, filenameW + ".jpg")));
+            armorNow.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, filenameA + ".jpg")));
 
-            img_weapon_donned.Source = new BitmapImage(new Uri(System.IO.Path.Combine(weaponPath, weaponDonned + ".jpg")));
-            img_armor_donned.Source = new BitmapImage(new Uri(System.IO.Path.Combine(armorPath, armorDonned + ".jpg")));
+            img_weapon_donned.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, weaponDonned + ".jpg")));
+            img_armor_donned.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, armorDonned + ".jpg")));
 
             access(buy, put, next, prev, weaponDonned, weaponNum, count, ownership, filenameW, w_subs, nums);
             access(buyA, putA, nextA, prevA, armorDonned, armorNum, countA, ownershipA, filenameA, a_subs, numsA);
@@ -176,13 +171,13 @@ namespace the_game
 
         private void rare(string inventory_id, System.Windows.Controls.Label weapon_rarity)
         {
-            int rarity = Convert.ToInt32(File.ReadLines(System.IO.Path.Combine(inventoryPath, inventory_id + ".txt")).Skip(2).First());
+            int rarity = Convert.ToInt32(File.ReadLines(System.IO.Path.Combine(resource_paths.inventoryPath, inventory_id + ".txt")).Skip(2).First());
             weapon_rarity.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(rarity_color[rarity]);
         }
 
         private void price(ref int invPrice, string filename, TextBlock cost)
         {
-            invPrice = Convert.ToInt32(File.ReadLines(System.IO.Path.Combine(inventoryPath, filename + ".txt")).Skip(1).First());
+            invPrice = Convert.ToInt32(File.ReadLines(System.IO.Path.Combine(resource_paths.inventoryPath, filename + ".txt")).Skip(1).First());
             cost.Text = invPrice + " $";
         }
 
@@ -200,7 +195,7 @@ namespace the_game
                 newValue = Convert.ToString(moneyNow);
             }
 
-            string path = System.IO.Path.Combine(userPath, id + ".txt");
+            string path = System.IO.Path.Combine(resource_paths.userPath, id + ".txt");
 
             int i = 0;
             string tempPath = path + ".tmp";
@@ -225,7 +220,7 @@ namespace the_game
         {
             string newValue = filename;
             int lineIndex = index;
-            string path = System.IO.Path.Combine(userPath, id + ".txt");
+            string path = System.IO.Path.Combine(resource_paths.userPath, id + ".txt");
 
             int i = 0;
             string tempPath = path + ".tmp";

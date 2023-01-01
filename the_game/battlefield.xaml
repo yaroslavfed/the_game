@@ -1,0 +1,118 @@
+﻿<Window x:Class="the_game.battlefield"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:the_game"
+        mc:Ignorable="d"
+        Title="battlefield" Height="900" Width="1600"
+        WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26*"/>
+            <RowDefinition Height="390*"/>
+            <RowDefinition Height="26*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="26*"/>
+            <ColumnDefinition Width="748*"/>
+            <ColumnDefinition Width="26*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="24*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="113*"/>
+                        <ColumnDefinition Width="379*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Image HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Height="115" Width="115"/>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <TextBlock x:Name="nickname_info" Text="Nickname" Padding="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" FontWeight="Bold"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <TextBlock x:Name="level_info" Text="Level 100" Padding="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="2">
+                    <TextBlock x:Name="wave_info" Padding="0,0,50,0" Text="Wave: 5" FontSize="45" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="313*"/>
+                    <ColumnDefinition Width="122*"/>
+                    <ColumnDefinition Width="313*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" x:Name="allies">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                </Grid>
+                <Grid Grid.Column="2" x:Name="enemies">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Button Content="Attack" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"/>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Button Content="Heal" HorizontalAlignment="Right" Margin="0,0,3,0" VerticalAlignment="Center" FontSize="50"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Button Content="DD" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Center" FontSize="50"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

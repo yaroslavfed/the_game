@@ -27,8 +27,6 @@ namespace the_game
 
         bool save = false;
 
-        public static readonly string docPath = System.IO.Directory.GetCurrentDirectory();
-
         public start_page()
         {
             InitializeComponent();
@@ -46,7 +44,7 @@ namespace the_game
             panel2.Visibility = Visibility.Hidden;
             panel3.Visibility = Visibility.Hidden;
 
-            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(docPath, "logged.txt")))
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.docPath, "logged.txt")))
             {
                 while (!sr.EndOfStream)
                 {
@@ -119,7 +117,7 @@ namespace the_game
             panel3.Visibility = Visibility.Hidden;
             panel1.Visibility = Visibility.Visible;
 
-            string path = System.IO.Path.Combine(docPath, "logged.txt");
+            string path = System.IO.Path.Combine(resource_paths.docPath, "logged.txt");
             string createText = "false" + Environment.NewLine;
             File.WriteAllText(path, createText);
 
@@ -136,7 +134,7 @@ namespace the_game
             rPass.Password = rPass.Password.Trim();
             rPassD.Password = rPassD.Password.Trim();
 
-            string s = File.ReadAllLines(System.IO.Path.Combine(docPath, "id.txt")).Last();
+            string s = File.ReadAllLines(System.IO.Path.Combine(resource_paths.docPath, "id.txt")).Last();
             id = Convert.ToInt32(s.Substring(s.IndexOf(": ") + 2)) + 1;
 
             //int found = s.IndexOf(": ");
@@ -146,7 +144,7 @@ namespace the_game
 
             string[] lines = { "Login: " + rLogin.Text, "Password: " + rPass.Password, "ID: " + Convert.ToString(id) };
 
-            string[] search = File.ReadAllLines(System.IO.Path.Combine(docPath, "id.txt"));
+            string[] search = File.ReadAllLines(System.IO.Path.Combine(resource_paths.docPath, "id.txt"));
             string slovo = rLogin.Text;
             if (search.Contains("Login: " + slovo))
             {
@@ -161,14 +159,14 @@ namespace the_game
                     {
                         try
                         {
-                            using (StreamWriter outputFile = File.AppendText(System.IO.Path.Combine(docPath, "id.txt")))
+                            using (StreamWriter outputFile = File.AppendText(System.IO.Path.Combine(resource_paths.docPath, "id.txt")))
                             {
                                 foreach (string line in lines)
                                     outputFile.WriteLine(line);
                             }
                             try
                             {
-                                using (FileStream fs = File.Create(System.IO.Path.Combine(docPath + @"users\", id + ".txt")))
+                                using (FileStream fs = File.Create(System.IO.Path.Combine(resource_paths.docPath + @"users\", id + ".txt")))
                                 {
                                     AddText(fs, rLogin.Text);   // логин                0 - номер строки в файле
                                     AddText(fs, "\r\n1");       // уровень              1 - номер строки в файле
@@ -186,10 +184,10 @@ namespace the_game
                             }
                             MessageBox.Show("Successful registration");
 
-                            string fileName = System.IO.Path.Combine(docPath, "test.jpg");
+                            string fileName = System.IO.Path.Combine(resource_paths.docPath, "test.jpg");
                             string fileName1 = id + ".jpg";
-                            string sourcePath = docPath;
-                            string targetPath = System.IO.Path.Combine(docPath, @"img\usersIcon\");
+                            string sourcePath = resource_paths.docPath;
+                            string targetPath = System.IO.Path.Combine(resource_paths.docPath, @"img\usersIcon\");
                             string sourceFile = System.IO.Path.Combine(sourcePath, fileName);
                             string destFile = System.IO.Path.Combine(targetPath, fileName1);
                             File.Copy(sourceFile, destFile, true);
@@ -234,7 +232,7 @@ namespace the_game
         {
             bool retrieval = false;
 
-            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(docPath, "id.txt")))
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.docPath, "id.txt")))
             {
                 while (!sr.EndOfStream)
                 {
@@ -260,7 +258,7 @@ namespace the_game
                     lLogin.Text = "";
                     lPass.Password = "";
 
-                    string path = System.IO.Path.Combine(docPath, "logged.txt");
+                    string path = System.IO.Path.Combine(resource_paths.docPath, "logged.txt");
                     if (save == true)
                     {
                         string createText = "true" + Environment.NewLine + "Login: " + line + Environment.NewLine + "Password: " + pass + Environment.NewLine + "ID: " + ID + Environment.NewLine;
