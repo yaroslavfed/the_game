@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:the_game"
         mc:Ignorable="d"
-        Title="battlefield" Height="900" Width="1600"
+        Title="battlefield" Height="900" Width="1600" Loaded="Window_Loaded"
         WindowState="Maximized">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="26*"/>
@@ -36,7 +47,7 @@
                         <ColumnDefinition Width="379*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <Image HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Height="115" Width="115"/>
+                        <Image x:Name="foto" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="UniformToFill" Height="115" Width="115"/>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -44,10 +55,10 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
-                            <TextBlock x:Name="nickname_info" Text="Nickname" Padding="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="36" FontWeight="Bold"/>
+                            <TextBlock x:Name="nickname_info" Text="Nickname" Padding="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="36" FontWeight="Bold"/>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <TextBlock x:Name="level_info" Text="Level 100" Padding="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                            <TextBlock x:Name="level_info" Text="Level 100" Padding="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
                         </Grid>
                     </Grid>
                 </Grid>
