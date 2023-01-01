@@ -84,6 +84,19 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                 </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80*"/>
+                        <RowDefinition Height="79*"/>
+                        <RowDefinition Height="392*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Button x:Name="next" Click="next_Click" Content="Next" HorizontalAlignment="Center" VerticalAlignment="Center" Height="56" Width="168" FontSize="22"/>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Button x:Name="exit" Click="exit_Click" Content="Exit" HorizontalAlignment="Center" VerticalAlignment="Center" Height="56" Width="168" FontSize="22"/>
+                    </Grid>
+                </Grid>
                 <Grid Grid.Column="2" x:Name="enemies">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -95,6 +108,46 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
+                    <Grid x:Name="E0" Grid.Row="0" Grid.Column="0">
+                        <!--<Grid.RowDefinitions>
+                            <RowDefinition Height="15*"/>
+                            <RowDefinition Height="62*"/>
+                            <RowDefinition Height="15*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <TextBlock x:Name="name_enemy" HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Image x:Name="img_enemy" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Stretch="UniformToFill"/>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <ProgressBar x:Name="hp_enemy" HorizontalAlignment="Center" Height="23" VerticalAlignment="Center" Width="200" Margin="5,0,5,8"/>
+                        </Grid>-->
+                    </Grid>
+                    <Grid x:Name="E1" Grid.Row="0" Grid.Column="1">
+
+                    </Grid>
+                    <Grid x:Name="E2" Grid.Row="0" Grid.Column="2">
+
+                    </Grid>
+                    <Grid x:Name="E3" Grid.Row="1" Grid.Column="0">
+
+                    </Grid>
+                    <Grid x:Name="E4" Grid.Row="1" Grid.Column="1">
+
+                    </Grid>
+                    <Grid x:Name="E5" Grid.Row="1" Grid.Column="2">
+
+                    </Grid>
+                    <Grid x:Name="E6" Grid.Row="2" Grid.Column="0">
+
+                    </Grid>
+                    <Grid x:Name="E7" Grid.Row="2" Grid.Column="1">
+
+                    </Grid>
+                    <Grid x:Name="E8" Grid.Row="2" Grid.Column="2">
+
+                    </Grid>
                 </Grid>
             </Grid>
             <Grid Grid.Row="2">
