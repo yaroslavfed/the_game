@@ -121,9 +121,6 @@ namespace the_game
 
         private void ListBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //listBox1.SelectedItem;
-            //ListBoxItem lbi = ((sender as ListBox).SelectedItem as ListBoxItem);
-            //var name = (listBox1.SelectedItem as MyClass).Name;
             MessageBox.Show("Click");
             
         }
