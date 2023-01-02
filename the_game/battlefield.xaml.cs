@@ -117,12 +117,11 @@ namespace the_game
             enemy_added.Clear();
             for (int j = 0; j < enemy_field.Count; j++)
             {
-                //enemy_field[j].Items.Remove();
-                //if (enemy_field[j].Items != null)
-                //{
-                //    //enemy_field[j].Items.Clear();
-                //    enemy_field[j].Items.Clear();
-                //}
+                if (enemy_field[j].Items != null)
+                {
+                    enemy_field[j].ItemsSource = null;
+                    enemy_field[j].Items.Clear();
+                }
             }
         }
 
