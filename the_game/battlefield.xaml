@@ -109,44 +109,166 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid x:Name="E0" Grid.Row="0" Grid.Column="0">
-                        <!--<Grid.RowDefinitions>
-                            <RowDefinition Height="15*"/>
-                            <RowDefinition Height="62*"/>
-                            <RowDefinition Height="15*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <TextBlock x:Name="name_enemy" HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-                        </Grid>
-                        <Grid Grid.Row="1">
-                            <Image x:Name="img_enemy" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Stretch="UniformToFill"/>
-                        </Grid>
-                        <Grid Grid.Row="2">
-                            <ProgressBar x:Name="hp_enemy" HorizontalAlignment="Center" Height="23" VerticalAlignment="Center" Width="200" Margin="5,0,5,8"/>
-                        </Grid>-->
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy0" SelectionChanged="enemy0_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="100*" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                        <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
+                                        <ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="6" Width="100" Foreground="#FFB00606" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                     <Grid x:Name="E1" Grid.Row="0" Grid.Column="1">
-
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy1" SelectionChanged="enemy1_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="100*" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                        <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
+                                        <ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="6" Width="100" Foreground="#FFB00606" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                     <Grid x:Name="E2" Grid.Row="0" Grid.Column="2">
-
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy2" SelectionChanged="enemy2_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="100*" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                        <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
+                                        <ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="6" Width="100" Foreground="#FFB00606" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                     <Grid x:Name="E3" Grid.Row="1" Grid.Column="0">
-
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy3" SelectionChanged="enemy3_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="100*" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                        <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
+                                        <ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="6" Width="100" Foreground="#FFB00606" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                     <Grid x:Name="E4" Grid.Row="1" Grid.Column="1">
-
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy4" SelectionChanged="enemy4_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="100*" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                        <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
+                                        <ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="6" Width="100" Foreground="#FFB00606" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                     <Grid x:Name="E5" Grid.Row="1" Grid.Column="2">
-
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy5" SelectionChanged="enemy5_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="100*" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                        <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
+                                        <ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="6" Width="100" Foreground="#FFB00606" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                     <Grid x:Name="E6" Grid.Row="2" Grid.Column="0">
-
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy6" SelectionChanged="enemy6_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="100*" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                        <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
+                                        <ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="6" Width="100" Foreground="#FFB00606" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                     <Grid x:Name="E7" Grid.Row="2" Grid.Column="1">
-
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy7" SelectionChanged="enemy7_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="100*" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                        <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
+                                        <ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="6" Width="100" Foreground="#FFB00606" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                     <Grid x:Name="E8" Grid.Row="2" Grid.Column="2">
-
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy8" SelectionChanged="enemy8_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="100*" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                        <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
+                                        <ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="6" Width="100" Foreground="#FFB00606" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                 </Grid>
             </Grid>

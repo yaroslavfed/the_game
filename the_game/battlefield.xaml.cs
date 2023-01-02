@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -42,7 +44,16 @@ namespace the_game
         string protectionInfo;
         string healthInfo;
 
-        List<Grid> enemy_field = new List<Grid>();
+        private ObservableCollection<Enemy_person> enemies_on_screen;
+        private ObservableCollection<Enemy_person> enemies_null;
+
+        List<Grid> enemy_grid = new List<Grid>();
+        List<ListBox> enemy_field = new List<ListBox>();
+
+        List<int> enemy_added = new List<int>();
+
+        //ListBox listBox1;
+        //StackPanel stackPanel1;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -61,74 +72,58 @@ namespace the_game
             foto.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.iconPath, id + ".jpg")));
             wave_info.Text = "Волна " + wave;
 
-            enemy_field.AddRange(new Grid[] { E0, E1, E2, E3, E4, E5, E6, E7, E8 });
+            //enemy_grid.AddRange(new Grid[] { E0, E1, E2, E3, E4, E5, E6, E7, E8 });
+            enemy_field.AddRange(new ListBox[] { enemy0, enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8 });
 
-            bots_render(2);
+            Bots_render(2);
         }
 
-        ListBox listBox1;
-        private void bots_render(int n)
+        public class Enemy_person
         {
+            public string? Rank { get; set; }
+            public string? Name { get; set; }
+            public string? Health { get; set; }
+            public string? Weapon { get; set; }
+            public string? Armor { get; set; }
+            public string? Reward { get; set; }
+            public string? Image { get; set; }
+        }
+
+        private void Bots_render(int n)
+        {
+            enemies_on_screen = new ObservableCollection<Enemy_person>();
+            enemies_on_screen.Add(new Enemy_person() { Rank = "1", Name = "dragon" + wave, Health = "500", Weapon = "15", Armor = "25", Reward = "300", Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, "1" + ".png") });
+
             for (int i = 0; i < n; i++)
             {
-                Random rnd = new Random();
+                Random rnd = new Random((int)(DateTime.Now.Ticks));
                 int value = rnd.Next(0, 9);
-                Console.WriteLine(value);
 
-                //ListBox listBox1 = new ListBox();
-                listBox1 = new ListBox();
-                listBox1.SelectionMode = SelectionMode.Single;
-                
-                StackPanel stackPanel1 = new StackPanel();
-
-                listBox1.BorderThickness = new Thickness(0, 0, 0, 0);
-                listBox1.HorizontalAlignment = HorizontalAlignment.Center;
-
-                TextBlock txt = new TextBlock();
-                Image img = new Image();
-                ProgressBar PB = new ProgressBar();
-
-                txt.Text = enemy_field[value].Name;     // имя противника
-                txt.TextAlignment = TextAlignment.Center;
-                img.Height = 100;
-                img.Width = 100;
-                img.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.iconPath, id + ".jpg")));    // иконка противника
-                PB.Maximum = 100 * wave;    // хп противника
-                PB.Value = 100;     // при создании равное максимуму
-                PB.Height = 7;
-                PB.Width = 100;
-
-                stackPanel1.Children.Add(txt);
-                stackPanel1.Children.Add(img);
-                stackPanel1.Children.Add(PB);
-
-                //listBox1.Items.Add(txt);
-                //listBox1.Items.Add(img);
-                //listBox1.Items.Add(PB);
-                listBox1.Items.Add(stackPanel1);
-
-                enemy_field[value].Children.Add(listBox1);
-
-                //listBox1.SelectionChanged += ListBox1_SelectionChanged;
-                //listBox1.SelectedIndex += listBox1_SelectedIndexChanged;
+                if (!enemy_added.Any(str => str == value))
+                {
+                    enemy_added.Add(value);
+                    enemy_field[value].ItemsSource = enemies_on_screen;
+                }
             }
+
+            string line = "";
+            for (int i = 0; i < enemy_added.Count; i++)
+                line += enemy_added[i] + " ";
+            MessageBox.Show(line);         
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void Bots_clear()
         {
-
-        }
-
-        private void ListBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MessageBox.Show("Click");
-            
-        }
-
-        private void bots_clear()
-        {
+            enemy_added.Clear();
             for (int j = 0; j < enemy_field.Count; j++)
-                enemy_field[j].Children.Clear();
+            {
+                //enemy_field[j].Items.Remove();
+                //if (enemy_field[j].Items != null)
+                //{
+                //    //enemy_field[j].Items.Clear();
+                //    enemy_field[j].Items.Clear();
+                //}
+            }
         }
 
         private void exit_Click(object sender, RoutedEventArgs e)
@@ -143,11 +138,86 @@ namespace the_game
             wave++;
             wave_info.Text = "Волна " + wave;
 
-            bots_clear();
+            Bots_clear();
 
             int count_bots = wave < 10 ? (count_bots = wave) : (count_bots = 9);
 
-            bots_render(count_bots);
+            Bots_render(count_bots);
+        }
+
+        private void Deselect(int num)
+        {
+            for(int i = 0; i < enemy_field.Count; i++)
+            {
+                if (i != num)
+                {
+                    enemy_field[i].SelectedIndex = -1;
+                }
+            }
+        }
+
+        private void Information_output(int num)
+        {
+            var editItem = enemy_field[num].SelectedItem as Enemy_person;
+            if (editItem == null)
+                return;
+            string message = string.Format("Field: {0},\nRank: {1},\nName: {2},\nHealth: {3},\nReward: {4}", enemy_field[num].Name, editItem.Rank, editItem.Name, editItem.Health, editItem.Reward);
+            MessageBox.Show(message);
+            Deselect(num);
+        }
+
+        private void enemy0_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int num = 0;
+            Information_output(num);
+        }
+
+        private void enemy1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int num = 1;
+            Information_output(num);
+        }
+
+        private void enemy2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int num = 2;
+            Information_output(num);
+        }
+
+        private void enemy3_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int num = 3;
+            Information_output(num);
+        }
+
+        private void enemy4_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int num = 4;
+            Information_output(num);
+        }
+
+        private void enemy5_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int num = 5;
+            Information_output(num);
+        }
+
+        private void enemy6_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int num = 6;
+            Information_output(num);
+        }
+
+        private void enemy7_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int num = 7;
+            Information_output(num);
+        }
+
+        private void enemy8_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int num = 8;
+            Information_output(num);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace the_game
         public static readonly string userPath = System.IO.Directory.GetCurrentDirectory() + @"\users\";
         public static readonly string iconPath = System.IO.Directory.GetCurrentDirectory() + @"\img\usersIcon\";
         public static readonly string hero_icon_Path = System.IO.Directory.GetCurrentDirectory() + @"\img\heroIcon\";
+        public static readonly string enemy_icon_Path = System.IO.Directory.GetCurrentDirectory() + @"\img\enemyIcon\";
         public static readonly string weaponPath = System.IO.Directory.GetCurrentDirectory() + @"\img\wIcon\";
         public static readonly string armorPath = System.IO.Directory.GetCurrentDirectory() + @"\img\aIcon\";
         public static readonly string spellsPath = System.IO.Directory.GetCurrentDirectory() + @"\img\spells\";
