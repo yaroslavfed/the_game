@@ -91,8 +91,25 @@ namespace the_game
 
         private void Bots_render(int n)
         {
+            string rank = "0";
+            string name;
+            string health;
+            string weapon;
+            string armor;
+            string reward;
+
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.enemyPath, rank + ".txt")))
+            {
+                rank = sr.ReadLine();
+                name = sr.ReadLine();
+                health = sr.ReadLine();
+                weapon = sr.ReadLine();
+                armor = sr.ReadLine();
+                reward = sr.ReadLine();
+            }
+
             enemies_on_screen = new ObservableCollection<Enemy_person>();
-            enemies_on_screen.Add(new Enemy_person() { Rank = "1", Name = "dragon" + wave, Health = "500", Weapon = "15", Armor = "25", Reward = "300", Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, "1" + ".png") });
+            enemies_on_screen.Add(new Enemy_person() { Rank = rank, Name = name + "_" + wave, Health = health, Weapon = weapon, Armor = armor, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") });
 
             for (int i = 0; i < n; i++)
             {
@@ -106,10 +123,10 @@ namespace the_game
                 }
             }
 
-            string line = "";
-            for (int i = 0; i < enemy_added.Count; i++)
-                line += enemy_added[i] + " ";
-            MessageBox.Show(line);         
+            //string line = "";
+            //for (int i = 0; i < enemy_added.Count; i++)
+            //    line += enemy_added[i] + " ";
+            //MessageBox.Show(line);         
         }
 
         private void Bots_clear()

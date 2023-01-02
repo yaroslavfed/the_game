@@ -10,6 +10,7 @@ namespace the_game
     {
         public static readonly string docPath = System.IO.Directory.GetCurrentDirectory();
         public static readonly string userPath = System.IO.Directory.GetCurrentDirectory() + @"\users\";
+        public static readonly string enemyPath = System.IO.Directory.GetCurrentDirectory() + @"\enemies\";
         public static readonly string iconPath = System.IO.Directory.GetCurrentDirectory() + @"\img\usersIcon\";
         public static readonly string hero_icon_Path = System.IO.Directory.GetCurrentDirectory() + @"\img\heroIcon\";
         public static readonly string enemy_icon_Path = System.IO.Directory.GetCurrentDirectory() + @"\img\enemyIcon\";
