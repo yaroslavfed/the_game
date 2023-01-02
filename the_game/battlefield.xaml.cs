@@ -121,12 +121,7 @@ namespace the_game
                     enemy_added.Add(value);
                     enemy_field[value].ItemsSource = enemies_on_screen;
                 }
-            }
-
-            //string line = "";
-            //for (int i = 0; i < enemy_added.Count; i++)
-            //    line += enemy_added[i] + " ";
-            //MessageBox.Show(line);         
+            }       
         }
 
         private void Bots_clear()
