@@ -48,7 +48,7 @@ namespace the_game
         private ObservableCollection<Enemy_person> enemies_on_screen;
         private ObservableCollection<Enemy_person> enemies_null;
 
-        List<Grid> enemy_grid = new List<Grid>();
+        //List<Grid> enemy_grid = new List<Grid>();
         List<ListBox> enemy_field = new List<ListBox>();
 
         List<int> enemy_added = new List<int>();
