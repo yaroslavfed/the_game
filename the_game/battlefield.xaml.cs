@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -82,7 +83,7 @@ namespace the_game
         {
             public string? Rank { get; set; }
             public string? Name { get; set; }
-            public string? Health { get; set; }
+            public double? Health { get; set; }
             public string? Weapon { get; set; }
             public string? Armor { get; set; }
             public string? Reward { get; set; }
@@ -91,28 +92,38 @@ namespace the_game
 
         private void Bots_render(int n)
         {
-            string rank = "0";
-            string name;
-            string health;
-            string weapon;
-            string armor;
-            string reward;
-
-            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.enemyPath, rank + ".txt")))
-            {
-                rank = sr.ReadLine();
-                name = sr.ReadLine();
-                health = sr.ReadLine();
-                weapon = sr.ReadLine();
-                armor = sr.ReadLine();
-                reward = sr.ReadLine();
-            }
-
-            enemies_on_screen = new ObservableCollection<Enemy_person>();
-            enemies_on_screen.Add(new Enemy_person() { Rank = rank, Name = name + "_" + wave, Health = health, Weapon = weapon, Armor = armor, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") });
+            int max_rand;
+            if (wave < 5)
+                max_rand = wave - 1;
+            else
+                max_rand = 3;
 
             for (int i = 0; i < n; i++)
             {
+                Random rand = new Random((int)(DateTime.Now.Ticks));
+                string rank = Convert.ToString(rand.Next(0, max_rand+1));
+
+                string name;
+                string health;
+                string weapon;
+                string armor;
+                string reward;
+
+                using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.enemyPath, rank + ".txt")))
+                {
+                    rank = sr.ReadLine();
+                    name = sr.ReadLine();
+                    health = sr.ReadLine();
+                    weapon = sr.ReadLine();
+                    armor = sr.ReadLine();
+                    reward = sr.ReadLine();
+                }
+
+                enemies_on_screen = new ObservableCollection<Enemy_person>
+                {
+                    new Enemy_person() { Rank = rank, Name = name + "_" + wave, Health = double.Parse(health), Weapon = weapon, Armor = armor, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") }
+                };
+
                 Random rnd = new Random((int)(DateTime.Now.Ticks));
                 int value = rnd.Next(0, 9);
 
