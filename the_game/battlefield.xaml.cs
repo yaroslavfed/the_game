@@ -132,6 +132,11 @@ namespace the_game
                     enemy_added.Add(value);
                     enemy_field[value].ItemsSource = enemies_on_screen;
                 }
+                enemy_added.Sort();
+
+                //char delim = ' ';
+                //string str = String.Join(delim, enemy_added);
+                //MessageBox.Show(str);
             }       
         }
 
