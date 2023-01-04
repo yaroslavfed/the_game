@@ -45,20 +45,21 @@ namespace the_game
         string protectionInfo;
         string healthInfo;
 
+        int target = -1;
+
         private ObservableCollection<Enemy_person> enemies_on_screen;
         private ObservableCollection<Enemy_person> enemies_null;
 
         //List<Grid> enemy_grid = new List<Grid>();
-        List<ListBox> enemy_field = new List<ListBox>();
-
-        List<int> enemy_added = new List<int>();
+        List<ListBox> enemy_field = new();
+        List<int> enemy_added = new();
 
         //ListBox listBox1;
         //StackPanel stackPanel1;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")))
+            using (StreamReader sr = new(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")))
             {
                 nickname = sr.ReadLine();
                 level = sr.ReadLine();
@@ -84,8 +85,8 @@ namespace the_game
             public string? Rank { get; set; }
             public string? Name { get; set; }
             public double? Health { get; set; }
-            public string? Weapon { get; set; }
-            public string? Armor { get; set; }
+            public string? Damage { get; set; }
+            public string? Protetion { get; set; }
             public string? Reward { get; set; }
             public string? Image { get; set; }
         }
@@ -100,31 +101,31 @@ namespace the_game
 
             for (int i = 0; i < n; i++)
             {
-                Random rand = new Random((int)(DateTime.Now.Ticks));
+                Random rand = new((int)(DateTime.Now.Ticks));
                 string rank = Convert.ToString(rand.Next(0, max_rand+1));
 
                 string name;
                 string health;
-                string weapon;
-                string armor;
+                string damage;
+                string protetion;
                 string reward;
 
-                using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.enemyPath, rank + ".txt")))
+                using (StreamReader sr = new(System.IO.Path.Combine(resource_paths.enemyPath, rank + ".txt")))
                 {
                     rank = sr.ReadLine();
                     name = sr.ReadLine();
                     health = sr.ReadLine();
-                    weapon = sr.ReadLine();
-                    armor = sr.ReadLine();
+                    damage = sr.ReadLine();
+                    protetion = sr.ReadLine();
                     reward = sr.ReadLine();
                 }
 
                 enemies_on_screen = new ObservableCollection<Enemy_person>
                 {
-                    new Enemy_person() { Rank = rank, Name = name + "_" + wave, Health = double.Parse(health), Weapon = weapon, Armor = armor, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") }
+                    new Enemy_person() { Rank = rank, Name = name, Health = double.Parse(health), Damage = damage, Protetion = protetion, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") }
                 };
 
-                Random rnd = new Random((int)(DateTime.Now.Ticks));
+                Random rnd = new((int)(DateTime.Now.Ticks));
                 int value = rnd.Next(0, 9);
 
                 if (!enemy_added.Any(str => str == value))
@@ -185,10 +186,12 @@ namespace the_game
 
         private void Information_output(int num)
         {
+            target = int.Parse(enemy_field[num].Name[(enemy_field[num].Name.IndexOf("enemy") + 5)..]);
+
             var editItem = enemy_field[num].SelectedItem as Enemy_person;
             if (editItem == null)
                 return;
-            string message = string.Format("Field: {0},\nRank: {1},\nName: {2},\nHealth: {3},\nReward: {4}", enemy_field[num].Name, editItem.Rank, editItem.Name, editItem.Health, editItem.Reward);
+            string message = string.Format("Field: {0},\nRank: {1},\nName: {2},\nHealth: {3},\nDamage: {4},\nProtection: {5},\nReward: {4}", target, editItem.Rank, editItem.Name, editItem.Health, editItem.Damage, editItem.Protetion, editItem.Reward);
             MessageBox.Show(message);
             Deselect(num);
         }
