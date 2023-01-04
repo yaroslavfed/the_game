@@ -88,6 +88,7 @@
                         <Button x:Name="exit" Click="exit_Click" Content="Exit" HorizontalAlignment="Center" VerticalAlignment="Center" Height="56" Width="168" FontSize="22"/>
                     </Grid>
                     <TextBlock x:Name="target_info" HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="null" VerticalAlignment="Top" Width="120" FontSize="20"/>
+                    <Button x:Name="test_button" Click="test_button_Click" Content="test" HorizontalAlignment="Left" Margin="122,116,0,0" Grid.Row="2" VerticalAlignment="Top"/>
                 </Grid>
                 <Grid Grid.Column="2" x:Name="enemies">
                     <Grid.ColumnDefinitions>
@@ -115,7 +116,7 @@
                                         </Grid.RowDefinitions>
                                         <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
                                         <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
-                                        <ProgressBar Name="PB0" Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>
+                                        <ProgressBar x:Name="PB0" Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

@@ -47,12 +47,22 @@ namespace the_game
 
         int target = -1;
 
-        private ObservableCollection<Enemy_person> enemies_on_screen;
-        private ObservableCollection<Enemy_person> enemies_null;
+        //private ObservableCollection<Enemy_person> enemies_on_screen;
+        private ObservableCollection<Enemy_person> enemies_on_screen0;
+        private ObservableCollection<Enemy_person> enemies_on_screen1;
+        private ObservableCollection<Enemy_person> enemies_on_screen2;
+        private ObservableCollection<Enemy_person> enemies_on_screen3;
+        private ObservableCollection<Enemy_person> enemies_on_screen4;
+        private ObservableCollection<Enemy_person> enemies_on_screen5;
+        private ObservableCollection<Enemy_person> enemies_on_screen6;
+        private ObservableCollection<Enemy_person> enemies_on_screen7;
+        private ObservableCollection<Enemy_person> enemies_on_screen8;
 
         //List<Grid> enemy_grid = new List<Grid>();
         List<ListBox> enemy_field = new();
+        List<ObservableCollection<Enemy_person>> enemies_on_screen_nums = new();
         List<int> enemy_added = new();
+        List<ProgressBar> progress_bar_enemies = new();
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -77,9 +87,11 @@ namespace the_game
             wave_info.Text = "Волна " + wave;
 
             //enemy_grid.AddRange(new Grid[] { E0, E1, E2, E3, E4, E5, E6, E7, E8 });
+            //progress_bar_enemies.AddRange(new ProgressBar[] { E0, E1, E2, E3, E4, E5, E6, E7, E8 });
             enemy_field.AddRange(new ListBox[] { enemy0, enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8 });
+            enemies_on_screen_nums.AddRange(new ObservableCollection<Enemy_person>[] { enemies_on_screen0, enemies_on_screen1, enemies_on_screen2, enemies_on_screen3, enemies_on_screen4, enemies_on_screen5, enemies_on_screen6, enemies_on_screen7, enemies_on_screen8 });
 
-            Bots_render(2);
+            Bots_render(5);
         }
 
         private void targetInTime_Tick(object sender, EventArgs e)
@@ -91,7 +103,7 @@ namespace the_game
         {
             public string? Rank { get; set; }
             public string? Name { get; set; }
-            public double? Health { get; set; }
+            public double Health { get; set; }
             public string? Damage { get; set; }
             public string? Protetion { get; set; }
             public string? Reward { get; set; }
@@ -127,25 +139,30 @@ namespace the_game
                     reward = sr.ReadLine();
                 }
 
-                enemies_on_screen = new ObservableCollection<Enemy_person>
-                {
-                    new Enemy_person() { Rank = rank, Name = name, Health = double.Parse(health), Damage = damage, Protetion = protetion, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") }
-                };
+                //enemies_on_screen_nums[0] = new ObservableCollection<Enemy_person>();
+                //enemies_on_screen_nums[0].Add(new Enemy_person() { Rank = rank, Name = name, Health = double.Parse(health), Damage = damage, Protetion = protetion, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") });
 
                 Random rnd = new((int)(DateTime.Now.Ticks));
                 int value = rnd.Next(0, 9);
 
+                //enemies_on_screen_nums[value] = new ObservableCollection<Enemy_person>();
+                //enemies_on_screen_nums[value].Add(new Enemy_person() { Rank = rank, Name = name, Health = double.Parse(health), Damage = damage, Protetion = protetion, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") });
+
+                //enemy_added.Add(value);
+                //enemy_field[value].ItemsSource = enemies_on_screen;
+
                 if (!enemy_added.Any(str => str == value))
                 {
                     enemy_added.Add(value);
-                    enemy_field[value].ItemsSource = enemies_on_screen;
+                    enemies_on_screen_nums[value] = new ObservableCollection<Enemy_person>();
+                    enemies_on_screen_nums[value].Add(new Enemy_person() { Rank = rank, Name = name, Health = double.Parse(health), Damage = damage, Protetion = protetion, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") });
+                    enemy_field[value].ItemsSource = enemies_on_screen_nums[value];
                 }
-                enemy_added.Sort();
-
-                //char delim = ' ';
-                //string str = String.Join(delim, enemy_added);
-                //MessageBox.Show(str);
-            }       
+                //enemy_added.Sort();
+            }
+            char delim = ' ';
+            string str = String.Join(delim, enemy_added);
+            //MessageBox.Show(str);
         }
 
         private void Bots_clear()
@@ -170,6 +187,8 @@ namespace the_game
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
+            Deselect(enemy_field.Count);
+
             wave++;
             wave_info.Text = "Волна " + wave;
 
@@ -266,11 +285,18 @@ namespace the_game
             if(target != -1)
             {
                 MessageBox.Show("The target on field " + target + " is attacked");
+                enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health -= 10;
+                MessageBox.Show(Convert.ToString(enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health));
             }
             else
             {
                 MessageBox.Show("First select a goal");
             }
+        }
+
+        private void test_button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
