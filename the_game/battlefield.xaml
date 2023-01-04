@@ -87,6 +87,7 @@
                     <Grid Grid.Row="1">
                         <Button x:Name="exit" Click="exit_Click" Content="Exit" HorizontalAlignment="Center" VerticalAlignment="Center" Height="56" Width="168" FontSize="22"/>
                     </Grid>
+                    <TextBlock x:Name="target_info" HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="null" VerticalAlignment="Top" Width="120" FontSize="20"/>
                 </Grid>
                 <Grid Grid.Column="2" x:Name="enemies">
                     <Grid.ColumnDefinitions>
@@ -277,7 +278,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <Button Content="Attack" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"/>
+                        <Button x:Name="attack_button" Click="attack_button_Click" Content="Attack" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"/>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>

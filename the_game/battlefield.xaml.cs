@@ -54,11 +54,13 @@ namespace the_game
         List<ListBox> enemy_field = new();
         List<int> enemy_added = new();
 
-        //ListBox listBox1;
-        //StackPanel stackPanel1;
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            System.Windows.Threading.DispatcherTimer itemInTime = new System.Windows.Threading.DispatcherTimer();
+            itemInTime.Tick += new EventHandler(targetInTime_Tick);
+            itemInTime.Interval = new TimeSpan(1);
+            itemInTime.Start();
+
             using (StreamReader sr = new(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")))
             {
                 nickname = sr.ReadLine();
@@ -78,6 +80,11 @@ namespace the_game
             enemy_field.AddRange(new ListBox[] { enemy0, enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8 });
 
             Bots_render(2);
+        }
+
+        private void targetInTime_Tick(object sender, EventArgs e)
+        {
+            target_info.Text = Convert.ToString(target);
         }
 
         public class Enemy_person
@@ -177,9 +184,11 @@ namespace the_game
         {
             for(int i = 0; i < enemy_field.Count; i++)
             {
+                enemy_field[i].SelectedIndex = -1;
                 if (i != num)
                 {
-                    enemy_field[i].SelectedIndex = -1;
+                    //enemy_field[i].SelectedIndex = -1;
+                    enemy_field[i].BorderThickness = new Thickness(0, 0, 0, 0);
                 }
             }
         }
@@ -192,7 +201,9 @@ namespace the_game
             if (editItem == null)
                 return;
             string message = string.Format("Field: {0},\nRank: {1},\nName: {2},\nHealth: {3},\nDamage: {4},\nProtection: {5},\nReward: {4}", target, editItem.Rank, editItem.Name, editItem.Health, editItem.Damage, editItem.Protetion, editItem.Reward);
-            MessageBox.Show(message);
+            //MessageBox.Show(message);
+
+            enemy_field[num].BorderThickness = new Thickness (1, 1, 1, 1);
             Deselect(num);
         }
 
@@ -248,6 +259,18 @@ namespace the_game
         {
             int num = 8;
             Information_output(num);
+        }
+
+        private void attack_button_Click(object sender, RoutedEventArgs e)
+        {
+            if(target != -1)
+            {
+                MessageBox.Show("The target on field " + target + " is attacked");
+            }
+            else
+            {
+                MessageBox.Show("First select a goal");
+            }
         }
     }
 }
