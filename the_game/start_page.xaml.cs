@@ -65,50 +65,100 @@ namespace the_game
             }
         }
 
+        //person.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.hero_icon_Path, "start_page_person.png")));
+        //person.Source = null;
+
         private void authorized_Tick(object sender, EventArgs e)
         {
             if (Authorized == true)
             {
-                startGame.IsEnabled = true;
+                to_game.IsEnabled = true;
+                //to_game.Opacity = 1.0;
                 nickname.Content = line;
 
                 panel3.Visibility = Visibility.Visible;
                 panel1.Visibility = Visibility.Hidden;
                 panel2.Visibility = Visibility.Hidden;
+                person.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.hero_icon_Path, "start_page_person.png")));
             }
             else
             {
-                startGame.IsEnabled = false;
+                to_game.IsEnabled = false;
+                to_game.Opacity = 0.4;
                 nickname.Content = "";
 
                 //panel1.Visibility = Visibility.Visible;
                 //panel2.Visibility = Visibility.Hidden;
                 panel3.Visibility = Visibility.Hidden;
+                person.Source = null;
             }
         }
 
-        private void startGame_Click(object sender, EventArgs e)
+        private void MediaElement_Loaded(object sender, EventArgs e)
+        {
+            media_back.Source = new Uri(System.IO.Path.Combine(resource_paths.media_back_path, "back_start.mp4"));
+        }
+
+        private void to_game_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             profile player = new profile(ID);
             player.Show();
             this.Close();
         }
 
-        private void exit_Click(object sender, EventArgs e)
+        private void to_settings_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Настройки");
+        }
+
+        private void to_info_about_us_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("О нас");
+        }
+
+        private void to_exit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }
 
-        private void reg_Click(object sender, RoutedEventArgs e)
+        private void to_game_MouseEnter(object sender, MouseEventArgs e)
         {
-            panel1.Visibility = Visibility.Hidden;
-            panel2.Visibility = Visibility.Visible;
+            to_game.Opacity = 0.65;
         }
 
-        private void log_Click(object sender, RoutedEventArgs e)
+        private void to_game_MouseLeave(object sender, MouseEventArgs e)
         {
-            panel2.Visibility = Visibility.Hidden;
-            panel1.Visibility = Visibility.Visible;
+            to_game.Opacity = 1.0;
+        }
+
+        private void to_settings_MouseEnter(object sender, MouseEventArgs e)
+        {
+            to_settings.Opacity = 0.65;
+        }
+
+        private void to_settings_MouseLeave(object sender, MouseEventArgs e)
+        {
+            to_settings.Opacity = 1.0;
+        }
+
+        private void to_info_about_us_MouseEnter(object sender, MouseEventArgs e)
+        {
+            to_info_about_us.Opacity = 0.65;
+        }
+
+        private void to_info_about_us_MouseLeave(object sender, MouseEventArgs e)
+        {
+            to_info_about_us.Opacity = 1.0;
+        }
+
+        private void to_exit_MouseEnter(object sender, MouseEventArgs e)
+        {
+            to_exit.Opacity = 0.65;
+        }
+
+        private void to_exit_MouseLeave(object sender, MouseEventArgs e)
+        {
+            to_exit.Opacity = 1.0;
         }
 
         private void exitLogin_Click(object sender, EventArgs e)
@@ -125,7 +175,6 @@ namespace the_game
             //nickname.Content = "";
         }
 
-
         #region Registering a new user
         private void sign_up_Click(object sender, EventArgs e)
         {
@@ -135,7 +184,7 @@ namespace the_game
             rPassD.Password = rPassD.Password.Trim();
 
             string s = File.ReadAllLines(System.IO.Path.Combine(resource_paths.docPath, "id.txt")).Last();
-            id = Convert.ToInt32(s.Substring(s.IndexOf(": ") + 2)) + 1;
+            id = int.Parse(s.Substring(s.IndexOf(": ") + 2)) + 1;
 
             //int found = s.IndexOf(": ");
             //s = s.Substring(found + 2);
@@ -166,7 +215,7 @@ namespace the_game
                             }
                             try
                             {
-                                using (FileStream fs = File.Create(System.IO.Path.Combine(resource_paths.docPath + @"users\", id + ".txt")))
+                                using (FileStream fs = File.Create(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")))
                                 {
                                     AddText(fs, rLogin.Text);   // логин                0 - номер строки в файле
                                     AddText(fs, "\r\n1");       // уровень              1 - номер строки в файле
@@ -227,8 +276,23 @@ namespace the_game
         }
         #endregion
 
-        #region User authorization
-        private void sign_in_Click(object sender, EventArgs e)
+        private void log_Click(object sender, RoutedEventArgs e)
+        {
+            panel2.Visibility = Visibility.Hidden;
+            panel1.Visibility = Visibility.Visible;
+        }
+
+        private void remember_Checked(object sender, RoutedEventArgs e)
+        {
+            save = true;
+        }
+
+        private void remember_Unchecked(object sender, RoutedEventArgs e)
+        {
+            save = false;
+        }
+
+        private void sign_in_Click(object sender, RoutedEventArgs e)
         {
             bool retrieval = false;
 
@@ -280,16 +344,11 @@ namespace the_game
                 MessageBox.Show("User not found");
             }
         }
-        #endregion
 
-        private void remember_Checked(object sender, RoutedEventArgs e)
+        private void reg_Click(object sender, RoutedEventArgs e)
         {
-            save = true;
-        }
-
-        private void remember_Unchecked(object sender, RoutedEventArgs e)
-        {
-            save = false;
+            panel1.Visibility = Visibility.Hidden;
+            panel2.Visibility = Visibility.Visible;
         }
     }
 }

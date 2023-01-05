@@ -59,7 +59,7 @@ namespace the_game
             //lvlprogress.Value = Convert.ToInt32(exp);
 
             foto.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.iconPath, id + ".jpg")));
-            person.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.hero_icon_Path, "person_test_3.png")));
+            person.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.hero_icon_Path, "person_test_4.png")));
             cash.Content = money + "$";
 
             damageInfo = "0";
