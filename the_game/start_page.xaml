@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:the_game"
         mc:Ignorable="d"
-        Title="Main menu" Height="450" Width="800" Loaded="Window_Loaded"
+        Title="Main menu" Height="900" Width="1600" Loaded="Window_Loaded"
         WindowState="Maximized">
     <Grid>
         <Grid Margin="30,30,30,30">
