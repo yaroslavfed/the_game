@@ -137,7 +137,6 @@ namespace the_game
 
         private void targetInTime_Tick(object sender, EventArgs e)
         {
-            //target_info.Text = Convert.ToString(target);
             target_info.Text = "Target: " + Convert.ToString(target) + "\nAlive: " + number_of_bots_alive + "\nKilled: " + number_of_bots_killed;
         }
 
@@ -167,11 +166,8 @@ namespace the_game
             Animation = new DoubleAnimation();
             Animation.From = 1.0;
             Animation.To = 0.0;
-            Animation.Duration = TimeSpan.FromSeconds(1);
+            Animation.Duration = TimeSpan.FromSeconds(0.5);
             myObject.BeginAnimation(ListBox.OpacityProperty, Animation);
-
-            //myObject.IsEnabled = false;
-            //myObject.Visibility= Visibility.Hidden;
         }
 
         private void Listbox_update()
@@ -183,8 +179,6 @@ namespace the_game
                 Animation.To = 1.0;
                 Animation.Duration = TimeSpan.FromSeconds(0.5);
                 enemy_field[i].BeginAnimation(ListBox.OpacityProperty, Animation);
-                //enemy_field[i].Visibility = Visibility.Visible;
-                //enemy_field[i].IsEnabled = true;
             }
         }
 
@@ -236,12 +230,8 @@ namespace the_game
                     enemies_on_screen_nums[value].Add(new Enemy_person() { Rank = rank, Name = name, Health = double.Parse(health), Damage = damage, Protetion = protetion, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") });
                     enemy_field[value].ItemsSource = enemies_on_screen_nums[value];
                 }
-                //enemy_added.Sort();
                 number_of_bots_alive = enemy_added.Count;
             }
-            char delim = ' ';
-            string str = String.Join(delim, enemy_added);
-            //MessageBox.Show(str);
         }
 
         private void Bots_clear()
@@ -384,7 +374,6 @@ namespace the_game
         {
             if(target != -1)
             {
-                //MessageBox.Show("The target on field " + target + " is attacked");
                 enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health -= 100;
                 double enemy_health = enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health;
 
@@ -397,7 +386,7 @@ namespace the_game
             }
             else
             {
-                //MessageBox.Show("First select a goal");
+                MessageBox.Show("First select a goal");
             }
         }
 
