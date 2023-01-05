@@ -26,6 +26,12 @@ namespace the_game
 {
     public partial class battlefield : Window
     {
+        public battlefield(string id)
+        {
+            InitializeComponent();
+            this.id = id;
+        }
+
         public class Enemy_person
         {
             public string? Rank { get; set; }
@@ -37,11 +43,6 @@ namespace the_game
             public string? Image { get; set; }
         }
 
-        public battlefield(string id)
-        {
-            InitializeComponent();
-            this.id = id;
-        }
         readonly string id;
 
         string nickname;
@@ -384,15 +385,18 @@ namespace the_game
                     target = -1;
                 }
             }
-            else
-            {
-                MessageBox.Show("First select a goal");
-            }
+            //else
+                //MessageBox.Show("First select a goal");
         }
 
-        private void test_button_Click(object sender, RoutedEventArgs e)
+        private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-
+            switch (e.Key)
+            {
+                case Key.A: attack_button_Click(attack_button, null); break;
+                case Key.Z: target_info.FontSize += 1; break;
+                case Key.X: target_info.FontSize -= 1; break;
+            }
         }
     }
 }

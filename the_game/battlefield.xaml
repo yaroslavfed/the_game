@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:the_game"
         mc:Ignorable="d"
-        Title="battlefield" Height="900" Width="1600" Loaded="Window_Loaded"
+        Title="battlefield" Height="900" Width="1600" KeyUp="Window_KeyUp" Loaded="Window_Loaded"
         WindowState="Maximized">
     <Window.Resources>
     </Window.Resources>
@@ -88,7 +88,6 @@
                         <Button x:Name="exit" Click="exit_Click" Content="Exit" HorizontalAlignment="Center" VerticalAlignment="Center" Height="56" Width="168" FontSize="22"/>
                     </Grid>
                     <TextBlock x:Name="target_info" HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="null" VerticalAlignment="Top" Width="120" FontSize="20"/>
-                    <Button x:Name="test_button" Click="test_button_Click" Content="test" HorizontalAlignment="Left" Margin="122,116,0,0" Grid.Row="2" VerticalAlignment="Top"/>
                 </Grid>
                 <Grid Grid.Column="2" x:Name="enemies">
                     <Grid.ColumnDefinitions>
