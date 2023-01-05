@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
@@ -24,6 +26,19 @@ namespace the_game
 {
     public partial class battlefield : Window
     {
+        public class Enemy_person
+        {
+            public string? Rank { get; set; }
+            public string? Name { get; set; }
+            public double Health { get; set; }
+            public string? Damage { get; set; }
+            public string? Protetion { get; set; }
+            public string? Reward { get; set; }
+            public string? Image { get; set; }
+        }
+
+        private Storyboard myStoryboard;
+
         public battlefield(string id)
         {
             InitializeComponent();
@@ -46,6 +61,8 @@ namespace the_game
         string healthInfo;
 
         int target = -1;
+        int number_of_bots_alive = 0;
+        int number_of_bots_killed = 0;
 
         //private ObservableCollection<Enemy_person> enemies_on_screen;
         private ObservableCollection<Enemy_person> enemies_on_screen0;
@@ -64,13 +81,11 @@ namespace the_game
         List<int> enemy_added = new();
         List<ProgressBar> progress_bar_enemies = new();
 
+        System.Windows.Threading.DispatcherTimer targetInTime = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer struggleInTime = new System.Windows.Threading.DispatcherTimer();
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            System.Windows.Threading.DispatcherTimer itemInTime = new System.Windows.Threading.DispatcherTimer();
-            itemInTime.Tick += new EventHandler(targetInTime_Tick);
-            itemInTime.Interval = new TimeSpan(1);
-            itemInTime.Start();
-
             using (StreamReader sr = new(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")))
             {
                 nickname = sr.ReadLine();
@@ -88,26 +103,67 @@ namespace the_game
 
             //enemy_grid.AddRange(new Grid[] { E0, E1, E2, E3, E4, E5, E6, E7, E8 });
             //progress_bar_enemies.AddRange(new ProgressBar[] { E0, E1, E2, E3, E4, E5, E6, E7, E8 });
+
             enemy_field.AddRange(new ListBox[] { enemy0, enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8 });
             enemies_on_screen_nums.AddRange(new ObservableCollection<Enemy_person>[] { enemies_on_screen0, enemies_on_screen1, enemies_on_screen2, enemies_on_screen3, enemies_on_screen4, enemies_on_screen5, enemies_on_screen6, enemies_on_screen7, enemies_on_screen8 });
 
-            Bots_render(5);
+            Bots_render(2);
+
+            Timers_start();
+        }
+
+        private void Timers_start()
+        {
+            targetInTime.Tick += new EventHandler(targetInTime_Tick);
+            targetInTime.Interval = new TimeSpan(1);
+            targetInTime.Start();
+
+            struggleInTime.Tick += new EventHandler(struggleInTime_Tick);
+            struggleInTime.Interval = new TimeSpan(1);
+            struggleInTime.Start();
+        }
+
+        private void Timers_stop()
+        {
+            targetInTime.Stop();
+            struggleInTime.Stop();
         }
 
         private void targetInTime_Tick(object sender, EventArgs e)
         {
-            target_info.Text = Convert.ToString(target);
+            //target_info.Text = Convert.ToString(target);
+            target_info.Text = "Target:" + Convert.ToString(target) + "\nAlive: " + number_of_bots_alive + "\nKilled: " + number_of_bots_killed;
         }
 
-        public class Enemy_person
+        private void struggleInTime_Tick(object sender, EventArgs e)
         {
-            public string? Rank { get; set; }
-            public string? Name { get; set; }
-            public double Health { get; set; }
-            public string? Damage { get; set; }
-            public string? Protetion { get; set; }
-            public string? Reward { get; set; }
-            public string? Image { get; set; }
+            if(number_of_bots_alive == number_of_bots_killed)
+            {
+                //MessageBox.Show("You win");
+                Timers_stop();
+                Go_to_next_wave();
+            }
+        }
+
+        private void Animation_disappearing(ListBox myObject)
+        {
+            var myDoubleAnimation = new DoubleAnimation();
+            myDoubleAnimation.From = 1.0;
+            myDoubleAnimation.To = 0.0;
+            myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(5));
+
+            myStoryboard = new Storyboard();
+            myStoryboard.Children.Add(myDoubleAnimation);
+            Storyboard.SetTargetName(myDoubleAnimation, myObject.Name);
+            //Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(myObject.Name.OpacityProperty));
+        }
+
+        private void Listbox_visibility()
+        {
+            for(int i = 0; i < enemy_field.Count; i++)
+            {
+                enemy_field[i].Visibility = Visibility.Visible;
+            }
         }
 
         private void Bots_render(int n)
@@ -159,6 +215,7 @@ namespace the_game
                     enemy_field[value].ItemsSource = enemies_on_screen_nums[value];
                 }
                 //enemy_added.Sort();
+                number_of_bots_alive = enemy_added.Count;
             }
             char delim = ' ';
             string str = String.Join(delim, enemy_added);
@@ -180,6 +237,7 @@ namespace the_game
 
         private void exit_Click(object sender, RoutedEventArgs e)
         {
+            Timers_stop();
             mode_selection mode = new mode_selection(id);
             mode.Show();
             this.Close();
@@ -187,16 +245,36 @@ namespace the_game
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
+            Listbox_visibility();
             Deselect(enemy_field.Count);
 
             wave++;
             wave_info.Text = "Волна " + wave;
 
             Bots_clear();
+            number_of_bots_killed = 0;
 
             int count_bots = wave < 10 ? (count_bots = wave) : (count_bots = 9);
 
             Bots_render(count_bots);
+            Timers_start();
+        }
+
+        private void Go_to_next_wave()
+        {
+            Listbox_visibility();
+            Deselect(enemy_field.Count);
+
+            wave++;
+            wave_info.Text = "Волна " + wave;
+
+            Bots_clear();
+            number_of_bots_killed = 0;
+
+            int count_bots = wave < 10 ? (count_bots = wave) : (count_bots = 9);
+
+            Bots_render(count_bots);
+            Timers_start();
         }
 
         private void Deselect(int num)
@@ -284,9 +362,20 @@ namespace the_game
         {
             if(target != -1)
             {
-                MessageBox.Show("The target on field " + target + " is attacked");
-                enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health -= 10;
-                MessageBox.Show(Convert.ToString(enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health));
+                //MessageBox.Show("The target on field " + target + " is attacked");
+                enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health -= 100;
+                double enemy_health = enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health;
+
+                if (enemy_health <= 0)
+                {
+                    number_of_bots_killed += 1;
+                    //MessageBox.Show("enemy_" + target + " is killed");
+                    enemy_field[target].Visibility = Visibility.Hidden;
+                    target = -1;
+                }
+
+                //MessageBox.Show(Convert.ToString(enemy_health));
+                
             }
             else
             {
