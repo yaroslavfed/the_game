@@ -37,8 +37,6 @@ namespace the_game
             public string? Image { get; set; }
         }
 
-        private Storyboard myStoryboard;
-
         public battlefield(string id)
         {
             InitializeComponent();
@@ -83,6 +81,9 @@ namespace the_game
 
         System.Windows.Threading.DispatcherTimer targetInTime = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer struggleInTime = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer attackInTime = new System.Windows.Threading.DispatcherTimer();
+
+        DoubleAnimation Animation;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -121,48 +122,69 @@ namespace the_game
             struggleInTime.Tick += new EventHandler(struggleInTime_Tick);
             struggleInTime.Interval = new TimeSpan(1);
             struggleInTime.Start();
+
+            attackInTime.Tick += new EventHandler(attackInTime_Tick);
+            attackInTime.Interval = new TimeSpan(1);
+            attackInTime.Start();
         }
 
         private void Timers_stop()
         {
             targetInTime.Stop();
             struggleInTime.Stop();
+            attackInTime.Stop();
         }
 
         private void targetInTime_Tick(object sender, EventArgs e)
         {
             //target_info.Text = Convert.ToString(target);
-            target_info.Text = "Target:" + Convert.ToString(target) + "\nAlive: " + number_of_bots_alive + "\nKilled: " + number_of_bots_killed;
+            target_info.Text = "Target: " + Convert.ToString(target) + "\nAlive: " + number_of_bots_alive + "\nKilled: " + number_of_bots_killed;
         }
 
         private void struggleInTime_Tick(object sender, EventArgs e)
         {
             if(number_of_bots_alive == number_of_bots_killed)
             {
-                //MessageBox.Show("You win");
                 Timers_stop();
                 Go_to_next_wave();
+            }
+        }
+        
+        private void attackInTime_Tick(object sender, EventArgs e)
+        {
+            if(target == -1)
+            {
+                attack_button.IsEnabled= false;
+            }
+            else
+            {
+                attack_button.IsEnabled= true;
             }
         }
 
         private void Animation_disappearing(ListBox myObject)
         {
-            var myDoubleAnimation = new DoubleAnimation();
-            myDoubleAnimation.From = 1.0;
-            myDoubleAnimation.To = 0.0;
-            myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(5));
+            Animation = new DoubleAnimation();
+            Animation.From = 1.0;
+            Animation.To = 0.0;
+            Animation.Duration = TimeSpan.FromSeconds(1);
+            myObject.BeginAnimation(ListBox.OpacityProperty, Animation);
 
-            myStoryboard = new Storyboard();
-            myStoryboard.Children.Add(myDoubleAnimation);
-            Storyboard.SetTargetName(myDoubleAnimation, myObject.Name);
-            //Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(myObject.Name.OpacityProperty));
+            //myObject.IsEnabled = false;
+            //myObject.Visibility= Visibility.Hidden;
         }
 
-        private void Listbox_visibility()
+        private void Listbox_update()
         {
             for(int i = 0; i < enemy_field.Count; i++)
             {
-                enemy_field[i].Visibility = Visibility.Visible;
+                Animation = new DoubleAnimation();
+                Animation.From = 0.0;
+                Animation.To = 1.0;
+                Animation.Duration = TimeSpan.FromSeconds(0.5);
+                enemy_field[i].BeginAnimation(ListBox.OpacityProperty, Animation);
+                //enemy_field[i].Visibility = Visibility.Visible;
+                //enemy_field[i].IsEnabled = true;
             }
         }
 
@@ -245,7 +267,7 @@ namespace the_game
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
-            Listbox_visibility();
+            Listbox_update();
             Deselect(enemy_field.Count);
 
             wave++;
@@ -262,7 +284,7 @@ namespace the_game
 
         private void Go_to_next_wave()
         {
-            Listbox_visibility();
+            Listbox_update();
             Deselect(enemy_field.Count);
 
             wave++;
@@ -369,17 +391,13 @@ namespace the_game
                 if (enemy_health <= 0)
                 {
                     number_of_bots_killed += 1;
-                    //MessageBox.Show("enemy_" + target + " is killed");
-                    enemy_field[target].Visibility = Visibility.Hidden;
+                    Animation_disappearing(enemy_field[target]);
                     target = -1;
                 }
-
-                //MessageBox.Show(Convert.ToString(enemy_health));
-                
             }
             else
             {
-                MessageBox.Show("First select a goal");
+                //MessageBox.Show("First select a goal");
             }
         }
 
