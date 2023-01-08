@@ -79,10 +79,12 @@ namespace the_game
         List<ObservableCollection<Enemy_person>> enemies_on_screen_nums = new();
         List<int> enemy_added = new();
         List<ProgressBar> progress_bar_enemies = new();
+        List<TextBlock> health_text_enemies = new();
 
         System.Windows.Threading.DispatcherTimer targetInTime = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer struggleInTime = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer attackInTime = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer healthInTime = new System.Windows.Threading.DispatcherTimer();
 
         DoubleAnimation Animation;
 
@@ -104,10 +106,14 @@ namespace the_game
             wave_info.Text = "Волна " + wave;
 
             //enemy_grid.AddRange(new Grid[] { E0, E1, E2, E3, E4, E5, E6, E7, E8 });
-            //progress_bar_enemies.AddRange(new ProgressBar[] { E0, E1, E2, E3, E4, E5, E6, E7, E8 });
+            //progress_bar_enemies.AddRange(new TextBlock[] { hp0, E1, E2, E3, E4, E5, E6, E7, E8 });
+
+            health_text_enemies.AddRange(new TextBlock[] { hp0, hp1, hp2, hp3, hp4, hp5, hp6, hp7, hp8 });
+            progress_bar_enemies.AddRange(new ProgressBar[] { enemy_health_bar_0, enemy_health_bar_1, enemy_health_bar_2, enemy_health_bar_3, enemy_health_bar_4, enemy_health_bar_5, enemy_health_bar_6, enemy_health_bar_7, enemy_health_bar_8 });
 
             enemy_field.AddRange(new ListBox[] { enemy0, enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8 });
             enemies_on_screen_nums.AddRange(new ObservableCollection<Enemy_person>[] { enemies_on_screen0, enemies_on_screen1, enemies_on_screen2, enemies_on_screen3, enemies_on_screen4, enemies_on_screen5, enemies_on_screen6, enemies_on_screen7, enemies_on_screen8 });
+            
 
             Bots_render(2);
 
@@ -127,6 +133,10 @@ namespace the_game
             attackInTime.Tick += new EventHandler(attackInTime_Tick);
             attackInTime.Interval = new TimeSpan(1);
             attackInTime.Start();
+
+            healthInTime.Tick += new EventHandler(healthInTime_Tick);
+            healthInTime.Interval = new TimeSpan(1);
+            healthInTime.Start();
         }
 
         private void Timers_stop()
@@ -134,6 +144,7 @@ namespace the_game
             targetInTime.Stop();
             struggleInTime.Stop();
             attackInTime.Stop();
+            healthInTime.Stop();
         }
 
         private void targetInTime_Tick(object sender, EventArgs e)
@@ -160,6 +171,11 @@ namespace the_game
             {
                 attack_button.IsEnabled= true;
             }
+        }
+
+        private void healthInTime_Tick(object sender, EventArgs e)
+        {
+
         }
 
         private void Animation_disappearing(ListBox myObject)
@@ -230,6 +246,14 @@ namespace the_game
                     enemies_on_screen_nums[value] = new ObservableCollection<Enemy_person>();
                     enemies_on_screen_nums[value].Add(new Enemy_person() { Rank = rank, Name = name, Health = double.Parse(health), Damage = damage, Protetion = protetion, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") });
                     enemy_field[value].ItemsSource = enemies_on_screen_nums[value];
+
+                    health_text_enemies[value].Visibility = Visibility.Visible;
+                    health_text_enemies[value].Text = health;
+
+                    progress_bar_enemies[value].Width = double.Parse(health) / 3;
+                    progress_bar_enemies[value].Visibility = Visibility.Visible;
+                    progress_bar_enemies[value].Maximum = double.Parse(health);
+                    progress_bar_enemies[value].Value = double.Parse(health);
                 }
                 number_of_bots_alive = enemy_added.Count;
             }
@@ -380,9 +404,20 @@ namespace the_game
 
                 if (enemy_health <= 0)
                 {
+                    health_text_enemies[target].Text = Convert.ToString(0);
+                    health_text_enemies[target].Visibility= Visibility.Hidden;
+
+                    progress_bar_enemies[target].Value = 0;
+                    progress_bar_enemies[target].Visibility= Visibility.Hidden;
+
                     number_of_bots_killed += 1;
                     Animation_disappearing(enemy_field[target]);
                     target = -1;
+                }
+                else
+                {
+                    health_text_enemies[target].Text = Convert.ToString(enemy_health);
+                    progress_bar_enemies[target].Value = enemy_health;
                 }
             }
             //else

@@ -12,7 +12,7 @@ namespace the_game
             {
                 try
                 {
-                    double x = (double)value;
+                    double x = double.Parse((string)value);
                     double y = double.Parse(parameter.ToString());
                     result = x / y;
                 }
