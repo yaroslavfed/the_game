@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -45,6 +46,8 @@ namespace the_game
 
         readonly string id;
 
+        bool hero_attack_point = true;
+
         string nickname;
         string level;
         int wave = 1;
@@ -59,6 +62,9 @@ namespace the_game
         double damage_hero;
         double protection_hero;
 
+        double enemy_damage;
+        double enemy_protection;
+
         string damageInfo;
         string protectionInfo;
         string healthInfo;
@@ -66,6 +72,8 @@ namespace the_game
         int target = -1;
         int number_of_bots_alive = 0;
         int number_of_bots_killed = 0;
+
+        int assaulter;
 
         //private ObservableCollection<Enemy_person> enemies_on_screen;
         private ObservableCollection<Enemy_person> enemies_on_screen0;
@@ -82,6 +90,7 @@ namespace the_game
         List<ListBox> enemy_field = new();
         List<ObservableCollection<Enemy_person>> enemies_on_screen_nums = new();
         List<int> enemy_added = new();
+        List<int> enemy_killed = new();
         List<ProgressBar> progress_bar_enemies = new();
         List<TextBlock> health_text_enemies = new();
 
@@ -89,6 +98,7 @@ namespace the_game
         System.Windows.Threading.DispatcherTimer struggleInTime = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer attackInTime = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer healthInTime = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer gameInTime = new System.Windows.Threading.DispatcherTimer();
 
         DoubleAnimation Animation;
 
@@ -154,6 +164,10 @@ namespace the_game
             healthInTime.Tick += new EventHandler(healthInTime_Tick);
             healthInTime.Interval = new TimeSpan(1);
             healthInTime.Start();
+
+            gameInTime.Tick += new EventHandler(gameInTime_Tick);
+            gameInTime.Interval = new TimeSpan(1);
+            gameInTime.Start();
         }
 
         private void Timers_stop()
@@ -162,11 +176,12 @@ namespace the_game
             struggleInTime.Stop();
             attackInTime.Stop();
             healthInTime.Stop();
+            gameInTime.Stop();
         }
 
         private void targetInTime_Tick(object sender, EventArgs e)
         {
-            target_info.Text = "Target: " + Convert.ToString(target) + "\nAlive: " + number_of_bots_alive + "\nKilled: " + number_of_bots_killed;
+            target_info.Text = "Target: " + Convert.ToString(target) + "\nAlive: " + number_of_bots_alive + "\nKilled: " + number_of_bots_killed + "\npoint: " + hero_attack_point;
         }
 
         private void struggleInTime_Tick(object sender, EventArgs e)
@@ -192,7 +207,73 @@ namespace the_game
 
         private void healthInTime_Tick(object sender, EventArgs e)
         {
+            hero_hp_0.Text = Convert.ToString(health_hero);
+            hero_health_bar_0.Value = health_hero;
+        }
 
+        private void gameInTime_Tick(object sender, EventArgs e)
+        {
+            if (hero_attack_point)
+            {
+
+            }
+            else
+            {
+                enemy_attack();
+            }
+        }
+
+        private void enemy_attack()
+        {
+            var still_alive = enemy_added.Except(enemy_killed);
+            List<int> list_still_alive = new();
+            foreach (int s in still_alive)
+                list_still_alive.Add(s);
+
+            BackgroundWorker worker = new BackgroundWorker();
+
+            assaulter = list_still_alive[new Random().Next(0, list_still_alive.Count)];
+            enemy_damage = double.Parse(enemies_on_screen_nums[assaulter][enemies_on_screen_nums[assaulter].Count - 1].Damage);
+
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += worker_DoWork;
+            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+            worker.RunWorkerAsync(assaulter);
+
+            health_hero -= enemy_damage;
+            hero_attack_point = true;
+        }
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            int result = 0;
+            Thread.Sleep(100);
+            for (int i = 0; i < 20; i++)
+            {
+                (sender as BackgroundWorker).ReportProgress(i);
+                result = i;
+                Thread.Sleep(20);
+            }
+            e.Result = result;
+        }
+
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            int step = e.ProgressPercentage;
+            if (step % 2 == 0)
+            {
+                progress_bar_enemies[assaulter].Foreground = Brushes.Yellow;
+            }
+            else
+            {
+                progress_bar_enemies[assaulter].Foreground = Brushes.Red;
+            }
+        }
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            progress_bar_enemies[assaulter].Foreground = Brushes.Red;
         }
 
         private void Animation_disappearing(ListBox myObject)
@@ -245,17 +326,8 @@ namespace the_game
                     reward = sr.ReadLine();
                 }
 
-                //enemies_on_screen_nums[0] = new ObservableCollection<Enemy_person>();
-                //enemies_on_screen_nums[0].Add(new Enemy_person() { Rank = rank, Name = name, Health = double.Parse(health), Damage = damage, Protetion = protetion, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") });
-
                 Random rnd = new((int)(DateTime.Now.Ticks));
                 int value = rnd.Next(0, 9);
-
-                //enemies_on_screen_nums[value] = new ObservableCollection<Enemy_person>();
-                //enemies_on_screen_nums[value].Add(new Enemy_person() { Rank = rank, Name = name, Health = double.Parse(health), Damage = damage, Protetion = protetion, Reward = reward, Image = System.IO.Path.Combine(resource_paths.enemy_icon_Path, rank + ".png") });
-
-                //enemy_added.Add(value);
-                //enemy_field[value].ItemsSource = enemies_on_screen;
 
                 if (!enemy_added.Any(str => str == value))
                 {
@@ -279,6 +351,7 @@ namespace the_game
         private void Bots_clear()
         {
             enemy_added.Clear();
+            enemy_killed.Clear();
             for (int j = 0; j < enemy_field.Count; j++)
             {
                 if (enemy_field[j].Items != null)
@@ -299,6 +372,7 @@ namespace the_game
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
+            hero_attack_point = true;
             Listbox_update();
             Deselect(enemy_field.Count);
 
@@ -316,6 +390,7 @@ namespace the_game
 
         private void Go_to_next_wave()
         {
+            hero_attack_point = true;
             Listbox_update();
             Deselect(enemy_field.Count);
 
@@ -421,13 +496,16 @@ namespace the_game
 
                 if (enemy_health <= 0)
                 {
+                    enemy_killed.Add(target);
+
                     health_text_enemies[target].Text = Convert.ToString(0);
                     health_text_enemies[target].Visibility= Visibility.Hidden;
 
                     progress_bar_enemies[target].Value = 0;
                     progress_bar_enemies[target].Visibility= Visibility.Hidden;
 
-                    number_of_bots_killed += 1;
+                    number_of_bots_killed = enemy_killed.Count;
+                    //number_of_bots_killed += 1;
                     Animation_disappearing(enemy_field[target]);
                     target = -1;
                 }
@@ -436,6 +514,8 @@ namespace the_game
                     health_text_enemies[target].Text = Convert.ToString(enemy_health);
                     progress_bar_enemies[target].Value = enemy_health;
                 }
+                target = -1;
+                hero_attack_point = false;
             }
             //else
                 //MessageBox.Show("First select a goal");
