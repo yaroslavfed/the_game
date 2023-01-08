@@ -150,10 +150,10 @@ namespace the_game
             filenameW = "1" + Convert.ToString(weaponNum);
             filenameA = "2" + Convert.ToString(armorNum);
 
-            weaponNow.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, filenameW + ".jpg")));
+            weaponNow.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, filenameW + ".png")));
             armorNow.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, filenameA + ".jpg")));
 
-            img_weapon_donned.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, weaponDonned + ".jpg")));
+            img_weapon_donned.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, weaponDonned + ".png")));
             img_armor_donned.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, armorDonned + ".jpg")));
 
             access(buy, put, next, prev, weaponDonned, weaponNum, count, ownership, filenameW, w_subs, nums);

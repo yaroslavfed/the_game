@@ -96,7 +96,7 @@ namespace the_game
             weapon = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(4).First();
             protection = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(6).First();
 
-            weaponIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, weapon + ".jpg")));
+            weaponIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, weapon + ".png")));
             armorIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, protection + ".jpg")));
 
             if (selection == true)
@@ -150,7 +150,7 @@ namespace the_game
 
         private void ImageButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("ImageButton");
+            //MessageBox.Show("ImageButton");
         }
 
         public class Item
@@ -176,7 +176,7 @@ namespace the_game
                 Item dataItem = new()
                 {
                     number = index,
-                    itemImg = System.IO.Path.Combine(resource_paths.weaponPath, index + ".jpg")
+                    itemImg = System.IO.Path.Combine(resource_paths.weaponPath, index + ".png")
                 };
 
                 listView.Items.Add(dataItem);

@@ -234,7 +234,7 @@
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <Button x:Name="weaponButton" Style="{StaticResource ImageButtonStyle}" Click="weaponIcon_Click">
-                                    <Image x:Name="weaponIcon" Source="/test.jpg" Stretch="UniformToFill"/>
+                                    <Image x:Name="weaponIcon" Source="/test.jpg"/>
                                 </Button>
                             </Grid>
                             <Grid Background="#FF2C3238" Grid.Row="1"/>
@@ -247,7 +247,7 @@
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <Button x:Name="armorButton" Style="{StaticResource ImageButtonStyle}" Click="armorIcon_Click">
-                                    <Image x:Name="armorIcon" Source="/test.jpg" Stretch="UniformToFill"/>
+                                    <Image x:Name="armorIcon" Source="/test.jpg"/>
                                 </Button>
                             </Grid>
                             <Grid Background="#FF2C3238" Grid.Row="1"/>
@@ -259,7 +259,7 @@
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
-                                <Image x:Name="ddSpell" Source="/test.jpg" Stretch="UniformToFill"/>
+                                <Image x:Name="ddSpell" Source="/test.jpg"/>
                             </Grid>
                             <Grid Background="#FF2C3238" Grid.Row="1"/>
                         </Grid>
@@ -270,7 +270,7 @@
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
-                                <Image x:Name="healSpell" Source="/test.jpg" Stretch="UniformToFill"/>
+                                <Image x:Name="healSpell" Source="/test.jpg"/>
                             </Grid>
                             <Grid Background="#FF2C3238" Grid.Row="1"/>
                         </Grid>
