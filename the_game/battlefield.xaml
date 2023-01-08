@@ -65,15 +65,23 @@
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" x:Name="allies">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="101*"/>
+                        <ColumnDefinition Width="349*"/>
+                        <ColumnDefinition Width="101*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="101*"/>
+                        <RowDefinition Height="349*"/>
+                        <RowDefinition Height="101*"/>
                     </Grid.RowDefinitions>
+                    <Grid Grid.Column="1" Grid.Row="1" Margin="0,0,0,0">
+                        <StackPanel>
+                            <TextBlock x:Name="nickname_hero_0" TextAlignment="Center" Text="test" Margin="0,0,0,10" FontSize="18" FontWeight="Bold"/>
+                            <Image x:Name="img_hero_0" Height="200" Width="200" Margin="0,0,0,10"/>
+                            <ProgressBar x:Name="hero_health_bar_0" VerticalAlignment="Bottom" Height="10" Width="200" Foreground="#FF00B100" Margin="0,3,0,0"/>
+                            <TextBlock x:Name="hero_hp_0" TextAlignment="Center" VerticalAlignment="Bottom" Text="150" Margin="0,-9,0,0" FontSize="7" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>

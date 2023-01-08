@@ -55,6 +55,10 @@ namespace the_game
         bool haveDD = false;
         bool haveHeal = false;
 
+        double health_hero;
+        double damage_hero;
+        double protection_hero;
+
         string damageInfo;
         string protectionInfo;
         string healthInfo;
@@ -105,8 +109,21 @@ namespace the_game
             foto.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.iconPath, id + ".jpg")));
             wave_info.Text = "Волна " + wave;
 
-            //enemy_grid.AddRange(new Grid[] { E0, E1, E2, E3, E4, E5, E6, E7, E8 });
-            //progress_bar_enemies.AddRange(new TextBlock[] { hp0, E1, E2, E3, E4, E5, E6, E7, E8 });
+            health_hero = 100 + double.Parse(level) * 2;
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.inventoryPath, weapon + ".txt")))
+            {
+                damage_hero = double.Parse(sr.ReadLine());
+            }
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.inventoryPath, protection + ".txt")))
+            {
+                protection_hero = double.Parse(sr.ReadLine());
+            }
+
+            nickname_hero_0.Text = nickname;
+            img_hero_0.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.hero_icon_Path, "shooting_person.png")));
+            hero_hp_0.Text = Convert.ToString(health_hero);
+            hero_health_bar_0.Value = health_hero;
+            hero_health_bar_0.Maximum = health_hero;
 
             health_text_enemies.AddRange(new TextBlock[] { hp0, hp1, hp2, hp3, hp4, hp5, hp6, hp7, hp8 });
             progress_bar_enemies.AddRange(new ProgressBar[] { enemy_health_bar_0, enemy_health_bar_1, enemy_health_bar_2, enemy_health_bar_3, enemy_health_bar_4, enemy_health_bar_5, enemy_health_bar_6, enemy_health_bar_7, enemy_health_bar_8 });
@@ -399,7 +416,7 @@ namespace the_game
         {
             if(target != -1)
             {
-                enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health -= 100;
+                enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health -= damage_hero;
                 double enemy_health = enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Health;
 
                 if (enemy_health <= 0)
