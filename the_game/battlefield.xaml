@@ -329,7 +329,9 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <Button x:Name="attack_button" Click="attack_button_Click" Content="Attack" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"/>
+                        <Button x:Name="attack_button" Click="attack_button_Click" Content="Огонь" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="25,15,25,15" FontSize="30">
+                            
+                        </Button>
                     </Grid>
                 </Grid>
                 <Grid Grid.Column="1">
@@ -343,10 +345,14 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
-                            <Button x:Name="heal_button" Click="heal_button_Click" Content="Heal" HorizontalAlignment="Right" Margin="0,0,3,0" VerticalAlignment="Center" FontSize="50"/>
+                            <Button x:Name="heal_button" Click="heal_button_Click" Content="Аптечка" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Center" Padding="20,10,15,10" FontSize="30">
+                                
+                            </Button>
                         </Grid>
                         <Grid Grid.Column="1">
-                            <Button x:Name="dd_button" Click="dd_button_Click" Content="DD" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Center" FontSize="50"/>
+                            <Button x:Name="dd_button" Click="dd_button_Click" Content="Усиление" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="30" Padding="15,10,20,10">
+                                
+                            </Button>
                         </Grid>
                     </Grid>
                 </Grid>
