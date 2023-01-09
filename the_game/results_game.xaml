@@ -7,8 +7,12 @@
         mc:Ignorable="d"
         Title="results_game" Height="900" Width="1600" Loaded="Window_Loaded"
         WindowState="Maximized">
-    <Grid Margin="30">
-        <Grid.RowDefinitions>
+    <Grid Margin="80">
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Text="ИТОГ" TextAlignment="Center" FontSize="72" FontWeight="Bold" VerticalAlignment="Top" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+            <TextBlock x:Name="result_text" Grid.Row="0" Text="test_result"/>
+        </StackPanel>
+        <!--<Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -19,6 +23,6 @@
         <TextBlock x:Name="result_wave" Grid.Row="1" Text="test_wave"/>
         <TextBlock x:Name="result_reward" Grid.Row="2" Text="test_reward"/>
         <TextBlock x:Name="result_experience" Grid.Row="3" Text="test_experience"/>
-        <Button x:Name="exit" Grid.Row="4" Content="ok" Click="exit_Click"/>
+        <Button x:Name="exit" Grid.Row="4" Content="ok" Click="exit_Click"/>-->
     </Grid>
 </Window>

@@ -70,6 +70,7 @@ namespace the_game
 
         int total_reward;
         int total_exp;
+        int wave_record;
 
         double enemy_damage;
         double enemy_protection;
@@ -140,6 +141,10 @@ namespace the_game
             using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.inventoryPath, protection + ".txt")))
             {
                 protection_hero = double.Parse(sr.ReadLine());
+            }
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.user_record_Path, id + ".txt")))
+            {
+                wave_record = int.Parse(sr.ReadLine());
             }
 
             nickname_hero_0.Text = nickname;
@@ -249,14 +254,19 @@ namespace the_game
             if (exp_now + total_exp >= 100)
             {
                 modified_total_exp = total_exp - (100 - exp_now);
-                rewrite(int.Parse(level) + 1, 1);
-                rewrite(modified_total_exp, 2);
+                Rewrite(int.Parse(level) + 1, 1);
+                Rewrite(modified_total_exp, 2);
             }
             else
             {
-                rewrite(exp_now + total_exp, 2);
+                Rewrite(exp_now + total_exp, 2);
             }
-            rewrite(money_now + total_reward, 3);
+            Rewrite(money_now + total_reward, 3);
+
+            if(wave_record < wave)
+            {
+                Save_record(wave, 0);
+            }
 
             Thread.Sleep(1000);
             results_game results = new results_game(id, wave, total_reward, total_exp);
@@ -264,7 +274,32 @@ namespace the_game
             this.Close();
         }
 
-        private void rewrite(int moneyNow, int lineIndex)
+        private void Save_record(int new_record, int lineIndex)
+        {
+            string newValue = Convert.ToString(new_record);
+
+            string path = System.IO.Path.Combine(resource_paths.user_record_Path, id + ".txt");
+
+            int i = 0;
+            string tempPath = path + ".tmp";
+            using (StreamReader sr = new StreamReader(path)) // читаем
+            using (StreamWriter sw = new StreamWriter(tempPath)) // и сразу же пишем во временный файл
+            {
+                while (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine();
+                    if (lineIndex == i)
+                        sw.WriteLine(newValue);
+                    else
+                        sw.WriteLine(line);
+                    i++;
+                }
+            }
+            File.Delete(path); // удаляем старый файл
+            File.Move(tempPath, path); // переименовываем временный файл
+        }
+
+        private void Rewrite(int moneyNow, int lineIndex)
         {
             string newValue = Convert.ToString(moneyNow);
 
