@@ -65,6 +65,9 @@ namespace the_game
         double damage_hero;
         double protection_hero;
 
+        int money_now;
+        int exp_now;
+
         int total_reward;
         int total_exp;
 
@@ -118,10 +121,10 @@ namespace the_game
             {
                 nickname = sr.ReadLine();
                 level = sr.ReadLine();
-                string zero = sr.ReadLine();
-                zero = sr.ReadLine();
+                exp_now = int.Parse(sr.ReadLine());
+                money_now = int.Parse(sr.ReadLine());
                 weapon = sr.ReadLine();
-                zero = sr.ReadLine();
+                string zero = sr.ReadLine();
                 protection = sr.ReadLine();
             }
             nickname_info.Text = nickname;
@@ -240,11 +243,50 @@ namespace the_game
         private void deathInTime_Tick(object sender, EventArgs e)
         {
             deathInTime.Stop();
-            total_exp = wave * 100;
+            total_exp = wave * 10;
+
+            int modified_total_exp;
+            if (exp_now + total_exp >= 100)
+            {
+                modified_total_exp = total_exp - (100 - exp_now);
+                rewrite(int.Parse(level) + 1, 1);
+                rewrite(modified_total_exp, 2);
+            }
+            else
+            {
+                rewrite(exp_now + total_exp, 2);
+            }
+            rewrite(money_now + total_reward, 3);
+
             Thread.Sleep(1000);
             results_game results = new results_game(id, wave, total_reward, total_exp);
             results.Show();
             this.Close();
+        }
+
+        private void rewrite(int moneyNow, int lineIndex)
+        {
+            string newValue = Convert.ToString(moneyNow);
+
+            string path = System.IO.Path.Combine(resource_paths.userPath, id + ".txt");
+
+            int i = 0;
+            string tempPath = path + ".tmp";
+            using (StreamReader sr = new StreamReader(path)) // читаем
+            using (StreamWriter sw = new StreamWriter(tempPath)) // и сразу же пишем во временный файл
+            {
+                while (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine();
+                    if (lineIndex == i)
+                        sw.WriteLine(newValue);
+                    else
+                        sw.WriteLine(line);
+                    i++;
+                }
+            }
+            File.Delete(path); // удаляем старый файл
+            File.Move(tempPath, path); // переименовываем временный файл
         }
 
         private void gameInTime_Tick(object sender, EventArgs e)
