@@ -31,18 +31,6 @@
                     </Style>
                 </Button.Resources>
             </Button>
-            <!--<Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <TextBlock x:Name="result_text" Grid.Row="0" Text="test_result"/>
-        <TextBlock x:Name="result_wave" Grid.Row="1" Text="test_wave"/>
-        <TextBlock x:Name="result_reward" Grid.Row="2" Text="test_reward"/>
-        <TextBlock x:Name="result_experience" Grid.Row="3" Text="test_experience"/>
-        <Button x:Name="exit" Grid.Row="4" Content="ok" Click="exit_Click"/>-->
         </Grid>
     </Grid>
 </Window>
