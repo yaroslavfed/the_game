@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Runtime.Serialization;
 using System.Security.Policy;
 using System.Text;
@@ -47,6 +48,7 @@ namespace the_game
         readonly string id;
 
         bool hero_attack_point = true;
+        bool timer_attack_point = true;
 
         string nickname;
         string level;
@@ -103,7 +105,10 @@ namespace the_game
         System.Windows.Threading.DispatcherTimer healthInTime = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer gameInTime = new System.Windows.Threading.DispatcherTimer();
 
+        //BackgroundWorker time_worker = new BackgroundWorker();
         DoubleAnimation Animation;
+
+        private BackgroundWorker time_worker = null;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -173,7 +178,7 @@ namespace the_game
             healthInTime.Start();
 
             gameInTime.Tick += new EventHandler(gameInTime_Tick);
-            gameInTime.Interval = new TimeSpan(1);
+            gameInTime.Interval = new TimeSpan(10);
             gameInTime.Start();
         }
 
@@ -224,12 +229,56 @@ namespace the_game
         {
             if (hero_attack_point)
             {
+                if (timer_attack_point)
+                {
+                    //timer_attack_point = false;
+                    //int time_to_text_timer = 59;
+                    //step_bar_timer.Value = double.MaxValue;
+                    //step_text_timer.Text = "00:" + time_to_text_timer;
 
+                    //time_worker = new BackgroundWorker();
+                    //time_worker.WorkerSupportsCancellation = true;
+                    //time_worker.WorkerReportsProgress = true;
+                    //time_worker.DoWork += time_worker_DoWork;
+                    //time_worker.ProgressChanged += time_worker_ProgressChanged;
+                    //time_worker.RunWorkerCompleted += time_worker_RunWorkerCompleted;
+
+                    //time_worker.RunWorkerAsync(59);
+                }
             }
             else
             {
                 enemy_attack();
             }
+        }
+
+        void time_worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            int max = (int)e.Argument;
+            for (int i = max; i >= 0; i--)
+            {
+                if (time_worker.CancellationPending == true)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                int progressPercentage = Convert.ToInt32(((double)i / (double)max) * 100.0);
+                (sender as BackgroundWorker).ReportProgress(progressPercentage, i);
+                Thread.Sleep(1000);
+            }
+        }
+
+        void time_worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            step_bar_timer.Value = e.ProgressPercentage;
+            if (e.UserState != null)
+                step_text_timer.Text = "00:" + e.UserState;
+        }
+
+        void time_worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            hero_attack_point = false;
+            timer_attack_point = true;
         }
 
         private double Change_damage(double damage, double protection)
@@ -392,7 +441,7 @@ namespace the_game
         {
             if(health_hero / max_health_hero <= 0.5 && health_hero > 0)
             {
-                health_hero *= 1.8;
+                health_hero *= 1.9;
             }
         }
 
@@ -543,6 +592,7 @@ namespace the_game
                     health_text_enemies[target].Text = Convert.ToString(enemy_health);
                     progress_bar_enemies[target].Value = enemy_health;
                 }
+                //time_worker.CancelAsync();
                 target = -1;
                 Deselect(target);
                 hero_attack_point = false;

@@ -95,7 +95,11 @@
                     <Grid Grid.Row="1">
                         <Button x:Name="exit" Click="exit_Click" Content="Exit" HorizontalAlignment="Center" VerticalAlignment="Center" Height="56" Width="168" FontSize="22"/>
                     </Grid>
-                    <TextBlock x:Name="target_info" HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="null" VerticalAlignment="Top" Width="120" FontSize="20"/>
+                    <StackPanel Grid.Row="2">
+                        <TextBlock x:Name="target_info" HorizontalAlignment="Center" TextAlignment="Center"  TextWrapping="Wrap" Text="null" Width="120" FontSize="20"/>
+                        <TextBlock x:Name="step_text_timer" HorizontalAlignment="Center" TextAlignment="Center" Text="00:59" FontSize="20" FontWeight="Bold"/>
+                        <ProgressBar x:Name="step_bar_timer" Height="10" Width="100" Minimum="0" Maximum="59" Value="59"/>
+                    </StackPanel>
                 </Grid>
                 <Grid Grid.Column="2" x:Name="enemies">
                     <Grid.ColumnDefinitions>
