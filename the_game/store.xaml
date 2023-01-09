@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:the_game"
         mc:Ignorable="d"
-        Title="store" Height="450" Width="800" Loaded="Window_Loaded"
+        Title="store" Height="900" Width="1600" Loaded="Window_Loaded"
         WindowState="Maximized">
     <Window.Resources>
         <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
@@ -29,7 +29,7 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Margin="20,20,20,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="13*"/>
                 <ColumnDefinition Width="27*"/>
@@ -37,7 +37,7 @@
                 <ColumnDefinition Width="13*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <Button Content="&lt;-" x:Name="exitButton" Click="exitButton_Click" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="25,10,25,10" FontFamily="MS Gothic" FontSize="22" FontWeight="Bold">
+                <Button Content="&lt;-" x:Name="exitButton" Click="exitButton_Click" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="40,20,40,20" FontFamily="MS Gothic" FontSize="22" FontWeight="Bold">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="7"/>
@@ -51,14 +51,14 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <TextBlock x:Name="name" HorizontalAlignment="Left" Padding="0,0,0,0" Margin="10,0,0,0" TextWrapping="Wrap" Text="PLAYER" VerticalAlignment="Bottom" FontFamily="Stencil" FontWeight="Bold" FontSize="20" Foreground="#FFB3B3B3"/>
+                    <TextBlock x:Name="name" HorizontalAlignment="Left" Padding="0,0,0,0" Margin="10,0,0,0" TextWrapping="Wrap" Text="PLAYER" VerticalAlignment="Bottom" FontFamily="Stencil" FontWeight="Bold" FontSize="40" Foreground="#FFB3B3B3"/>
                 </Grid>
                 <Grid Grid.Row="1">
-                    <TextBlock x:Name="level" HorizontalAlignment="Left" Padding="0,0,0,0" Margin="10,0,0,0" TextWrapping="Wrap" Text="УРОВЕНЬ test" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" FontSize="13" Foreground="#FFB3B3B3"/>
+                    <TextBlock x:Name="level" HorizontalAlignment="Left" Padding="0,0,0,0" Margin="10,0,0,0" TextWrapping="Wrap" Text="УРОВЕНЬ test" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" FontSize="26" Foreground="#FFB3B3B3"/>
                 </Grid>
             </Grid>
             <Grid   Grid.Column="2">
-                <TextBlock x:Name="cash" HorizontalAlignment="Right" Padding="0,0,0,0" Margin="0,0,10,0" TextWrapping="Wrap" Text="test $" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" FontFamily="Impact" Foreground="#FFB3B3B3"/>
+                <TextBlock x:Name="cash" HorizontalAlignment="Right" Padding="0,0,0,0" Margin="0,0,10,0" TextWrapping="Wrap" Text="test $" VerticalAlignment="Center" FontSize="48" FontWeight="Bold" FontFamily="Impact" Foreground="#FFB3B3B3"/>
             </Grid>
         </Grid>
         <Grid   Grid.Row="1">
@@ -113,7 +113,7 @@
                         <ColumnDefinition Width="9*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1">
-                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="test" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3"/>
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="ОРУЖИЕ" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="40" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3"/>
                     </Grid>
                 </Grid>
                 <Grid   Grid.Row="1">
@@ -124,7 +124,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
                         <Button x:Name="prev" Click="prev_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Height="40" Width="25" Margin="0,0,0,0" Padding="0,0,0,0" Background="{x:Null}" Opacity="0.65" BorderBrush="{x:Null}">
-                            <TextBlock Text="&lt;" VerticalAlignment="Center" FontSize="22" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
+                            <TextBlock Text="&lt;" VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
                         </Button>
                     </Grid>
                     <Grid Margin="7,7,7,7" Grid.Column="1" Background="#FF14171C" Opacity="0.65">
@@ -141,7 +141,7 @@
                     </Grid>
                     <Grid Grid.Column="2">
                         <Button x:Name="next" Click="next_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Height="40" Width="25" Margin="0,0,0,0" Padding="0,0,0,0" Background="{x:Null}" BorderBrush="{x:Null}">
-                            <TextBlock Text=">" VerticalAlignment="Center" FontSize="22" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
+                            <TextBlock Text=">" VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
                         </Button>
                     </Grid>
                 </Grid>
@@ -158,10 +158,10 @@
                             <RowDefinition Height="33*"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
-                            <TextBlock Text="ЦЕНА" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3"/>
+                            <TextBlock Text="ЦЕНА" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3" FontSize="24"/>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <TextBlock x:Name="wCost" Text="test $" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Foreground="#FFB3B3B3"/>
+                            <TextBlock x:Name="wCost" Text="test $" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" Foreground="#FFB3B3B3"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="2" Margin="7,0,0,0">
@@ -170,10 +170,10 @@
                             <RowDefinition Height="33*"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
-                            <TextBlock Text="УРОН" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3"/>
+                            <TextBlock Text="УРОН" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3" FontSize="24"/>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <TextBlock Text="test" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Foreground="#FFB3B3B3"/>
+                            <TextBlock Text="test" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" Foreground="#FFB3B3B3"/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -185,7 +185,7 @@
                         <ColumnDefinition Width="18*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1" Margin="0,10,5,0">
-                        <Button x:Name="buy" Click="buy_Click" Content="КУПИТЬ" Padding="5,5,5,5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                        <Button x:Name="buy" Click="buy_Click" Content="КУПИТЬ" Padding="5,5,5,5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="24">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="5"/>
@@ -194,7 +194,7 @@
                         </Button>
                     </Grid>
                     <Grid Grid.Column="2" Margin="5,10,0,0">
-                        <Button Content="НАДЕТЬ" x:Name="put" Click="put_Click"  Padding="5,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                        <Button Content="НАДЕТЬ" x:Name="put" Click="put_Click"  Padding="5,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="24">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="5"/>
@@ -218,7 +218,7 @@
                         <ColumnDefinition Width="9*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1">
-                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="test" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3"/>
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="БРОНЯ" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="40" FontFamily="Segoe UI Black" Foreground="#FFB3B3B3"/>
                     </Grid>
                 </Grid>
                 <Grid   Grid.Row="1">
@@ -229,7 +229,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
                         <Button x:Name="prevA" Click="prevA_Click" HorizontalAlignment="Right" VerticalAlignment="Center" Height="40" Width="25" Margin="0,0,0,0" Padding="0,0,0,0" Background="{x:Null}" BorderBrush="{x:Null}">
-                            <TextBlock Text="&lt;" VerticalAlignment="Center" FontSize="22" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
+                            <TextBlock Text="&lt;" VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
                         </Button>
                     </Grid>
                     <Grid Margin="7,7,7,7" Grid.Column="1" Background="#FF14171C" Opacity="0.65">
@@ -246,7 +246,7 @@
                     </Grid>
                     <Grid Grid.Column="2">
                         <Button x:Name="nextA" Click="nextA_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Height="40" Width="25" Margin="0,0,0,0" Padding="0,0,0,0" Background="{x:Null}" BorderBrush="{x:Null}">
-                            <TextBlock Text=">" VerticalAlignment="Center" FontSize="22" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
+                            <TextBlock Text=">" VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,0" Foreground="#FFB3B3B3"/>
                         </Button>
                     </Grid>
                 </Grid>
@@ -263,10 +263,10 @@
                             <RowDefinition Height="33*"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
-                            <TextBlock Text="ЦЕНА" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3"/>
+                            <TextBlock Text="ЦЕНА" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3" FontSize="24"/>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <TextBlock x:Name="aCost" Text="test $" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Foreground="#FFB3B3B3"/>
+                            <TextBlock x:Name="aCost" Text="test $" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" Foreground="#FFB3B3B3"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="2" Margin="7,0,0,0">
@@ -275,10 +275,10 @@
                             <RowDefinition Height="33*"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
-                            <TextBlock Text="БРОНЯ" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3"/>
+                            <TextBlock Text="ЗАЩИТА" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFB3B3B3" FontSize="24"/>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <TextBlock Text="test" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Foreground="#FFB3B3B3"/>
+                            <TextBlock Text="test" TextAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" Foreground="#FFB3B3B3"/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -290,7 +290,7 @@
                         <ColumnDefinition Width="18*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1" Margin="0,10,5,0">
-                        <Button x:Name="buyA" Click="buyA_Click" Padding="5,5,5,5" Content="КУПИТЬ" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                        <Button x:Name="buyA" Click="buyA_Click" Padding="5,5,5,5" Content="КУПИТЬ" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="24">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="5"/>
@@ -299,7 +299,7 @@
                         </Button>
                     </Grid>
                     <Grid Grid.Column="2" Margin="5,10,0,0">
-                        <Button x:Name="putA" Click="putA_Click" Content="НАДЕТЬ" Padding="5,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}">
+                        <Button x:Name="putA" Click="putA_Click" Content="НАДЕТЬ" Padding="5,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF14171C" Opacity="0.65" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="24">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="5"/>
