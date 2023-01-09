@@ -343,10 +343,10 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
-                            <Button Content="Heal" HorizontalAlignment="Right" Margin="0,0,3,0" VerticalAlignment="Center" FontSize="50"/>
+                            <Button x:Name="heal_button" Click="heal_button_Click" Content="Heal" HorizontalAlignment="Right" Margin="0,0,3,0" VerticalAlignment="Center" FontSize="50"/>
                         </Grid>
                         <Grid Grid.Column="1">
-                            <Button Content="DD" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Center" FontSize="50"/>
+                            <Button x:Name="dd_button" Click="dd_button_Click" Content="DD" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Center" FontSize="50"/>
                         </Grid>
                     </Grid>
                 </Grid>

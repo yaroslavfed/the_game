@@ -28,9 +28,27 @@ namespace the_game
 {
     public partial class battlefield : Window
     {
+        private BackgroundWorker heal_worker = null;
+        private BackgroundWorker dd_worker = null;
+
         public battlefield(string id)
         {
             InitializeComponent();
+
+            heal_worker = new BackgroundWorker();
+            heal_worker.WorkerSupportsCancellation = true;
+            heal_worker.WorkerReportsProgress = true;
+            heal_worker.DoWork += heal_worker_DoWork;
+            heal_worker.ProgressChanged += heal_worker_ProgressChanged;
+            heal_worker.RunWorkerCompleted += heal_worker_RunWorkerCompleted;
+
+            dd_worker = new BackgroundWorker();
+            dd_worker.WorkerSupportsCancellation = true;
+            dd_worker.WorkerReportsProgress = true;
+            dd_worker.DoWork += dd_worker_DoWork;
+            dd_worker.ProgressChanged += dd_worker_ProgressChanged;
+            dd_worker.RunWorkerCompleted += dd_worker_RunWorkerCompleted;
+
             this.id = id;
         }
 
@@ -57,8 +75,8 @@ namespace the_game
         string weapon;
         string protection;
 
-        bool haveDD = false;
-        bool haveHeal = false;
+        bool haveDD;
+        bool haveHeal;
 
         double health_hero;
         double max_health_hero;
@@ -132,6 +150,28 @@ namespace the_game
             level_info.Text = "Уровень " + level;
             foto.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.iconPath, id + ".jpg")));
             wave_info.Text = "Волна " + wave;
+
+            if (int.Parse(level) >= 25)
+            {
+                haveHeal = true;
+                heal_button.IsEnabled = true;
+            }
+            else
+            {
+                haveHeal = false;
+                heal_button.IsEnabled = false;
+            }
+
+            if (int.Parse(level) >= 50)
+            {
+                haveDD = true;
+                dd_button.IsEnabled = true;
+            }
+            else
+            {
+                haveDD = false;
+                dd_button.IsEnabled = false;
+            }
 
             health_hero = 100 + double.Parse(level) * 4;
             using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.inventoryPath, weapon + ".txt")))
@@ -248,6 +288,8 @@ namespace the_game
         private void deathInTime_Tick(object sender, EventArgs e)
         {
             deathInTime.Stop();
+            heal_worker.CancelAsync();
+            dd_worker.CancelAsync();
             total_exp = wave * 10;
 
             int modified_total_exp;
@@ -705,8 +747,94 @@ namespace the_game
             switch (e.Key)
             {
                 case Key.A: attack_button_Click(attack_button, null); break;
-                case Key.Z: target_info.FontSize += 1; break;
-                case Key.X: target_info.FontSize -= 1; break;
+                case Key.Z: heal_button_Click(heal_button, null); break;
+                case Key.X: dd_button_Click(dd_button, null); break;
+            }
+        }        
+
+        private void heal_button_Click(object sender, RoutedEventArgs e)
+        {
+            if (health_hero <= max_health_hero * 0.5 && haveHeal && heal_button.IsEnabled)
+            {
+                health_hero *= 1.5;
+                heal_button.IsEnabled = false;
+                heal_worker.RunWorkerAsync();
+            }
+        }
+
+        void heal_worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            for (int i = 0; i <= 100; i++)
+            {
+                if (heal_worker.CancellationPending == true)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                heal_worker.ReportProgress(i);
+                System.Threading.Thread.Sleep(100);
+            }
+        }
+
+        void heal_worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            heal_button.Content = e.ProgressPercentage + " %";
+        }
+
+        void heal_worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                heal_button.Foreground = Brushes.Red;
+                heal_button.Content = "Недоступно";
+            }
+            else
+            {
+                heal_button.IsEnabled = true;
+                heal_button.Content = "Аптечка";
+            }
+        }
+
+        private void dd_button_Click(object sender, RoutedEventArgs e)
+        {
+            if (haveDD && dd_button.IsEnabled)
+            {
+                damage_hero *= 1.1;
+                dd_button.IsEnabled = false;
+                dd_worker.RunWorkerAsync();
+            }
+        }
+
+        void dd_worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            for (int i = 0; i <= 100; i++)
+            {
+                if (dd_worker.CancellationPending == true)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                dd_worker.ReportProgress(i);
+                System.Threading.Thread.Sleep(500);
+            }
+        }
+
+        void dd_worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            dd_button.Content = e.ProgressPercentage + " %";
+        }
+
+        void dd_worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                dd_button.Foreground = Brushes.Red;
+                dd_button.Content = "Недоступно";
+            }
+            else
+            {
+                dd_button.IsEnabled = true;
+                dd_button.Content = "Усиление";
             }
         }
     }
