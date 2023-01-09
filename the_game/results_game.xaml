@@ -1,0 +1,24 @@
+﻿<Window x:Class="the_game.results_game"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:the_game"
+        mc:Ignorable="d"
+        Title="results_game" Height="900" Width="1600" Loaded="Window_Loaded"
+        WindowState="Maximized">
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="result_text" Grid.Row="0" Text="test_result"/>
+        <TextBlock x:Name="result_wave" Grid.Row="1" Text="test_wave"/>
+        <TextBlock x:Name="result_reward" Grid.Row="2" Text="test_reward"/>
+        <TextBlock x:Name="result_experience" Grid.Row="3" Text="test_experience"/>
+        <Button x:Name="exit" Grid.Row="4" Content="ok" Click="exit_Click"/>
+    </Grid>
+</Window>

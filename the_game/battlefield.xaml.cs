@@ -66,6 +66,7 @@ namespace the_game
         double protection_hero;
 
         int total_reward;
+        int total_exp;
 
         double enemy_damage;
         double enemy_protection;
@@ -104,6 +105,7 @@ namespace the_game
         System.Windows.Threading.DispatcherTimer attackInTime = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer healthInTime = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer gameInTime = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer deathInTime = new System.Windows.Threading.DispatcherTimer();
 
         //BackgroundWorker time_worker = new BackgroundWorker();
         DoubleAnimation Animation;
@@ -152,10 +154,12 @@ namespace the_game
 
             enemy_field.AddRange(new ListBox[] { enemy0, enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8 });
             enemies_on_screen_nums.AddRange(new ObservableCollection<Enemy_person>[] { enemies_on_screen0, enemies_on_screen1, enemies_on_screen2, enemies_on_screen3, enemies_on_screen4, enemies_on_screen5, enemies_on_screen6, enemies_on_screen7, enemies_on_screen8 });
-            
+
+            deathInTime.Tick += new EventHandler(deathInTime_Tick);
+            deathInTime.Interval = new TimeSpan(1000);
+            //deathInTime.Start();
 
             Bots_render(2);
-
             Timers_start();
         }
 
@@ -178,7 +182,7 @@ namespace the_game
             healthInTime.Start();
 
             gameInTime.Tick += new EventHandler(gameInTime_Tick);
-            gameInTime.Interval = new TimeSpan(10);
+            gameInTime.Interval = new TimeSpan(1);
             gameInTime.Start();
         }
 
@@ -223,28 +227,46 @@ namespace the_game
         {
             hero_hp_0.Text = Convert.ToString(health_hero);
             hero_health_bar_0.Value = health_hero;
+
+            if (health_hero <= 0)
+            {
+                hero_hp_0.Text = "0";
+                hero_health_bar_0.Value = 0;
+                Timers_stop();
+                deathInTime.Start();
+            }
+        }
+
+        private void deathInTime_Tick(object sender, EventArgs e)
+        {
+            deathInTime.Stop();
+            total_exp = wave * 100;
+            Thread.Sleep(1000);
+            results_game results = new results_game(id, wave, total_reward, total_exp);
+            results.Show();
+            this.Close();
         }
 
         private void gameInTime_Tick(object sender, EventArgs e)
         {
             if (hero_attack_point)
             {
-                if (timer_attack_point)
-                {
-                    //timer_attack_point = false;
-                    //int time_to_text_timer = 59;
-                    //step_bar_timer.Value = double.MaxValue;
-                    //step_text_timer.Text = "00:" + time_to_text_timer;
+                //if (timer_attack_point)
+                //{
+                //    timer_attack_point = false;
+                //    int time_to_text_timer = 59;
+                //    step_bar_timer.Value = double.MaxValue;
+                //    step_text_timer.Text = "00:" + time_to_text_timer;
 
-                    //time_worker = new BackgroundWorker();
-                    //time_worker.WorkerSupportsCancellation = true;
-                    //time_worker.WorkerReportsProgress = true;
-                    //time_worker.DoWork += time_worker_DoWork;
-                    //time_worker.ProgressChanged += time_worker_ProgressChanged;
-                    //time_worker.RunWorkerCompleted += time_worker_RunWorkerCompleted;
+                //    time_worker = new BackgroundWorker();
+                //    time_worker.WorkerSupportsCancellation = true;
+                //    time_worker.WorkerReportsProgress = true;
+                //    time_worker.DoWork += time_worker_DoWork;
+                //    time_worker.ProgressChanged += time_worker_ProgressChanged;
+                //    time_worker.RunWorkerCompleted += time_worker_RunWorkerCompleted;
 
-                    //time_worker.RunWorkerAsync(59);
-                }
+                //    time_worker.RunWorkerAsync(59);
+                //}
             }
             else
             {
