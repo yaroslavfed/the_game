@@ -53,6 +53,9 @@
                         </Grid>
                     </Grid>
                 </Grid>
+                <Grid Grid.Column="1">
+                    <Button x:Name="exit1" Click="exit_Click" Content="Выход" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="100" FontSize="20"/>
+                </Grid>
                 <Grid Grid.Column="2">
                     <TextBlock x:Name="wave_info" Padding="0,0,50,0" Text="Wave: 5" FontSize="45" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 </Grid>
@@ -83,7 +86,7 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="1" Visibility="Hidden">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="80*"/>
                         <RowDefinition Height="79*"/>
@@ -320,7 +323,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -328,6 +331,12 @@
                     <Grid Grid.Column="0">
                         <Button x:Name="attack_button" Click="attack_button_Click" Content="Attack" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"/>
                     </Grid>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
