@@ -16,25 +16,28 @@ namespace the_game
 {
     public partial class results_game : Window
     {
-        public results_game(string id, int wave, int total_reward, int total_exp)
+        public results_game(string id, int wave, int total_reward, int total_exp, string weapon, string protection)
         {
             InitializeComponent();
             this.id = id;
             this.wave = wave;
             this.total_reward = total_reward;
             this.total_exp = total_exp;
+            this.weapon = weapon;
+            this.protection = protection;
         }
         readonly string id;
         readonly int wave;
         readonly int total_reward;
         readonly int total_exp;
+        readonly string weapon;
+        readonly string protection;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            result_text.Text = string.Format("Боец ты продержался {0} волн и заработал {1} монет, прикупи снаряжение получше и возвращайся за новыми рекордами", wave, total_reward);
-            result_wave.Text = wave.ToString();
-            result_reward.Text = total_reward.ToString();
-            result_experience.Text = total_exp.ToString();
+            result_text.Text = string.Format("Боец, ты смог продержаться {0} волн, подмога уже на подходе.\nПолучай свою награду: {1} монет и {2} опыта.", wave, total_reward, total_exp);
+            weapon_img.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, weapon + ".png")));
+            armor_img.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, protection + ".jpg")));
         }
 
         private void exit_Click(object sender, RoutedEventArgs e)

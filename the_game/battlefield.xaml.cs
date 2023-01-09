@@ -269,7 +269,7 @@ namespace the_game
             }
 
             Thread.Sleep(1000);
-            results_game results = new results_game(id, wave, total_reward, total_exp);
+            results_game results = new results_game(id, wave, total_reward, total_exp, weapon, protection);
             results.Show();
             this.Close();
         }
