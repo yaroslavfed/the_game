@@ -67,6 +67,10 @@ namespace the_game
             healthInfo = Convert.ToString(100 + Convert.ToInt32(levelNow) * 4);
             health.Text = healthInfo;
 
+            int experience_left = 100 - int.Parse(exp);
+            experience_left_text.Text = String.Format("До следующего уровня осталось {0} опыта", experience_left);
+            experience_left_bar.Value = int.Parse(exp);
+
             listView.ItemsSource = null;
             listView.Items.Clear();
 

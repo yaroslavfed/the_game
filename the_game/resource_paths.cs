@@ -19,6 +19,7 @@ namespace the_game
         public static readonly string spellsPath = System.IO.Directory.GetCurrentDirectory() + @"\img\spells\";
         public static readonly string inventoryPath = System.IO.Directory.GetCurrentDirectory() + @"\inventory\";
         public static readonly string media_back_path = System.IO.Directory.GetCurrentDirectory() + @"\background_video\";
+        public static readonly string audio_back_path = System.IO.Directory.GetCurrentDirectory() + @"\background_audio\";
         public static readonly string user_record_Path = System.IO.Directory.GetCurrentDirectory() + @"\records\";
     }
 }

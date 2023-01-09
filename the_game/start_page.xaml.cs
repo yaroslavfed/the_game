@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +27,8 @@ namespace the_game
         string ID = "";
 
         bool save = false;
+
+        SoundPlayer click_sound = new SoundPlayer();
 
         public start_page()
         {
@@ -63,10 +66,9 @@ namespace the_game
                     }
                 }
             }
+            click_sound.SoundLocation = System.IO.Path.Combine(resource_paths.audio_back_path, "click.wav");
+            click_sound.Load();
         }
-
-        //person.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.hero_icon_Path, "start_page_person.png")));
-        //person.Source = null;
 
         private void authorized_Tick(object sender, EventArgs e)
         {
@@ -87,8 +89,6 @@ namespace the_game
                 to_game.Opacity = 0.4;
                 nickname.Content = "";
 
-                //panel1.Visibility = Visibility.Visible;
-                //panel2.Visibility = Visibility.Hidden;
                 panel3.Visibility = Visibility.Hidden;
                 person.Source = null;
             }
@@ -123,41 +123,49 @@ namespace the_game
 
         private void to_game_MouseEnter(object sender, MouseEventArgs e)
         {
+            click_sound.Play();
             to_game.Opacity = 0.65;
         }
 
         private void to_game_MouseLeave(object sender, MouseEventArgs e)
         {
+            click_sound.Stop();
             to_game.Opacity = 1.0;
         }
 
         private void to_settings_MouseEnter(object sender, MouseEventArgs e)
         {
+            click_sound.Play();
             to_settings.Opacity = 0.65;
         }
 
         private void to_settings_MouseLeave(object sender, MouseEventArgs e)
         {
+            click_sound.Stop();
             to_settings.Opacity = 1.0;
         }
 
         private void to_info_about_us_MouseEnter(object sender, MouseEventArgs e)
         {
+            click_sound.Play();
             to_info_about_us.Opacity = 0.65;
         }
 
         private void to_info_about_us_MouseLeave(object sender, MouseEventArgs e)
         {
+            click_sound.Stop();
             to_info_about_us.Opacity = 1.0;
         }
 
         private void to_exit_MouseEnter(object sender, MouseEventArgs e)
         {
+            click_sound.Play();
             to_exit.Opacity = 0.65;
         }
 
         private void to_exit_MouseLeave(object sender, MouseEventArgs e)
         {
+            click_sound.Stop();
             to_exit.Opacity = 1.0;
         }
 
@@ -170,9 +178,6 @@ namespace the_game
             string path = System.IO.Path.Combine(resource_paths.docPath, "logged.txt");
             string createText = "false" + Environment.NewLine;
             File.WriteAllText(path, createText);
-
-            //startGame.IsEnabled = false;
-            //nickname.Content = "";
         }
 
         #region Registering a new user

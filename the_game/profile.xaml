@@ -61,7 +61,7 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="2" Margin="0,0,0,0">
                     <!-- Кнопка входа в магазин -->
-                    <Button Margin="7,7,7,7" Content="Store" Click="store_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="26">
+                    <Button Margin="7,7,7,7" Content="Магазин" Click="store_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="23">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="6"/>
@@ -71,7 +71,7 @@
                 </Grid>
                 <Grid Grid.Row="3" Margin="0,0,0,0">
                     <!-- Кнопка выхода -->
-                    <Button x:Name="exit" Margin="7,7,7,7" Content="Home" Click="exit_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="26">
+                    <Button x:Name="exit" Margin="7,7,7,7" Content="Назад" Click="exit_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="26">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="6"/>
@@ -81,7 +81,7 @@
                 </Grid>
                 <Grid Grid.Row="1" Margin="0,0,0,0">
                     <!-- Кнопка играть -->
-                    <Button x:Name="to_map" Margin="7,7,7,7" Content="Map" Click="to_map_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="26">
+                    <Button x:Name="to_map" Margin="7,7,7,7" Content="Играть" Click="to_map_Click" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontSize="23">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="6"/>
@@ -139,13 +139,13 @@
                                 <RowDefinition Height="6*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Column="1" Grid.Row="1">
-                                <Button x:Name="profile_icon_change_button" Click="profile_icon_change_button_Click" Opacity="0.85" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="#FF14171C">
+                                <!--<Button x:Name="profile_icon_change_button" Click="profile_icon_change_button_Click" Opacity="0.85" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="#FF14171C">
                                     <Button.Resources>
                                         <Style TargetType="Border">
                                             <Setter Property="CornerRadius" Value="5,0,0,0"/>
                                         </Style>
                                     </Button.Resources>
-                                </Button>
+                                </Button>-->
                             </Grid>
                         </Grid>
                     </Grid>
@@ -165,7 +165,13 @@
                 <UniformGrid Grid.Row="1" Rows="1" Columns="3" Margin="3,3,3,3">
                     <!-- Блоки -->
                     <Grid Margin="0,0,2,0" Background="#FF14171C" Opacity="0.65">
-                        <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="СКОРО" VerticalAlignment="Center" FontSize="34" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,10,30,10">
+                            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,20" Text="ПРОГРЕСС" VerticalAlignment="Bottom" FontSize="28" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+                            <ProgressBar x:Name="experience_left_bar" Value="100" Foreground="#FF4B98FF" Margin="0,0,0,20" Height="6"/>
+                            <TextBlock x:Name="experience_left_text" Text="До следующего уровня осталось 50 опыта" TextAlignment="Center" TextWrapping="WrapWithOverflow" FontFamily="Bauhaus 93" Foreground="#FFB3B3B3" FontSize="22"/>
+                            
+                        </StackPanel>
+                        <!--<TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="СКОРО" VerticalAlignment="Center" FontSize="34" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>-->
                     </Grid>
                     <!-- Левый -->
                     <Grid Margin="2,0,2,0" Background="#FF14171C" Opacity="0.65">
