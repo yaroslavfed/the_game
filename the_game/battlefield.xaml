@@ -79,7 +79,7 @@
                             <TextBlock x:Name="nickname_hero_0" TextAlignment="Center" Text="test" Margin="0,0,0,10" FontSize="18" FontWeight="Bold"/>
                             <Image x:Name="img_hero_0" Height="200" Width="200" Margin="0,0,0,10"/>
                             <ProgressBar x:Name="hero_health_bar_0" VerticalAlignment="Bottom" Height="10" Width="200" Foreground="#FF00B100" Margin="0,3,0,0"/>
-                            <TextBlock x:Name="hero_hp_0" TextAlignment="Center" VerticalAlignment="Bottom" Text="150" Margin="0,-9,0,0" FontSize="7" FontWeight="Bold"/>
+                            <TextBlock x:Name="hero_hp_0" TextAlignment="Center" VerticalAlignment="Bottom" Text="150" FontSize="7" FontWeight="Bold"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -124,12 +124,12 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
-                                            <!--<ProgressBar x:Name="enemy_health_bar_0" Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>-->
+                                            <!--<ProgressBar x:Name="enemy_health_bar_0" Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <ProgressBar x:Name="enemy_health_bar_0" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="#FFB00606" Margin="0,3,0,0"/>
+                            <ProgressBar x:Name="enemy_health_bar_0" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
                             <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp0" Text="150" Visibility="Hidden"/>
                         </StackPanel>
                     </Grid>
@@ -146,12 +146,12 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
-                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>-->
+                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <ProgressBar x:Name="enemy_health_bar_1" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="#FFB00606" Margin="0,3,0,0"/>
+                            <ProgressBar x:Name="enemy_health_bar_1" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
                             <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp1" Text="100" Visibility="Hidden"/>
                         </StackPanel>
                     </Grid>
@@ -168,12 +168,12 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
-                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>-->
+                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <ProgressBar x:Name="enemy_health_bar_2" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="#FFB00606" Margin="0,3,0,0"/>
+                            <ProgressBar x:Name="enemy_health_bar_2" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
                             <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp2" Text="100" Visibility="Hidden"/>
                         </StackPanel>
                     </Grid>
@@ -190,12 +190,12 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
-                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>-->
+                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <ProgressBar x:Name="enemy_health_bar_3" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="#FFB00606" Margin="0,3,0,0"/>
+                            <ProgressBar x:Name="enemy_health_bar_3" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
                             <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp3" Text="100" Visibility="Hidden"/>
                         </StackPanel>
                     </Grid>
@@ -212,12 +212,12 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
-                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>-->
+                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <ProgressBar x:Name="enemy_health_bar_4" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="#FFB00606" Margin="0,3,0,0"/>
+                            <ProgressBar x:Name="enemy_health_bar_4" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
                             <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp4" Text="100" Visibility="Hidden"/>
                         </StackPanel>
                     </Grid>
@@ -234,12 +234,12 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
-                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>-->
+                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <ProgressBar x:Name="enemy_health_bar_5" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="#FFB00606" Margin="0,3,0,0"/>
+                            <ProgressBar x:Name="enemy_health_bar_5" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
                             <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp5" Text="100" Visibility="Hidden"/>
                         </StackPanel>
                     </Grid>
@@ -256,12 +256,12 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
-                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>-->
+                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <ProgressBar x:Name="enemy_health_bar_6" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="#FFB00606" Margin="0,3,0,0"/>
+                            <ProgressBar x:Name="enemy_health_bar_6" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
                             <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp6" Text="100" Visibility="Hidden"/>
                         </StackPanel>
                     </Grid>
@@ -278,12 +278,12 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
-                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>-->
+                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <ProgressBar x:Name="enemy_health_bar_7" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="#FFB00606" Margin="0,3,0,0"/>
+                            <ProgressBar x:Name="enemy_health_bar_7" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
                             <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp7" Text="100" Visibility="Hidden"/>
                         </StackPanel>
                     </Grid>
@@ -300,12 +300,12 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
-                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="#FFB00606" Margin="0,3,0,0"/>-->
+                                            <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <ProgressBar x:Name="enemy_health_bar_8" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="#FFB00606" Margin="0,3,0,0"/>
+                            <ProgressBar x:Name="enemy_health_bar_8" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
                             <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp8" Text="100" Visibility="Hidden"/>
                         </StackPanel>
                     </Grid>

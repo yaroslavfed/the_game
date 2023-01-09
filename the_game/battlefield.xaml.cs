@@ -59,6 +59,7 @@ namespace the_game
         bool haveHeal = false;
 
         double health_hero;
+        double max_health_hero;
         double damage_hero;
         double protection_hero;
 
@@ -133,7 +134,9 @@ namespace the_game
             img_hero_0.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.hero_icon_Path, "shooting_person.png")));
             hero_hp_0.Text = Convert.ToString(health_hero);
             hero_health_bar_0.Value = health_hero;
-            hero_health_bar_0.Maximum = health_hero;
+
+            max_health_hero = health_hero;
+            hero_health_bar_0.Maximum = max_health_hero;
 
             health_text_enemies.AddRange(new TextBlock[] { hp0, hp1, hp2, hp3, hp4, hp5, hp6, hp7, hp8 });
             progress_bar_enemies.AddRange(new ProgressBar[] { enemy_health_bar_0, enemy_health_bar_1, enemy_health_bar_2, enemy_health_bar_3, enemy_health_bar_4, enemy_health_bar_5, enemy_health_bar_6, enemy_health_bar_7, enemy_health_bar_8 });
@@ -181,7 +184,9 @@ namespace the_game
 
         private void targetInTime_Tick(object sender, EventArgs e)
         {
-            target_info.Text = "Target: " + Convert.ToString(target) + "\nAlive: " + number_of_bots_alive + "\nKilled: " + number_of_bots_killed + "\npoint: " + hero_attack_point;
+            string string_enemy_added = String.Concat<int>(enemy_added);
+            string string_enemy_killed = String.Concat<int>(enemy_killed);
+            target_info.Text = "Target: " + Convert.ToString(target) + "\nAlive: " + number_of_bots_alive + "\nKilled: " + number_of_bots_killed + "\nPoint: " + hero_attack_point + "\nEnemy_add:\n" + string_enemy_added + "\nEnemy_killed:\n" + string_enemy_killed;
         }
 
         private void struggleInTime_Tick(object sender, EventArgs e)
@@ -223,6 +228,12 @@ namespace the_game
             }
         }
 
+        private double Change_damage(double damage, double protection)
+        {
+            double modified_damage = damage * ((100 - protection)/100);
+            return modified_damage;
+        }
+
         private void enemy_attack()
         {
             var still_alive = enemy_added.Except(enemy_killed);
@@ -241,7 +252,8 @@ namespace the_game
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             worker.RunWorkerAsync(assaulter);
 
-            health_hero -= enemy_damage;
+            //health_hero -= enemy_damage;
+            health_hero -= Change_damage(enemy_damage, protection_hero);
             hero_attack_point = true;
         }
 
@@ -267,13 +279,13 @@ namespace the_game
             }
             else
             {
-                progress_bar_enemies[assaulter].Foreground = Brushes.Red;
+                progress_bar_enemies[assaulter].Foreground = Brushes.DarkRed;
             }
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            progress_bar_enemies[assaulter].Foreground = Brushes.Red;
+            progress_bar_enemies[assaulter].Foreground = Brushes.DarkRed;
         }
 
         private void Animation_disappearing(ListBox myObject)
@@ -370,8 +382,17 @@ namespace the_game
             this.Close();
         }
 
+        private void Wave_heal()
+        {
+            if(health_hero / max_health_hero <= 0.5 && health_hero > 0)
+            {
+                health_hero *= 1.8;
+            }
+        }
+
         private void next_Click(object sender, RoutedEventArgs e)
         {
+            Wave_heal();
             hero_attack_point = true;
             Listbox_update();
             Deselect(enemy_field.Count);
@@ -390,6 +411,7 @@ namespace the_game
 
         private void Go_to_next_wave()
         {
+            Wave_heal();
             hero_attack_point = true;
             Listbox_update();
             Deselect(enemy_field.Count);
@@ -515,6 +537,7 @@ namespace the_game
                     progress_bar_enemies[target].Value = enemy_health;
                 }
                 target = -1;
+                Deselect(target);
                 hero_attack_point = false;
             }
             //else
