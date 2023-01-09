@@ -63,6 +63,8 @@ namespace the_game
         double damage_hero;
         double protection_hero;
 
+        int total_reward;
+
         double enemy_damage;
         double enemy_protection;
 
@@ -120,7 +122,7 @@ namespace the_game
             foto.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.iconPath, id + ".jpg")));
             wave_info.Text = "Волна " + wave;
 
-            health_hero = 100 + double.Parse(level) * 2;
+            health_hero = 100 + double.Parse(level) * 4;
             using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.inventoryPath, weapon + ".txt")))
             {
                 damage_hero = double.Parse(sr.ReadLine());
@@ -137,6 +139,8 @@ namespace the_game
 
             max_health_hero = health_hero;
             hero_health_bar_0.Maximum = max_health_hero;
+
+            total_reward = 0;
 
             health_text_enemies.AddRange(new TextBlock[] { hp0, hp1, hp2, hp3, hp4, hp5, hp6, hp7, hp8 });
             progress_bar_enemies.AddRange(new ProgressBar[] { enemy_health_bar_0, enemy_health_bar_1, enemy_health_bar_2, enemy_health_bar_3, enemy_health_bar_4, enemy_health_bar_5, enemy_health_bar_6, enemy_health_bar_7, enemy_health_bar_8 });
@@ -186,7 +190,7 @@ namespace the_game
         {
             string string_enemy_added = String.Concat<int>(enemy_added);
             string string_enemy_killed = String.Concat<int>(enemy_killed);
-            target_info.Text = "Target: " + Convert.ToString(target) + "\nAlive: " + number_of_bots_alive + "\nKilled: " + number_of_bots_killed + "\nPoint: " + hero_attack_point + "\nEnemy_add:\n" + string_enemy_added + "\nEnemy_killed:\n" + string_enemy_killed;
+            target_info.Text = "Target: " + Convert.ToString(target) + "\nAlive: " + number_of_bots_alive + "\nKilled: " + number_of_bots_killed + "\nPoint: " + hero_attack_point + "\nEnemy_add:\n" + string_enemy_added + "\nEnemy_killed:\n" + string_enemy_killed + "\nReward: " + total_reward;
         }
 
         private void struggleInTime_Tick(object sender, EventArgs e)
@@ -240,21 +244,23 @@ namespace the_game
             List<int> list_still_alive = new();
             foreach (int s in still_alive)
                 list_still_alive.Add(s);
+            if(list_still_alive.Count != 0)
+            {
+                BackgroundWorker worker = new BackgroundWorker();
 
-            BackgroundWorker worker = new BackgroundWorker();
+                assaulter = list_still_alive[new Random().Next(0, list_still_alive.Count)];
+                enemy_damage = double.Parse(enemies_on_screen_nums[assaulter][enemies_on_screen_nums[assaulter].Count - 1].Damage);
 
-            assaulter = list_still_alive[new Random().Next(0, list_still_alive.Count)];
-            enemy_damage = double.Parse(enemies_on_screen_nums[assaulter][enemies_on_screen_nums[assaulter].Count - 1].Damage);
+                worker.WorkerReportsProgress = true;
+                worker.DoWork += worker_DoWork;
+                worker.ProgressChanged += worker_ProgressChanged;
+                worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+                worker.RunWorkerAsync(assaulter);
 
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += worker_DoWork;
-            worker.ProgressChanged += worker_ProgressChanged;
-            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-            worker.RunWorkerAsync(assaulter);
-
-            //health_hero -= enemy_damage;
-            health_hero -= Change_damage(enemy_damage, protection_hero);
-            hero_attack_point = true;
+                //health_hero -= enemy_damage;
+                health_hero -= Change_damage(enemy_damage, protection_hero);
+                hero_attack_point = true;
+            }
         }
 
         void worker_DoWork(object sender, DoWorkEventArgs e)
@@ -519,6 +525,7 @@ namespace the_game
                 if (enemy_health <= 0)
                 {
                     enemy_killed.Add(target);
+                    total_reward += int.Parse(enemies_on_screen_nums[target][enemies_on_screen_nums[target].Count - 1].Reward);
 
                     health_text_enemies[target].Text = Convert.ToString(0);
                     health_text_enemies[target].Visibility= Visibility.Hidden;

@@ -64,7 +64,7 @@ namespace the_game
 
             damageInfo = "0";
             protectionInfo = "0";
-            healthInfo = Convert.ToString(100 + Convert.ToInt32(levelNow) * 2);
+            healthInfo = Convert.ToString(100 + Convert.ToInt32(levelNow) * 4);
             health.Text = healthInfo;
 
             listView.ItemsSource = null;
