@@ -14,37 +14,37 @@
                 <GradientStop Color="DimGray" Offset="1"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <Grid Margin="30,30,30,30">
+        <Grid Margin="60,30,60,30">
             <StackPanel HorizontalAlignment="Center">
-                <TextBlock Foreground="#FFB3B3B3" TextWrapping="Wrap" TextAlignment="Center" Text="В нашей игре представлено несколько бронежилетов, отличающихся друг от друга не только внешним видом, но и характеристиками." FontSize="30" FontWeight="Bold"/>
-                <TextBlock Foreground="#FFB3B3B3" Margin="0,10,0,25" TextWrapping="Wrap" TextAlignment="Center" Text="Подробнее о них вы сможете узнать здесь." FontSize="27" FontWeight="Bold"/>
-                <TextBlock Foreground="#FFB3B3B3" Text="Каждый бронежилет имеет свою редкость, от чего зависит, как много урона он сможет заблокировать." FontSize="27"/>
+                <TextBlock Foreground="#FFB3B3B3" TextWrapping="Wrap" TextAlignment="Center" Text="В нашей игре представлено несколько бронежилетов, отличающихся друг от друга не только внешним видом, но и характеристиками." FontSize="26" FontWeight="Bold"/>
+                <TextBlock Foreground="#FFB3B3B3" Margin="0,10,0,25" TextWrapping="Wrap" TextAlignment="Center" Text="Подробнее о них вы сможете узнать здесь." FontSize="24" FontWeight="Bold"/>
+                <TextBlock Foreground="#FFB3B3B3" Text="Каждый бронежилет имеет свою редкость, от чего зависит, как много урона он сможет заблокировать." FontSize="24"/>
                 <WrapPanel>
-                    <TextBlock Foreground="#FFB3B3B3" Text="Например, " FontSize="27"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text="Например, " FontSize="24"/>
                 </WrapPanel>
                 <WrapPanel>
-                    <TextBlock Foreground="#97D6E8" Text="базовый" FontSize="27"/>
-                    <TextBlock Foreground="#FFB3B3B3" Text=" - может заблокировать всего 10% урона, он бесплатный и дается при регистрации; " FontSize="27"/>
+                    <TextBlock Foreground="#97D6E8" Text="базовый" FontSize="24"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - может заблокировать всего 10% урона, он бесплатный и дается при регистрации; " FontSize="24"/>
                 </WrapPanel>
                 <WrapPanel>
-                    <TextBlock Foreground="#3F48CB" Text="необычный" FontSize="27"/>
-                    <TextBlock Foreground="#FFB3B3B3" Text=" - блокирует только 15% урона, что позволит продержаться минимум одну волну и заработать монет, на приобретение бронежилет классом выше; " FontSize="27"/>
+                    <TextBlock Foreground="#3F48CB" Text="необычный" FontSize="24"/>
+                    <TextBlock Foreground="#FFB3B3B3" TextWrapping="Wrap" Text=" - блокирует только 15% урона, что позволит продержаться минимум одну волну и заработать монет, на приобретение бронежилет классом выше; " FontSize="24"/>
                 </WrapPanel>
                 <WrapPanel>
-                    <TextBlock Foreground="#9F46A1" Text="невероятный" FontSize="27"/>
-                    <TextBlock Foreground="#FFB3B3B3" Text=" - блокирует 20% урона; " FontSize="27"/>
+                    <TextBlock Foreground="#9F46A1" Text="невероятный" FontSize="24"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - блокирует 20% урона; " FontSize="24"/>
                 </WrapPanel>
                 <WrapPanel>
-                    <TextBlock Foreground="#FE00A5" Text="редкий" FontSize="27"/>
-                    <TextBlock Foreground="#FFB3B3B3" Text=" - блокирует 25% урона; " FontSize="27"/>
+                    <TextBlock Foreground="#FE00A5" Text="редкий" FontSize="24"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - блокирует 25% урона; " FontSize="24"/>
                 </WrapPanel>
                 <WrapPanel>
-                    <TextBlock Foreground="#FEC80D" Text="премиум" FontSize="27"/>
-                    <TextBlock Foreground="#FFB3B3B3" Text=" - 30%, отличается только тем, что вы могли бы приобрести его за донатную валюту; " FontSize="27"/>
+                    <TextBlock Foreground="#FEC80D" Text="премиум" FontSize="24"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - 30%, отличается только тем, что вы могли бы приобрести его за донатную валюту; " FontSize="24"/>
                 </WrapPanel>
                 <WrapPanel>
-                    <TextBlock Foreground="#EB1A23" Text="вечный" FontSize="27"/>
-                    <TextBlock Foreground="#FFB3B3B3" Text=" - это самый мощный бронежилет в нашей игре, её защита в 35% не оставит и шансов победить вас на поле битвы." FontSize="27"/>
+                    <TextBlock Foreground="#EB1A23" Text="вечный" FontSize="24"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - это самый мощный бронежилет в нашей игре, её защита в 35% не оставит и шансов победить вас на поле битвы." FontSize="24"/>
                 </WrapPanel>
             </StackPanel>
         </Grid>

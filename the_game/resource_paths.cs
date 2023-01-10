@@ -17,6 +17,7 @@ namespace the_game
         public static readonly string weaponPath = System.IO.Directory.GetCurrentDirectory() + @"\img\wIcon\";
         public static readonly string armorPath = System.IO.Directory.GetCurrentDirectory() + @"\img\aIcon\";
         public static readonly string spellsPath = System.IO.Directory.GetCurrentDirectory() + @"\img\spells\";
+        public static readonly string back_imgPath = System.IO.Directory.GetCurrentDirectory() + @"\img\backPlate\";
         public static readonly string inventoryPath = System.IO.Directory.GetCurrentDirectory() + @"\inventory\";
         public static readonly string media_back_path = System.IO.Directory.GetCurrentDirectory() + @"\background_video\";
         public static readonly string audio_back_path = System.IO.Directory.GetCurrentDirectory() + @"\background_audio\";

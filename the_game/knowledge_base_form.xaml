@@ -25,15 +25,15 @@
             </Grid>
             <Grid Grid.Row="1" Margin="0,30,0,0">
                 <WrapPanel HorizontalAlignment="Center">
-                    <Button x:Name="exit" Click="exit_Click" Content="Выход" Margin="5,5,2,5" Padding="10,10,10,10" FontSize="24" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
+                    <Button x:Name="exit" Click="exit_Click" Content="Выход" Margin="5,5,2,5" Padding="10,10,10,10" FontSize="17" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="15,0,0,15"/>
                             </Style>
                         </Button.Resources>
                     </Button>
-                    <Button x:Name="Page1" Click="Page1_Click" Content="Оружие" Margin="2,5,2,5" Padding="10,10,10,10" FontSize="24" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold"/>
-                    <Button x:Name="Page2" Click="Page2_Click" Content="Броня" Margin="2,5,2,5" Padding="10,10,10,10" FontSize="24" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
+                    <Button x:Name="Page1" Click="Page1_Click" Content="Оружие" Margin="2,5,2,5" Padding="10,10,10,10" FontSize="17" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold"/>
+                    <Button x:Name="Page2" Click="Page2_Click" Content="Броня" Margin="2,5,2,5" Padding="10,10,10,10" FontSize="17" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="0,15,15,0"/>
@@ -50,7 +50,7 @@
                 </WrapPanel>
             </Grid>
             <Grid Grid.Row="2" Margin="0,20,0,0">
-                <TextBlock x:Name="log" Text="Здесь вы можете прочитать про оружие и броню, а так же об основах ведения боя" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+                <TextBlock x:Name="log" Text="Здесь вы можете прочитать про оружие и броню" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
                 <Frame x:Name="MyFrame"></Frame>
             </Grid>
         </Grid>

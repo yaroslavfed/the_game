@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="battlefield" Height="900" Width="1600" KeyUp="Window_KeyUp" Loaded="Window_Loaded"
         WindowState="Maximized">
+    <Window.Background>
+        <ImageBrush x:Name="back_img"></ImageBrush>
+    </Window.Background>
     <Window.Resources>
     </Window.Resources>
     <Grid>
@@ -46,18 +49,24 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
-                            <TextBlock x:Name="nickname_info" Text="Nickname" Padding="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="36" FontWeight="Bold"/>
+                            <TextBlock x:Name="nickname_info" Text="Nickname" Padding="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Stencil" Foreground="#FFB3B3B3" FontSize="36" FontWeight="Bold"/>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <TextBlock x:Name="level_info" Text="Level 100" Padding="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
+                            <TextBlock x:Name="level_info" Text="Level 100" Padding="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" Foreground="#FFB3B3B3" FontSize="24" FontWeight="Bold"/>
                         </Grid>
                     </Grid>
                 </Grid>
                 <Grid Grid.Column="1">
-                    <Button x:Name="exit1" Click="exit_Click" Content="Выход" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="100" FontSize="20"/>
+                    <Button x:Name="exit1" Click="exit_Click" Content="Выход" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="100" FontSize="20" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="11"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                 </Grid>
                 <Grid Grid.Column="2">
-                    <TextBlock x:Name="wave_info" Padding="0,0,50,0" Text="Wave: 5" FontSize="45" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="wave_info" Padding="0,0,50,0" Text="Wave: 5" FontSize="45" HorizontalAlignment="Right" FontFamily="Stencil" Foreground="#FFB3B3B3" VerticalAlignment="Center"/>
                 </Grid>
             </Grid>
             <Grid Grid.Row="1">
@@ -79,10 +88,10 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Column="1" Grid.Row="1" Margin="0,0,0,0">
                         <StackPanel>
-                            <TextBlock x:Name="nickname_hero_0" TextAlignment="Center" Text="test" Margin="0,0,0,10" FontSize="18" FontWeight="Bold"/>
+                            <TextBlock x:Name="nickname_hero_0" Foreground="#FFB3B3B3" TextAlignment="Center" Text="test" Margin="0,0,0,10" FontSize="18" FontWeight="Bold"/>
                             <Image x:Name="img_hero_0" Height="200" Width="200" Margin="0,0,0,10"/>
-                            <ProgressBar x:Name="hero_health_bar_0" VerticalAlignment="Bottom" Height="10" Width="200" Foreground="#FF00B100" Margin="0,3,0,0"/>
-                            <TextBlock x:Name="hero_hp_0" TextAlignment="Center" VerticalAlignment="Bottom" Text="150" FontSize="7" FontWeight="Bold"/>
+                            <ProgressBar x:Name="hero_health_bar_0" VerticalAlignment="Bottom" Height="10" Width="200" Foreground="#FF006700" Margin="0,3,0,0"/>
+                            <TextBlock x:Name="hero_hp_0" Foreground="#FFB3B3B3" TextAlignment="Center" VerticalAlignment="Bottom" Text="150" FontSize="7" FontWeight="Bold"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -120,7 +129,7 @@
                     </Grid.Resources>
                     <Grid x:Name="E0" Grid.Row="0" Grid.Column="0">
                         <StackPanel>
-                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy0" SelectionChanged="enemy0_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy0" SelectionChanged="enemy0_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -129,7 +138,7 @@
                                                 <RowDefinition Height="100*" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center" Foreground="#FFB3B3B3"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
                                             <!--<ProgressBar x:Name="enemy_health_bar_0" Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
@@ -137,12 +146,12 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <ProgressBar x:Name="enemy_health_bar_0" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
-                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp0" Text="150" Visibility="Hidden"/>
+                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp0" Text="150" Visibility="Hidden" Foreground="#FFB3B3B3"/>
                         </StackPanel>
                     </Grid>
                     <Grid x:Name="E1" Grid.Row="0" Grid.Column="1">
                         <StackPanel>
-                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy1" SelectionChanged="enemy1_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy1" SelectionChanged="enemy1_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -151,7 +160,7 @@
                                                 <RowDefinition Height="100*" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center" Foreground="#FFB3B3B3"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
                                             <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
@@ -159,12 +168,12 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <ProgressBar x:Name="enemy_health_bar_1" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
-                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp1" Text="100" Visibility="Hidden"/>
+                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp1" Text="100" Visibility="Hidden" Foreground="#FFB3B3B3"/>
                         </StackPanel>
                     </Grid>
                     <Grid x:Name="E2" Grid.Row="0" Grid.Column="2">
                         <StackPanel>
-                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy2" SelectionChanged="enemy2_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy2" SelectionChanged="enemy2_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -173,7 +182,7 @@
                                                 <RowDefinition Height="100*" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center" Foreground="#FFB3B3B3"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
                                             <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
@@ -181,12 +190,12 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <ProgressBar x:Name="enemy_health_bar_2" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
-                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp2" Text="100" Visibility="Hidden"/>
+                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp2" Text="100" Visibility="Hidden" Foreground="#FFB3B3B3"/>
                         </StackPanel>
                     </Grid>
                     <Grid x:Name="E3" Grid.Row="1" Grid.Column="0">
                         <StackPanel>
-                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy3" SelectionChanged="enemy3_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy3" SelectionChanged="enemy3_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -195,7 +204,7 @@
                                                 <RowDefinition Height="100*" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center" Foreground="#FFB3B3B3"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
                                             <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
@@ -203,12 +212,12 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <ProgressBar x:Name="enemy_health_bar_3" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
-                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp3" Text="100" Visibility="Hidden"/>
+                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp3" Text="100" Visibility="Hidden" Foreground="#FFB3B3B3"/>
                         </StackPanel>
                     </Grid>
                     <Grid x:Name="E4" Grid.Row="1" Grid.Column="1">
                         <StackPanel>
-                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy4" SelectionChanged="enemy4_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy4" SelectionChanged="enemy4_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -217,7 +226,7 @@
                                                 <RowDefinition Height="100*" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center" Foreground="#FFB3B3B3"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
                                             <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
@@ -230,7 +239,7 @@
                     </Grid>
                     <Grid x:Name="E5" Grid.Row="1" Grid.Column="2">
                         <StackPanel>
-                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy5" SelectionChanged="enemy5_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy5" SelectionChanged="enemy5_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -239,7 +248,7 @@
                                                 <RowDefinition Height="100*" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center" Foreground="#FFB3B3B3"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
                                             <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
@@ -252,7 +261,7 @@
                     </Grid>
                     <Grid x:Name="E6" Grid.Row="2" Grid.Column="0">
                         <StackPanel>
-                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy6" SelectionChanged="enemy6_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy6" SelectionChanged="enemy6_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -261,7 +270,7 @@
                                                 <RowDefinition Height="100*" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center" Foreground="#FFB3B3B3"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
                                             <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
@@ -269,12 +278,12 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <ProgressBar x:Name="enemy_health_bar_6" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
-                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp6" Text="100" Visibility="Hidden"/>
+                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp6" Text="100" Visibility="Hidden" Foreground="#FFB3B3B3"/>
                         </StackPanel>
                     </Grid>
                     <Grid x:Name="E7" Grid.Row="2" Grid.Column="1">
                         <StackPanel>
-                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy7" SelectionChanged="enemy7_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy7" SelectionChanged="enemy7_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -283,7 +292,7 @@
                                                 <RowDefinition Height="100*" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center" Foreground="#FFB3B3B3"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
                                             <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
@@ -296,7 +305,7 @@
                     </Grid>
                     <Grid x:Name="E8" Grid.Row="2" Grid.Column="2">
                         <StackPanel>
-                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy8" SelectionChanged="enemy8_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0">
+                            <ListBox d:ItemsSource="{d:SampleData ItemCount=1}" x:Name="enemy8" SelectionChanged="enemy8_SelectionChanged" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -305,7 +314,7 @@
                                                 <RowDefinition Height="100*" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center"/>
+                                            <TextBlock Text ="{Binding Name}" Grid.Row="0" TextAlignment="Center" Foreground="#FFB3B3B3"/>
                                             <Image Source ="{Binding Image}" Grid.Row="1" Height="100" Width="100"/>
                                             <!--<ProgressBar Maximum ="{Binding Health}" Value="{Binding Health}" Grid.Row="2" Height="4" Width="{Binding Health, Converter={StaticResource substract}, ConverterParameter = 5}" Foreground="DarkRed" Margin="0,3,0,0"/>-->
                                         </Grid>
@@ -313,7 +322,7 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <ProgressBar x:Name="enemy_health_bar_8" VerticalAlignment="Bottom" Height="4" Width="100" Visibility="Hidden" Foreground="DarkRed" Margin="0,3,0,0"/>
-                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp8" Text="100" Visibility="Hidden"/>
+                            <TextBlock TextAlignment="Center" VerticalAlignment="Bottom" x:Name="hp8" Text="100" Visibility="Hidden" Foreground="#FFB3B3B3"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -329,8 +338,12 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <Button x:Name="attack_button" Click="attack_button_Click" Content="Огонь" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="25,15,25,15" FontSize="30">
-                            
+                        <Button x:Name="attack_button" Click="attack_button_Click" Content="Огонь" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="25,15,25,15" FontSize="30" Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
                         </Button>
                     </Grid>
                 </Grid>
@@ -345,13 +358,21 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
-                            <Button x:Name="heal_button" Click="heal_button_Click" Content="Аптечка" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Center" Padding="20,10,15,10" FontSize="30">
-                                
+                            <Button x:Name="heal_button" Click="heal_button_Click" Content="Аптечка" HorizontalAlignment="Right" Margin="0,0,2,0" VerticalAlignment="Center" Padding="20,10,15,10" FontSize="30"  Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="15,0,0,15"/>
+                                    </Style>
+                                </Button.Resources>
                             </Button>
                         </Grid>
                         <Grid Grid.Column="1">
-                            <Button x:Name="dd_button" Click="dd_button_Click" Content="Усиление" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="30" Padding="15,10,20,10">
-                                
+                            <Button x:Name="dd_button" Click="dd_button_Click" Content="Усиление" HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Center" FontSize="30" Padding="15,10,20,10"  Opacity="0.65" Background="#FF14171C" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="0,15,15,0"/>
+                                    </Style>
+                                </Button.Resources>
                             </Button>
                         </Grid>
                     </Grid>

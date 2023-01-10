@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace the_game
 {
-    /// <summary>
-    /// Логика взаимодействия для weapons_database_page.xaml
-    /// </summary>
     public partial class weapons_database_page : Page
     {
         public weapons_database_page()

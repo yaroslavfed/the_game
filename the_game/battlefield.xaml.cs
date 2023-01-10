@@ -35,6 +35,8 @@ namespace the_game
         {
             InitializeComponent();
 
+            back_img.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.back_imgPath, "back_game_field_3.jpg")));
+
             heal_worker = new BackgroundWorker();
             heal_worker.WorkerSupportsCancellation = true;
             heal_worker.WorkerReportsProgress = true;
@@ -457,7 +459,7 @@ namespace the_game
         {
             int result = 0;
             Thread.Sleep(100);
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i <= 20; i++)
             {
                 (sender as BackgroundWorker).ReportProgress(i);
                 result = i;
