@@ -162,6 +162,9 @@ namespace the_game
             price(ref invPriceW, filenameW, wCost);
             price(ref invPriceA, filenameA, aCost);
 
+            specifications(filenameW, wDamage);
+            specifications(filenameA, aProtection);
+
             rare(filenameW, weapon_rarity_now);
             rare(filenameA, armor_rarity_now);
 
@@ -173,6 +176,12 @@ namespace the_game
         {
             int rarity = Convert.ToInt32(File.ReadLines(System.IO.Path.Combine(resource_paths.inventoryPath, inventory_id + ".txt")).Skip(2).First());
             weapon_rarity.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(rarity_color[rarity]);
+        }
+
+        private void specifications(string filename, TextBlock specification)
+        {
+            int inv_specifications = int.Parse(File.ReadLines(System.IO.Path.Combine(resource_paths.inventoryPath, filename + ".txt")).First());
+            specification.Text = inv_specifications.ToString();
         }
 
         private void price(ref int invPrice, string filename, TextBlock cost)
