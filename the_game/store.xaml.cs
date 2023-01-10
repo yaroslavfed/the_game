@@ -56,13 +56,11 @@ namespace the_game
         string[] a_subs;
 
         List<string> rarity_color = new List<string>() { "#97D6E8", "#3F48CB", "#9F46A1", "#FE00A5", "#FEC80D", "#EB1A23" };
+        System.Windows.Threading.DispatcherTimer invInTime;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            System.Windows.Threading.DispatcherTimer invInTime = new System.Windows.Threading.DispatcherTimer();
-            invInTime.Tick += new EventHandler(invInTime_Tick);
-            invInTime.Interval = new TimeSpan(1);
-            invInTime.Start();
+            Timers_start();
 
             nickname = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).First();
             levelNow = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(1).First();
@@ -75,6 +73,19 @@ namespace the_game
 
             recalculation(ref weaponsOwn, ref weaponDonned, 5, 4, ref w_subs, ref nums);
             recalculation(ref armorsOwn, ref armorDonned, 7, 6, ref a_subs, ref numsA);
+        }
+
+        private void Timers_start()
+        {
+            invInTime = new System.Windows.Threading.DispatcherTimer();
+            invInTime.Tick += new EventHandler(invInTime_Tick);
+            invInTime.Interval = new TimeSpan(1);
+            invInTime.Start();
+        }
+
+        private void Timers_stop()
+        {
+            invInTime.Stop();
         }
 
         private void recalculation(ref string ItemsOwn, ref string ItemDonned, int nLine, int donnedLine, ref string[] subs, ref int num)
@@ -304,6 +315,7 @@ namespace the_game
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
+            Timers_stop();
             profile player = new profile(id);
             player.Show();
             this.Close();

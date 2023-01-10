@@ -32,17 +32,22 @@ namespace the_game
         string protectionInfo;
         string healthInfo;
 
+        System.Windows.Threading.DispatcherTimer itemInTime;
+        System.Windows.Threading.DispatcherTimer invInfoTime;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            System.Windows.Threading.DispatcherTimer itemInTime = new System.Windows.Threading.DispatcherTimer();
-            itemInTime.Tick += new EventHandler(itemInTime_Tick);
-            itemInTime.Interval = new TimeSpan(1);
-            itemInTime.Start();
-            
-            System.Windows.Threading.DispatcherTimer invInfo = new System.Windows.Threading.DispatcherTimer();
-            invInfo.Tick += new EventHandler(invInfo_Tick);
-            invInfo.Interval = new TimeSpan(1);
-            invInfo.Start();
+            ////System.Windows.Threading.DispatcherTimer itemInTime = new System.Windows.Threading.DispatcherTimer();
+            //itemInTime.Tick += new EventHandler(itemInTime_Tick);
+            //itemInTime.Interval = new TimeSpan(1);
+            //itemInTime.Start();
+
+            ////System.Windows.Threading.DispatcherTimer invInfoTime = new System.Windows.Threading.DispatcherTimer();
+            //invInfoTime.Tick += new EventHandler(invInfoTime_Tick);
+            //invInfoTime.Interval = new TimeSpan(1);
+            //invInfoTime.Start();
+
+            Timers_start();
 
             using (StreamReader sr = new StreamReader(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")))
             {
@@ -95,6 +100,25 @@ namespace the_game
             }
         }
 
+        private void Timers_start()
+        {
+            itemInTime = new System.Windows.Threading.DispatcherTimer();
+            itemInTime.Tick += new EventHandler(itemInTime_Tick);
+            itemInTime.Interval = new TimeSpan(1);
+            itemInTime.Start();
+
+            invInfoTime = new System.Windows.Threading.DispatcherTimer();
+            invInfoTime.Tick += new EventHandler(invInfo_Tick);
+            invInfoTime.Interval = new TimeSpan(1);
+            invInfoTime.Start();
+        }
+
+        private void Timers_stop()
+        {
+            itemInTime.Stop();
+            invInfoTime.Stop();
+        }
+
         private void itemInTime_Tick(object sender, EventArgs e)
         {
             weapon = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(4).First();
@@ -133,6 +157,7 @@ namespace the_game
 
         private void exit_Click(object sender, RoutedEventArgs e)
         {
+            Timers_stop();
             start_page menu = new start_page();
             menu.Show();
             this.Close();
@@ -140,6 +165,7 @@ namespace the_game
 
         private void to_map_Click(object sender, RoutedEventArgs e)
         {
+            Timers_stop();
             mode_selection mode = new mode_selection(id);
             mode.Show();
             this.Close();
@@ -147,6 +173,7 @@ namespace the_game
 
         private void store_Click(object sender, RoutedEventArgs e)
         {
+            Timers_stop();
             store shop = new store(id);
             shop.Show();
             this.Close();
@@ -286,12 +313,13 @@ namespace the_game
 
         private void invInfoButton_Click(object sender, RoutedEventArgs e)
         {
+            //Timers_stop();
             MessageBox.Show("invInfoButton");
         }
 
         private void profile_icon_change_button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("profile_icon_change_button");
+            //MessageBox.Show("profile_icon_change_button");
         }
     }
 }
