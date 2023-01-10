@@ -297,6 +297,7 @@ namespace the_game
             save = false;
         }
 
+        #region Аuthorization_user
         private void sign_in_Click(object sender, RoutedEventArgs e)
         {
             bool retrieval = false;
@@ -349,6 +350,7 @@ namespace the_game
                 MessageBox.Show("User not found");
             }
         }
+        #endregion Authorization_user
 
         private void reg_Click(object sender, RoutedEventArgs e)
         {
