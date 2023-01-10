@@ -81,22 +81,22 @@ namespace the_game
 
             if (Convert.ToInt32(levelNow) >= 25)
             {
-                ddSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "dd.jpg")));
+                ddSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "dd.png")));
                 haveDD = true;
             }
             else
             {
-                ddSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "ddF.jpg")));
+                ddSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "ddF.png")));
             }
 
             if (Convert.ToInt32(levelNow) >= 50)
             {
-                healSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "heal.jpg")));
+                healSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "heal.png")));
                 haveHeal = true;
             }
             else
             {
-                healSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "healF.jpg")));
+                healSpell.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.spellsPath, "healF.png")));
             }
         }
 
@@ -125,7 +125,7 @@ namespace the_game
             protection = File.ReadLines(System.IO.Path.Combine(resource_paths.userPath, id + ".txt")).Skip(6).First();
 
             weaponIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, weapon + ".png")));
-            armorIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, protection + ".jpg")));
+            armorIcon.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, protection + ".png")));
 
             if (selection == true)
             {
@@ -233,7 +233,7 @@ namespace the_game
                 Item dataItem = new Item()
                 {
                     number = index,
-                    itemImg = System.IO.Path.Combine(resource_paths.armorPath, index + ".jpg")
+                    itemImg = System.IO.Path.Combine(resource_paths.armorPath, index + ".png")
                 };
 
                 listView.Items.Add(dataItem);
@@ -313,8 +313,10 @@ namespace the_game
 
         private void invInfoButton_Click(object sender, RoutedEventArgs e)
         {
-            //Timers_stop();
-            MessageBox.Show("invInfoButton");
+            Timers_stop();
+            knowledge_base_form knowledge = new knowledge_base_form(id);
+            knowledge.Show();
+            this.Close();
         }
 
         private void profile_icon_change_button_Click(object sender, RoutedEventArgs e)

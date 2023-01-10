@@ -37,7 +37,7 @@ namespace the_game
         {
             result_text.Text = string.Format("Боец, ты смог продержаться {0} волн, подмога уже на подходе.\nПолучай свою награду: {1} монет и {2} опыта.", wave, total_reward, total_exp);
             weapon_img.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.weaponPath, weapon + ".png")));
-            armor_img.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, protection + ".jpg")));
+            armor_img.Source = new BitmapImage(new Uri(System.IO.Path.Combine(resource_paths.armorPath, protection + ".png")));
         }
 
         private void exit_Click(object sender, RoutedEventArgs e)

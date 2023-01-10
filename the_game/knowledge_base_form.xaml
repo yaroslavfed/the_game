@@ -1,0 +1,58 @@
+﻿<Window x:Class="the_game.knowledge_base_form"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:the_game"
+        mc:Ignorable="d"
+        Title="knowledge_base_form" Height="900" Width="1600"
+        WindowState="Maximized">
+    <Grid>
+        <Grid.Background>
+            <RadialGradientBrush RadiusX="0.6" RadiusY="0.6">
+                <GradientStop Color="#FF65727B" Offset="0"/>
+                <GradientStop Color="#FF1D2027" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Grid Margin="50,50,50,50">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="48*"/>
+                <RowDefinition Height="307*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock Text="БАЗА ЗНАНИЙ" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="56" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+            </Grid>
+            <Grid Grid.Row="1" Margin="0,30,0,0">
+                <WrapPanel HorizontalAlignment="Center">
+                    <Button x:Name="exit" Click="exit_Click" Content="Выход" Margin="5,5,2,5" Padding="10,10,10,10" FontSize="24" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15,0,0,15"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="Page1" Click="Page1_Click" Content="Оружие" Margin="2,5,2,5" Padding="10,10,10,10" FontSize="24" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold"/>
+                    <Button x:Name="Page2" Click="Page2_Click" Content="Броня" Margin="2,5,2,5" Padding="10,10,10,10" FontSize="24" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="0,15,15,0"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <!--<Button x:Name="Page3" Click="Page3_Click" Content="Бой" Margin="2,5,5,5" Padding="10,10,10,10" FontSize="24" Background="#FF30363E" Foreground="#FFB3B3B3" BorderBrush="{x:Null}" FontWeight="Bold">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="0,15,15,0"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>-->
+                </WrapPanel>
+            </Grid>
+            <Grid Grid.Row="2" Margin="0,20,0,0">
+                <TextBlock x:Name="log" Text="Здесь вы можете прочитать про оружие и броню, а так же об основах ведения боя" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" FontWeight="Bold" FontFamily="Modern No. 20" Foreground="#FFB3B3B3"/>
+                <Frame x:Name="MyFrame"></Frame>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,52 @@
+﻿<Page x:Class="the_game.weapons_database_page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:the_game"
+      mc:Ignorable="d" 
+      d:DesignHeight="900" d:DesignWidth="1600"
+      Title="weapons_database_page">
+    <Grid>
+        <Grid.Background>
+            <RadialGradientBrush RadiusX="0.6" RadiusY="0.6" Opacity="0.2">
+                <GradientStop Color="DimGray" Offset="0"/>
+                <GradientStop Color="DimGray" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Grid Margin="30,30,30,30">
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Foreground="#FFB3B3B3" TextWrapping="Wrap" TextAlignment="Center" Text="В нашей игре представлено несколько оружий, отличающихся друг от друга не только внешним видом, но и характеристиками." FontSize="30" FontWeight="Bold"/>
+                <TextBlock Foreground="#FFB3B3B3" Margin="0,10,0,25" TextWrapping="Wrap" TextAlignment="Center" Text="Подробнее о них вы сможете узнать здесь." FontSize="27" FontWeight="Bold"/>
+                <TextBlock Foreground="#FFB3B3B3" Text="Каждое оружие имеет свою редкость, от чего зависит, как много урона оно будет наносить." FontSize="27"/>
+                <WrapPanel>
+                    <TextBlock Foreground="#FFB3B3B3" Text="Например, " FontSize="27"/>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Foreground="#97D6E8" Text="базовый" FontSize="27"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - имеет всего 5 урона, но при этом, он бесплатный и дается при регистрации; " FontSize="27"/>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Foreground="#3F48CB" Text="необычный" FontSize="27"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - имеет 10 урона, что позволит продержаться минимум одну волну и заработать монет, на приобретение оружия классом выше; " FontSize="27"/>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Foreground="#9F46A1" Text="невероятный" FontSize="27"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - имеет 20 урона; " FontSize="27"/>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Foreground="#FE00A5" Text="редкий" FontSize="27"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - имеет солидный урон в 25 единиц; " FontSize="27"/>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Foreground="#FEC80D" Text="премиум" FontSize="27"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - 50, отличается только тем, что вы могли бы приобрести его за донатную валюту; " FontSize="27"/>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Foreground="#EB1A23" Text="вечный" FontSize="27"/>
+                    <TextBlock Foreground="#FFB3B3B3" Text=" - это самая сильная пушка в нашей игре, её урон в 80 единиц не оставит и шансов победить вас на поле битвы." FontSize="27"/>
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
