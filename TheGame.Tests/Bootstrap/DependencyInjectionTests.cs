@@ -1,10 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
 using TheGame.Core.Battle;
 using the_game.Lifecycle;
 using the_game.Navigation;
 using the_game.ViewModels;
 using the_game.Views;
+using TheGame.Infrastructure.Persistence.Content;
+using TheGame.Infrastructure.Persistence.Users;
 using Xunit;
 
 namespace the_game.Tests.Bootstrap;
@@ -36,5 +39,7 @@ public sealed class DependencyInjectionTests
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IBattleEngine));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IAsyncDelay));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IApplicationErrorService));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IDbContextFactory<GameContentDbContext>));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IDbContextFactory<UserDataDbContext>));
     }
 }
