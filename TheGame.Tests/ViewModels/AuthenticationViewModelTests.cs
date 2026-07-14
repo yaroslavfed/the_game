@@ -28,7 +28,7 @@ public sealed class AuthenticationViewModelTests
         Assert.NotNull(viewModel.ValidationMessage);
 
         viewModel.Login = "player";
-        viewModel.Password = "secret";
+        viewModel.Password = "secret-123";
 
         Assert.True(await viewModel.SubmitCommand.CanExecute.FirstAsync());
         Assert.Null(viewModel.ValidationMessage);
@@ -38,7 +38,7 @@ public sealed class AuthenticationViewModelTests
         Assert.False(await viewModel.SubmitCommand.CanExecute.FirstAsync());
         Assert.Equal("Пароли не совпадают", viewModel.ValidationMessage);
 
-        viewModel.Confirmation = "secret";
+        viewModel.Confirmation = "secret-123";
 
         Assert.True(await viewModel.SubmitCommand.CanExecute.FirstAsync());
     }

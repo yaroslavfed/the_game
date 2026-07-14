@@ -41,7 +41,7 @@ public sealed class UserDataDbContext(DbContextOptions<UserDataDbContext> option
 
         modelBuilder.Entity<PlayerItemEntity>(entity =>
         {
-            entity.ToTable("player_items");
+            entity.ToTable("player_items", table => table.HasCheckConstraint("ck_player_items_kind", "Kind IN (0, 1)"));
             entity.HasKey(value => new { value.PlayerId, value.ItemId });
             entity.Property(value => value.ItemId).HasMaxLength(64);
             entity.Property(value => value.Source).HasMaxLength(64);

@@ -30,6 +30,7 @@ public partial class App : Application
 
         await _host.StartAsync();
         await _host.Services.GetRequiredService<IContentDatabaseInitializer>().InitializeAsync();
+        await _host.Services.GetRequiredService<IUserDatabaseInitializer>().InitializeAsync();
 
         MainWindow = _host.Services.GetRequiredService<ShellWindow>();
         INavigationService navigation = _host.Services.GetRequiredService<INavigationService>();

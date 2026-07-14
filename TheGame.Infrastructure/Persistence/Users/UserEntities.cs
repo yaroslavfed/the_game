@@ -33,6 +33,7 @@ public sealed class PlayerItemEntity
 {
     public string PlayerId { get; set; } = string.Empty;
     public string ItemId { get; set; } = string.Empty;
+    public TheGame.Core.Inventory.InventoryItemKind Kind { get; set; }
     public DateTimeOffset AcquiredAt { get; set; }
     public string? Source { get; set; }
     public PlayerEntity Player { get; set; } = null!;
