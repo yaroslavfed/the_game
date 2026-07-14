@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Logging;
+using System.Data;
 using System.Data.Common;
 using TheGame.Core.Storage;
 
@@ -7,7 +10,8 @@ namespace TheGame.Infrastructure.Persistence.Users;
 public sealed class UserDatabaseInitializer(
     IAppPaths paths,
     IDbContextFactory<UserDataDbContext> contextFactory,
-    LegacyUserDataMigrator? migrator = null) : IUserDatabaseInitializer
+    LegacyUserDataMigrator? migrator = null,
+    ILogger<UserDatabaseInitializer>? logger = null) : IUserDatabaseInitializer
 {
     private const string InitialMigration = "20260714105808_InitialUserSchema";
     private const string EfProductVersion = "10.0.9";
@@ -16,12 +20,68 @@ public sealed class UserDatabaseInitializer(
     {
         Directory.CreateDirectory(paths.UserDataDirectory);
         await using UserDataDbContext context = await contextFactory.CreateDbContextAsync(cancellationToken);
+        bool databaseExists = File.Exists(paths.UserDatabasePath);
+        if (databaseExists)
+            await VerifyIntegrityAsync(context, cancellationToken);
+
+        string[] pendingMigrations = (await context.Database.GetPendingMigrationsAsync(cancellationToken)).ToArray();
+        if (databaseExists)
+        {
+            if (pendingMigrations.Length > 0)
+            {
+                string backupPath = BackupDatabase();
+                logger?.LogInformation("Created user database backup at {BackupPath}", backupPath);
+            }
+        }
+
         await BaselineEnsureCreatedDatabaseAsync(context, cancellationToken);
+        foreach (string migration in pendingMigrations)
+            logger?.LogInformation("Applying user database migration {Migration}", migration);
         await context.Database.MigrateAsync(cancellationToken);
         await context.Database.ExecuteSqlRawAsync("PRAGMA journal_mode = WAL;", cancellationToken);
         await context.Database.ExecuteSqlRawAsync("PRAGMA foreign_keys = ON;", cancellationToken);
         await context.Database.ExecuteSqlRawAsync("PRAGMA busy_timeout = 5000;", cancellationToken);
         if (migrator is not null) await migrator.MigrateAsync(cancellationToken);
+        await VerifyIntegrityAsync(context, cancellationToken);
+    }
+
+    private string BackupDatabase()
+    {
+        string backupDirectory = Path.Combine(paths.UserDataDirectory, "backups");
+        Directory.CreateDirectory(backupDirectory);
+        string backupPath = Path.Combine(
+            backupDirectory,
+            $"userdata-{DateTimeOffset.UtcNow:yyyyMMdd-HHmmss}-{Guid.NewGuid():N}.db");
+        using var source = new SqliteConnection($"Data Source={paths.UserDatabasePath};Mode=ReadOnly;Pooling=False");
+        using var destination = new SqliteConnection($"Data Source={backupPath};Mode=ReadWriteCreate;Pooling=False");
+        source.Open();
+        destination.Open();
+        source.BackupDatabase(destination);
+        return backupPath;
+    }
+
+    private static async Task VerifyIntegrityAsync(
+        UserDataDbContext context,
+        CancellationToken cancellationToken)
+    {
+        DbConnection connection = context.Database.GetDbConnection();
+        try
+        {
+            await connection.OpenAsync(cancellationToken);
+            await using DbCommand command = connection.CreateCommand();
+            command.CommandText = "PRAGMA quick_check;";
+            string? result = Convert.ToString(await command.ExecuteScalarAsync(cancellationToken));
+            if (!string.Equals(result, "ok", StringComparison.OrdinalIgnoreCase))
+                throw new DataFormatException($"User database integrity check failed: {result ?? "unknown error"}.");
+        }
+        catch (SqliteException exception)
+        {
+            throw new DataFormatException("User database cannot be opened or is corrupted.", exception);
+        }
+        finally
+        {
+            if (connection.State != ConnectionState.Closed) await connection.CloseAsync();
+        }
     }
 
     private static async Task BaselineEnsureCreatedDatabaseAsync(

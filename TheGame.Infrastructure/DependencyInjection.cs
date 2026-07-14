@@ -33,8 +33,6 @@ public static class DependencyInjection
         services.AddSingleton<IContentDatabaseInitializer, ContentDatabaseInitializer>();
         services.AddSingleton<LegacyUserDataMigrator>();
         services.AddSingleton<IUserDatabaseInitializer, UserDatabaseInitializer>();
-        services.AddSingleton<LegacyPlayerRepository>();
-        services.AddSingleton<JsonPlayerRepository>();
         services.AddSingleton<IPlayerRepository, SqlitePlayerRepository>();
         services.AddSingleton<IInventoryCatalog, SqliteInventoryCatalog>();
         services.AddSingleton<IEnemyCatalog, SqliteEnemyCatalog>();

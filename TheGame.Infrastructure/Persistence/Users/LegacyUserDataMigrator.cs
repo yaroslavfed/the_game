@@ -10,12 +10,12 @@ namespace TheGame.Infrastructure.Persistence.Users;
 
 public sealed class LegacyUserDataMigrator(
     IAppPaths paths,
-    IDbContextFactory<UserDataDbContext> contextFactory,
-    JsonPlayerRepository jsonPlayers,
-    LegacyPlayerRepository legacyPlayers)
+    IDbContextFactory<UserDataDbContext> contextFactory)
 {
     private const string MigrationId = "legacy-user-storage-v1";
     private const int DefaultIterations = 210_000;
+    private readonly JsonPlayerRepository _jsonPlayers = new(paths);
+    private readonly LegacyPlayerRepository _legacyPlayers = new(paths);
 
     public async Task MigrateAsync(CancellationToken cancellationToken = default)
     {
@@ -93,8 +93,8 @@ public sealed class LegacyUserDataMigrator(
     }
 
     private async Task<PlayerProfile> LoadProfileAsync(string playerId, string login, CancellationToken token) =>
-        await jsonPlayers.GetAsync(playerId, token)
-        ?? await legacyPlayers.GetAsync(playerId, token)
+        await _jsonPlayers.GetAsync(playerId, token)
+        ?? await _legacyPlayers.GetAsync(playerId, token)
         ?? new PlayerProfile(playerId, login, 1, 0, 0, "10", ["10"], "20", ["20"]);
 
     private static PlayerEntity Map(PlayerProfile profile)

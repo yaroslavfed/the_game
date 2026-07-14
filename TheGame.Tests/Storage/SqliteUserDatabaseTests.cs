@@ -73,7 +73,7 @@ public sealed class SqliteUserDatabaseTests : IDisposable
         var oldAuthentication = new TheGame.Infrastructure.Authentication.AuthenticationService(paths, jsonPlayers);
         var oldRegistration = await oldAuthentication.RegisterAsync("LegacyPlayer", "secret-123", token);
         var factory = new UserContextFactory(paths.UserDatabasePath);
-        var migrator = new LegacyUserDataMigrator(paths, factory, jsonPlayers, legacyPlayers);
+        var migrator = new LegacyUserDataMigrator(paths, factory);
         var initializer = new UserDatabaseInitializer(paths, factory, migrator);
 
         await initializer.InitializeAsync(token);
@@ -105,6 +105,23 @@ public sealed class SqliteUserDatabaseTests : IDisposable
         Assert.Empty(await context.Database.GetPendingMigrationsAsync(token));
         Assert.Equal(1, await context.Database.SqlQueryRaw<int>(
             "SELECT COUNT(*) AS Value FROM __EFMigrationsHistory").SingleAsync(token));
+        Assert.Single(Directory.EnumerateFiles(Path.Combine(paths.UserDataDirectory, "backups"), "*.db"));
+    }
+
+    [Fact]
+    public async Task Initializer_RejectsCorruptedDatabaseWithoutOverwritingIt()
+    {
+        CancellationToken token = TestContext.Current.CancellationToken;
+        IAppPaths paths = new AppPaths(_directory, Path.Combine(_directory, "data"));
+        Directory.CreateDirectory(paths.UserDataDirectory);
+        byte[] corrupted = [0x01, 0x02, 0x03, 0x04];
+        await File.WriteAllBytesAsync(paths.UserDatabasePath, corrupted, token);
+        var factory = new UserContextFactory(paths.UserDatabasePath);
+
+        await Assert.ThrowsAsync<DataFormatException>(
+            () => new UserDatabaseInitializer(paths, factory).InitializeAsync(token));
+
+        Assert.Equal(corrupted, await File.ReadAllBytesAsync(paths.UserDatabasePath, token));
     }
 
     public void Dispose()
