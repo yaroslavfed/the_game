@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using TheGame.Core.Authentication;
 using TheGame.Core.Inventory;
@@ -51,7 +52,15 @@ public sealed class SqliteAuthenticationService(IDbContextFactory<UserDataDbCont
             }
         };
         context.Accounts.Add(account);
-        await context.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateException exception) when (
+            exception.InnerException is SqliteException { SqliteExtendedErrorCode: 2067 })
+        {
+            return AuthenticationResult.Failure("Логин уже занят");
+        }
         return AuthenticationResult.Success(id);
     }
 

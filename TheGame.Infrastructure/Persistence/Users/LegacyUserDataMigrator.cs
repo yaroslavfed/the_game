@@ -134,7 +134,13 @@ public sealed class LegacyUserDataMigrator(
     }
 
     private static string Normalize(string login) => login.Trim().ToUpperInvariant();
-    private static string Value(string line) => line[(line.IndexOf(": ", StringComparison.Ordinal) + 2)..];
+    private static string Value(string line)
+    {
+        int separatorIndex = line.IndexOf(": ", StringComparison.Ordinal);
+        if (separatorIndex < 1 || separatorIndex + 2 >= line.Length)
+            throw new DataFormatException("Legacy account document contains an invalid field.");
+        return line[(separatorIndex + 2)..];
+    }
     private static byte[] Hash(string password, byte[] salt, int iterations) =>
         Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, HashAlgorithmName.SHA256, 32);
     private static int ParseInt(string value, string path) => int.TryParse(
