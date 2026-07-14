@@ -16,6 +16,8 @@ public sealed class AppPaths : IAppPaths
 
     public string UserDataDirectory { get; }
 
+    public string PlayersDirectory => Path.Combine(UserDataDirectory, "players");
+
     public string LegacyUsersDirectory => Path.Combine(ApplicationDirectory, "users");
 
     public string LegacyInventoryDirectory => Path.Combine(ApplicationDirectory, "inventory");
