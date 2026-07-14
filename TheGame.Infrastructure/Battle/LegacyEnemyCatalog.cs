@@ -6,6 +6,27 @@ namespace TheGame.Infrastructure.Battle;
 
 public sealed class LegacyEnemyCatalog(IAppPaths paths) : IEnemyCatalog
 {
+    public async Task<IReadOnlyList<EnemyDefinition>> GetAllAsync(
+        CancellationToken cancellationToken = default)
+    {
+        if (!Directory.Exists(paths.LegacyEnemiesDirectory))
+        {
+            return [];
+        }
+
+        var enemies = new List<EnemyDefinition>();
+        foreach (string file in Directory.EnumerateFiles(paths.LegacyEnemiesDirectory, "*.txt"))
+        {
+            EnemyDefinition? enemy = await GetAsync(Path.GetFileNameWithoutExtension(file), cancellationToken);
+            if (enemy is not null)
+            {
+                enemies.Add(enemy);
+            }
+        }
+
+        return enemies.OrderBy(enemy => enemy.Rank, StringComparer.Ordinal).ToArray();
+    }
+
     public async Task<EnemyDefinition?> GetAsync(
         string rank,
         CancellationToken cancellationToken = default)
