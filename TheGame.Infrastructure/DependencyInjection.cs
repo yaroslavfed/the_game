@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddSingleton<IInventoryCatalog, LegacyInventoryCatalog>();
         services.AddSingleton<IEnemyCatalog, LegacyEnemyCatalog>();
         services.AddSingleton<IAuthenticationService, AuthenticationService>();
+        services.AddSingleton<IStoreService, StoreService>();
 
         return services;
     }

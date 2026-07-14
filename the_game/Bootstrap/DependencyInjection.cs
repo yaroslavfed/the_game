@@ -53,6 +53,11 @@ public static class DependencyInjection
         services.AddTransient<IViewFor<ProfileViewModel>>(
             provider => provider.GetRequiredService<ProfileView>());
 
+        services.AddTransient<StoreViewModel>();
+        services.AddTransient<StoreView>();
+        services.AddTransient<IViewFor<StoreViewModel>>(
+            provider => provider.GetRequiredService<StoreView>());
+
         return services;
     }
 }

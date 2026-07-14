@@ -24,6 +24,7 @@ public sealed class ProfileViewModel : ReactiveObject, IRoutableViewModel
             session.SignOut();
             await navigation.NavigateToAsync<MainMenuViewModel>(token);
         });
+        StoreCommand = ReactiveCommand.CreateFromTask(() => navigation.NavigateToAsync<StoreViewModel>());
     }
 
     public string? UrlPathSegment => "profile";
@@ -32,4 +33,5 @@ public sealed class ProfileViewModel : ReactiveObject, IRoutableViewModel
     public string? Error { get => _error; private set => this.RaiseAndSetIfChanged(ref _error, value); }
     public ReactiveCommand<Unit, Unit> LoadCommand { get; }
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
+    public ReactiveCommand<Unit, Unit> StoreCommand { get; }
 }
