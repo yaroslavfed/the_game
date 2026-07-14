@@ -6,6 +6,7 @@ using the_game.Navigation;
 using the_game.Lifecycle;
 using the_game.ViewModels;
 using the_game.Views;
+using TheGame.Core.Storage;
 
 namespace the_game;
 
@@ -28,6 +29,7 @@ public partial class App : Application
             .BuildApp();
 
         await _host.StartAsync();
+        await _host.Services.GetRequiredService<IContentDatabaseInitializer>().InitializeAsync();
 
         MainWindow = _host.Services.GetRequiredService<ShellWindow>();
         INavigationService navigation = _host.Services.GetRequiredService<INavigationService>();
