@@ -5,6 +5,8 @@ using the_game.Navigation;
 using the_game.ViewModels;
 using the_game.Views;
 using the_game.Lifecycle;
+using TheGame.Core.Players;
+using the_game.Session;
 
 namespace the_game;
 
@@ -17,8 +19,9 @@ public static class DependencyInjection
         services.AddSingleton<ShellWindow>();
         services.AddSingleton<IViewLocator, DependencyInjectionViewLocator>();
         services.AddSingleton<INavigationService, ReactiveNavigationService>();
-        services.AddSingleton<ILegacyNavigationBridge, LegacyNavigationBridge>();
         services.AddSingleton<IApplicationLifetime, WpfApplicationLifetime>();
+        services.AddSingleton<UserSession>();
+        services.AddSingleton<IUserSession>(provider => provider.GetRequiredService<UserSession>());
 
         services.AddTransient<SplashViewModel>();
         services.AddTransient<SplashView>();
@@ -40,8 +43,15 @@ public static class DependencyInjection
         services.AddTransient<IViewFor<AboutViewModel>>(
             provider => provider.GetRequiredService<AboutView>());
 
-        // Transitional registration. Removed when the main menu becomes a routed view.
-        services.AddTransient<start_page>();
+        services.AddTransient<AuthenticationViewModel>();
+        services.AddTransient<AuthenticationView>();
+        services.AddTransient<IViewFor<AuthenticationViewModel>>(
+            provider => provider.GetRequiredService<AuthenticationView>());
+
+        services.AddTransient<ProfileViewModel>();
+        services.AddTransient<ProfileView>();
+        services.AddTransient<IViewFor<ProfileViewModel>>(
+            provider => provider.GetRequiredService<ProfileView>());
 
         return services;
     }
