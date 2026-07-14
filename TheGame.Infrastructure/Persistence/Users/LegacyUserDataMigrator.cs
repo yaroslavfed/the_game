@@ -1,10 +1,10 @@
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using TheGame.Core.Inventory;
 using TheGame.Core.Players;
 using TheGame.Core.Storage;
-using TheGame.Infrastructure.Players;
 
 namespace TheGame.Infrastructure.Persistence.Users;
 
@@ -14,8 +14,7 @@ public sealed class LegacyUserDataMigrator(
 {
     private const string MigrationId = "legacy-user-storage-v1";
     private const int DefaultIterations = 210_000;
-    private readonly JsonPlayerRepository _jsonPlayers = new(paths);
-    private readonly LegacyPlayerRepository _legacyPlayers = new(paths);
+    private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     public async Task MigrateAsync(CancellationToken cancellationToken = default)
     {
@@ -92,10 +91,30 @@ public sealed class LegacyUserDataMigrator(
         return result.Values.ToArray();
     }
 
-    private async Task<PlayerProfile> LoadProfileAsync(string playerId, string login, CancellationToken token) =>
-        await _jsonPlayers.GetAsync(playerId, token)
-        ?? await _legacyPlayers.GetAsync(playerId, token)
-        ?? new PlayerProfile(playerId, login, 1, 0, 0, "10", ["10"], "20", ["20"]);
+    private async Task<PlayerProfile> LoadProfileAsync(string playerId, string login, CancellationToken token)
+    {
+        string jsonPath = Path.Combine(paths.PlayersDirectory, $"{playerId}.json");
+        if (File.Exists(jsonPath))
+        {
+            await using FileStream stream = File.OpenRead(jsonPath);
+            PlayerDocument? document = await JsonSerializer.DeserializeAsync<PlayerDocument>(stream, JsonOptions, token);
+            if (document is null || document.SchemaVersion != 1 || document.Profile.Id != playerId)
+                throw new DataFormatException($"Legacy player document '{jsonPath}' is invalid.");
+            return document.Profile;
+        }
+
+        string textPath = Path.Combine(paths.LegacyUsersDirectory, $"{playerId}.txt");
+        if (File.Exists(textPath))
+        {
+            string[] lines = await File.ReadAllLinesAsync(textPath, token);
+            if (lines.Length < 8) throw new DataFormatException($"Legacy player document '{textPath}' is incomplete.");
+            return new PlayerProfile(
+                playerId, lines[0], ParseInt(lines[1], textPath), ParseInt(lines[2], textPath), ParseInt(lines[3], textPath),
+                lines[4], SplitIds(lines[5]), lines[6], SplitIds(lines[7]));
+        }
+
+        return new PlayerProfile(playerId, login, 1, 0, 0, "10", ["10"], "20", ["20"]);
+    }
 
     private static PlayerEntity Map(PlayerProfile profile)
     {
@@ -118,5 +137,12 @@ public sealed class LegacyUserDataMigrator(
     private static string Value(string line) => line[(line.IndexOf(": ", StringComparison.Ordinal) + 2)..];
     private static byte[] Hash(string password, byte[] salt, int iterations) =>
         Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, HashAlgorithmName.SHA256, 32);
+    private static int ParseInt(string value, string path) => int.TryParse(
+        value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int result)
+        ? result
+        : throw new DataFormatException($"Legacy player document '{path}' contains an invalid number.");
+    private static string[] SplitIds(string value) =>
+        value.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
     private sealed record ImportedAccount(string Login, string NormalizedLogin, string PlayerId, byte[] Salt, byte[] Hash, int Iterations);
+    private sealed record PlayerDocument(int SchemaVersion, PlayerProfile Profile);
 }

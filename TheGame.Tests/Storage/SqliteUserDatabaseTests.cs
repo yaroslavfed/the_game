@@ -112,14 +112,16 @@ public sealed class SqliteUserDatabaseTests : IDisposable
     }
 
     [Fact]
-    public async Task Initializer_MigratesLegacyJsonOnlyOnce()
+    public async Task Initializer_MigratesLegacyTextOnlyOnce()
     {
         CancellationToken token = TestContext.Current.CancellationToken;
         IAppPaths paths = new AppPaths(_directory, Path.Combine(_directory, "data"));
-        var jsonPlayers = new JsonPlayerRepository(paths);
-        var legacyPlayers = new LegacyPlayerRepository(paths);
-        var oldAuthentication = new TheGame.Infrastructure.Authentication.AuthenticationService(paths, jsonPlayers);
-        var oldRegistration = await oldAuthentication.RegisterAsync("LegacyPlayer", "secret-123", token);
+        Directory.CreateDirectory(paths.ApplicationDirectory);
+        Directory.CreateDirectory(paths.LegacyUsersDirectory);
+        await File.WriteAllLinesAsync(Path.Combine(paths.ApplicationDirectory, "id.txt"),
+            ["Login: LegacyPlayer", "Password: secret-123", "ID: 42"], token);
+        await File.WriteAllLinesAsync(Path.Combine(paths.LegacyUsersDirectory, "42.txt"),
+            ["Legacy Hero", "3", "25", "500", "101", "101 102", "201", "201"], token);
         var factory = new UserContextFactory(paths.UserDatabasePath);
         var migrator = new LegacyUserDataMigrator(paths, factory);
         var initializer = new UserDatabaseInitializer(paths, factory, migrator);
@@ -128,12 +130,46 @@ public sealed class SqliteUserDatabaseTests : IDisposable
         await initializer.InitializeAsync(token);
 
         var login = await new SqliteAuthenticationService(factory).SignInAsync("legacyplayer", "secret-123", token);
-        var profile = await new SqlitePlayerRepository(factory).GetAsync(oldRegistration.PlayerId!, token);
+        var profile = await new SqlitePlayerRepository(factory).GetAsync("42", token);
         await using UserDataDbContext context = factory.CreateDbContext();
         Assert.True(login.IsSuccess);
-        Assert.NotNull(profile);
+        Assert.Equal("Legacy Hero", profile!.Nickname);
+        Assert.Equal(500, profile.Money);
         Assert.Equal(1, await context.Accounts.CountAsync(token));
         Assert.Equal(1, await context.DataMigrations.CountAsync(token));
+        Assert.True(File.Exists(Path.Combine(paths.ApplicationDirectory, "id.txt")));
+    }
+
+    [Fact]
+    public async Task Initializer_MigratesVersionedJsonAccountAndProfile()
+    {
+        CancellationToken token = TestContext.Current.CancellationToken;
+        IAppPaths paths = new AppPaths(_directory, Path.Combine(_directory, "data"));
+        Directory.CreateDirectory(paths.PlayersDirectory);
+        byte[] salt = System.Security.Cryptography.RandomNumberGenerator.GetBytes(16);
+        byte[] hash = System.Security.Cryptography.Rfc2898DeriveBytes.Pbkdf2(
+            "secret-123", salt, 210_000, System.Security.Cryptography.HashAlgorithmName.SHA256, 32);
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web);
+        await File.WriteAllTextAsync(Path.Combine(paths.UserDataDirectory, "accounts.json"),
+            System.Text.Json.JsonSerializer.Serialize(new
+            {
+                schemaVersion = 1,
+                accounts = new[] { new { login = "JsonPlayer", playerId = "7", salt = Convert.ToBase64String(salt), hash = Convert.ToBase64String(hash), iterations = 210_000 } }
+            }, jsonOptions), token);
+        await File.WriteAllTextAsync(Path.Combine(paths.PlayersDirectory, "7.json"),
+            System.Text.Json.JsonSerializer.Serialize(new
+            {
+                schemaVersion = 1,
+                profile = new TheGame.Core.Players.PlayerProfile("7", "Json Hero", 2, 10, 300, "101", ["101"], "201", ["201"])
+            }, jsonOptions), token);
+        var factory = new UserContextFactory(paths.UserDatabasePath);
+        await new UserDatabaseInitializer(paths, factory, new LegacyUserDataMigrator(paths, factory)).InitializeAsync(token);
+
+        var login = await new SqliteAuthenticationService(factory).SignInAsync("jsonplayer", "secret-123", token);
+        var profile = await new SqlitePlayerRepository(factory).GetAsync("7", token);
+
+        Assert.True(login.IsSuccess);
+        Assert.Equal("Json Hero", profile!.Nickname);
         Assert.True(File.Exists(Path.Combine(paths.UserDataDirectory, "accounts.json")));
     }
 
