@@ -3,12 +3,18 @@ using System.Text.Json;
 using TheGame.Core.Authentication;
 using TheGame.Core.Players;
 using TheGame.Core.Storage;
+using TheGame.Infrastructure.Storage;
 
 namespace TheGame.Infrastructure.Authentication;
 
 public sealed class AuthenticationService(IAppPaths paths, IPlayerRepository players) : IAuthenticationService
 {
     private const int Iterations = 210_000;
+    private const int CurrentSchemaVersion = 1;
+    private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
+    {
+        WriteIndented = true
+    };
     private readonly SemaphoreSlim _gate = new(1, 1);
     private string StorePath => Path.Combine(paths.UserDataDirectory, "accounts.json");
 
@@ -75,18 +81,35 @@ public sealed class AuthenticationService(IAppPaths paths, IPlayerRepository pla
     private async Task<List<Account>> LoadAsync(CancellationToken token)
     {
         if (!File.Exists(StorePath)) return [];
-        await using FileStream stream = File.OpenRead(StorePath);
-        return await JsonSerializer.DeserializeAsync<List<Account>>(stream, cancellationToken: token) ?? [];
+        try
+        {
+            await using FileStream stream = File.OpenRead(StorePath);
+            using JsonDocument json = await JsonDocument.ParseAsync(stream, cancellationToken: token);
+            if (json.RootElement.ValueKind == JsonValueKind.Array)
+            {
+                return json.RootElement.Deserialize<List<Account>>(JsonOptions) ?? [];
+            }
+
+            AccountStore? store = json.RootElement.Deserialize<AccountStore>(JsonOptions);
+            if (store is null || store.SchemaVersion != CurrentSchemaVersion)
+            {
+                throw new DataFormatException(
+                    $"Account store uses an unsupported schema version ({store?.SchemaVersion}).");
+            }
+            return store.Accounts ?? [];
+        }
+        catch (JsonException exception)
+        {
+            throw new DataFormatException("Account store contains invalid JSON.", exception);
+        }
     }
 
-    private async Task SaveAsync(List<Account> accounts, CancellationToken token)
-    {
-        Directory.CreateDirectory(paths.UserDataDirectory);
-        string temp = StorePath + ".tmp";
-        await using (FileStream stream = File.Create(temp))
-            await JsonSerializer.SerializeAsync(stream, accounts, cancellationToken: token);
-        File.Move(temp, StorePath, true);
-    }
+    private Task SaveAsync(List<Account> accounts, CancellationToken token) =>
+        AtomicJsonFile.WriteAsync(
+            StorePath,
+            new AccountStore(CurrentSchemaVersion, accounts),
+            JsonOptions,
+            token);
 
     private async Task<LegacyAccount?> FindLegacyAsync(string login, CancellationToken token)
     {
@@ -129,5 +152,6 @@ public sealed class AuthenticationService(IAppPaths paths, IPlayerRepository pla
 
     private static string Value(string line) => line[(line.IndexOf(": ", StringComparison.Ordinal) + 2)..];
     private sealed record Account(string Login, string PlayerId, string Salt, string Hash, int Iterations);
+    private sealed record AccountStore(int SchemaVersion, List<Account> Accounts);
     private sealed record LegacyAccount(string Login, string Password, string PlayerId);
 }

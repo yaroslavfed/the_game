@@ -17,7 +17,9 @@ public static class DependencyInjection
     public static IServiceCollection AddTheGameInfrastructure(this IServiceCollection services)
     {
         services.AddSingleton<IAppPaths, AppPaths>();
-        services.AddSingleton<IPlayerRepository, LegacyPlayerRepository>();
+        services.AddSingleton<LegacyPlayerRepository>();
+        services.AddSingleton<JsonPlayerRepository>();
+        services.AddSingleton<IPlayerRepository, MigratingPlayerRepository>();
         services.AddSingleton<IInventoryCatalog, LegacyInventoryCatalog>();
         services.AddSingleton<IEnemyCatalog, LegacyEnemyCatalog>();
         services.AddSingleton<IAuthenticationService, AuthenticationService>();
