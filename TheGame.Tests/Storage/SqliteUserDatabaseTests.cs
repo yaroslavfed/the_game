@@ -63,6 +63,32 @@ public sealed class SqliteUserDatabaseTests : IDisposable
         Assert.Contains("101", profile.OwnedWeaponIds);
     }
 
+    [Fact]
+    public async Task Initializer_MigratesLegacyJsonOnlyOnce()
+    {
+        CancellationToken token = TestContext.Current.CancellationToken;
+        IAppPaths paths = new AppPaths(_directory, Path.Combine(_directory, "data"));
+        var jsonPlayers = new JsonPlayerRepository(paths);
+        var legacyPlayers = new LegacyPlayerRepository(paths);
+        var oldAuthentication = new TheGame.Infrastructure.Authentication.AuthenticationService(paths, jsonPlayers);
+        var oldRegistration = await oldAuthentication.RegisterAsync("LegacyPlayer", "secret-123", token);
+        var factory = new UserContextFactory(paths.UserDatabasePath);
+        var migrator = new LegacyUserDataMigrator(paths, factory, jsonPlayers, legacyPlayers);
+        var initializer = new UserDatabaseInitializer(paths, factory, migrator);
+
+        await initializer.InitializeAsync(token);
+        await initializer.InitializeAsync(token);
+
+        var login = await new SqliteAuthenticationService(factory).SignInAsync("legacyplayer", "secret-123", token);
+        var profile = await new SqlitePlayerRepository(factory).GetAsync(oldRegistration.PlayerId!, token);
+        await using UserDataDbContext context = factory.CreateDbContext();
+        Assert.True(login.IsSuccess);
+        Assert.NotNull(profile);
+        Assert.Equal(1, await context.Accounts.CountAsync(token));
+        Assert.Equal(1, await context.DataMigrations.CountAsync(token));
+        Assert.True(File.Exists(Path.Combine(paths.UserDataDirectory, "accounts.json")));
+    }
+
     public void Dispose()
     {
         SqliteConnection.ClearAllPools();

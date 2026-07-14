@@ -31,6 +31,7 @@ public static class DependencyInjection
             options.UseSqlite($"Data Source={paths.UserDatabasePath};Foreign Keys=True;Default Timeout=5;Pooling=True");
         });
         services.AddSingleton<IContentDatabaseInitializer, ContentDatabaseInitializer>();
+        services.AddSingleton<LegacyUserDataMigrator>();
         services.AddSingleton<IUserDatabaseInitializer, UserDatabaseInitializer>();
         services.AddSingleton<LegacyPlayerRepository>();
         services.AddSingleton<JsonPlayerRepository>();

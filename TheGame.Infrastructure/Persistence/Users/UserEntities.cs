@@ -46,3 +46,10 @@ public sealed class PlayerLoadoutEntity
     public string? ArmorItemId { get; set; }
     public PlayerEntity Player { get; set; } = null!;
 }
+
+public sealed class DataMigrationEntity
+{
+    public string Id { get; set; } = string.Empty;
+    public DateTimeOffset CompletedAt { get; set; }
+    public string? Details { get; set; }
+}
