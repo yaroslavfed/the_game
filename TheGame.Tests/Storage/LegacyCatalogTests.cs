@@ -46,6 +46,27 @@ public sealed class LegacyCatalogTests : IDisposable
         Assert.Equal(new EnemyDefinition("2", "Raider", 125.5, 11, 3.5, 40), enemy);
     }
 
+    [Fact]
+    public async Task EnemyCatalog_GetAllAsync_ReadsEnemiesInRankOrder()
+    {
+        CancellationToken cancellationToken = TestContext.Current.CancellationToken;
+        IAppPaths paths = CreatePaths();
+        Directory.CreateDirectory(paths.LegacyEnemiesDirectory);
+        await File.WriteAllLinesAsync(
+            Path.Combine(paths.LegacyEnemiesDirectory, "2.txt"),
+            ["2", "Raider", "120", "12", "3", "40"],
+            cancellationToken);
+        await File.WriteAllLinesAsync(
+            Path.Combine(paths.LegacyEnemiesDirectory, "0.txt"),
+            ["0", "Scout", "80", "8", "1", "15"],
+            cancellationToken);
+
+        IReadOnlyList<EnemyDefinition> enemies = await new LegacyEnemyCatalog(paths)
+            .GetAllAsync(cancellationToken);
+
+        Assert.Equal(["0", "2"], enemies.Select(enemy => enemy.Rank));
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(_directory))

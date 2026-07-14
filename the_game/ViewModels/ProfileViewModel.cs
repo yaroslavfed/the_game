@@ -25,6 +25,7 @@ public sealed class ProfileViewModel : ReactiveObject, IRoutableViewModel
             await navigation.NavigateToAsync<MainMenuViewModel>(token);
         });
         StoreCommand = ReactiveCommand.CreateFromTask(() => navigation.NavigateToAsync<StoreViewModel>());
+        PlayCommand = ReactiveCommand.CreateFromTask(() => navigation.NavigateToAsync<ModeSelectionViewModel>());
     }
 
     public string? UrlPathSegment => "profile";
@@ -34,4 +35,5 @@ public sealed class ProfileViewModel : ReactiveObject, IRoutableViewModel
     public ReactiveCommand<Unit, Unit> LoadCommand { get; }
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
     public ReactiveCommand<Unit, Unit> StoreCommand { get; }
+    public ReactiveCommand<Unit, Unit> PlayCommand { get; }
 }

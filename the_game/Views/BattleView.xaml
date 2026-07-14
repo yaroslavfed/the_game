@@ -1,0 +1,63 @@
+<rxui:ReactiveUserControl x:Class="the_game.Views.BattleView"
+    x:TypeArguments="viewModels:BattleViewModel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:rxui="http://reactiveui.net"
+    xmlns:viewModels="clr-namespace:the_game.ViewModels"
+    Loaded="OnLoaded">
+    <Grid Background="#10141B" Margin="48">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="ПОЛЕ БОЯ" Style="{StaticResource PageTitleStyle}"/>
+                <TextBlock Text="{Binding Session.Status, StringFormat=Статус: {0}}"
+                           Foreground="#FFADB5C0" FontSize="18"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" MinWidth="280">
+                <TextBlock Text="ГЕРОЙ" Foreground="#FF788391"/>
+                <TextBlock Text="{Binding Session.Hero.Health, StringFormat=Здоровье: {0:0}}"
+                           Foreground="White" FontSize="24"/>
+                <ProgressBar Maximum="{Binding Session.Hero.MaxHealth}"
+                             Value="{Binding Session.Hero.Health}" Height="16"/>
+            </StackPanel>
+        </Grid>
+
+        <ListBox Grid.Row="1" Margin="0,32" ItemsSource="{Binding Enemies}"
+                 SelectedItem="{Binding SelectedEnemy}" Background="Transparent" BorderThickness="0">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Width="240" Margin="10" Padding="22" Background="#CC1C222D" CornerRadius="10">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" Foreground="White" FontSize="24"/>
+                            <TextBlock Text="{Binding Rank, StringFormat=Ранг: {0}}" Foreground="#FFADB5C0"/>
+                            <TextBlock Text="{Binding Health, StringFormat=HP: {0:0}}" Foreground="#FFE6C76B" FontSize="20"/>
+                            <ProgressBar Maximum="{Binding MaxHealth}" Value="{Binding Health}" Height="14"/>
+                            <TextBlock Text="{Binding Reward, StringFormat=Награда: {0}}" Foreground="#FFADB5C0" Margin="0,10,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="{Binding Message}" Foreground="#FFE6C76B" FontSize="18" Margin="8"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="АТАКОВАТЬ" Command="{Binding AttackCommand}" Style="{StaticResource MenuButtonStyle}"/>
+                <Button Content="ЛЕЧЕНИЕ" Command="{Binding HealCommand}" Style="{StaticResource MenuButtonStyle}"/>
+                <Button Content="ВЫЙТИ" Command="{Binding BackCommand}" Style="{StaticResource MenuButtonStyle}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</rxui:ReactiveUserControl>

@@ -58,6 +58,16 @@ public static class DependencyInjection
         services.AddTransient<IViewFor<StoreViewModel>>(
             provider => provider.GetRequiredService<StoreView>());
 
+        services.AddTransient<ModeSelectionViewModel>();
+        services.AddTransient<ModeSelectionView>();
+        services.AddTransient<IViewFor<ModeSelectionViewModel>>(
+            provider => provider.GetRequiredService<ModeSelectionView>());
+
+        services.AddTransient<BattleViewModel>();
+        services.AddTransient<BattleView>();
+        services.AddTransient<IViewFor<BattleViewModel>>(
+            provider => provider.GetRequiredService<BattleView>());
+
         return services;
     }
 }
