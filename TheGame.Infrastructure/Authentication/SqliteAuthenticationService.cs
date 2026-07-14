@@ -14,7 +14,8 @@ public sealed class SqliteAuthenticationService(IDbContextFactory<UserDataDbCont
     {
         string normalized = Normalize(login);
         await using UserDataDbContext context = await contextFactory.CreateDbContextAsync(cancellationToken);
-        AccountEntity? account = await context.Accounts.SingleOrDefaultAsync(value => value.NormalizedLogin == normalized, cancellationToken);
+        AccountEntity? account = await context.Accounts.Include(value => value.Player)
+            .SingleOrDefaultAsync(value => value.NormalizedLogin == normalized, cancellationToken);
         if (account is null) return AuthenticationResult.Failure("Пользователь не найден");
         if (!Verify(password, account)) return AuthenticationResult.Failure("Неверный пароль");
         account.LastLoginAt = DateTimeOffset.UtcNow;

@@ -8,6 +8,7 @@ public sealed class UserDataDbContext(DbContextOptions<UserDataDbContext> option
     public DbSet<PlayerEntity> Players => Set<PlayerEntity>();
     public DbSet<PlayerItemEntity> PlayerItems => Set<PlayerItemEntity>();
     public DbSet<PlayerLoadoutEntity> PlayerLoadouts => Set<PlayerLoadoutEntity>();
+    public DbSet<DataMigrationEntity> DataMigrations => Set<DataMigrationEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -57,6 +58,14 @@ public sealed class UserDataDbContext(DbContextOptions<UserDataDbContext> option
             entity.Property(value => value.ArmorItemId).HasMaxLength(64);
             entity.HasOne(value => value.Player).WithOne(value => value.Loadout)
                 .HasForeignKey<PlayerLoadoutEntity>(value => value.PlayerId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<DataMigrationEntity>(entity =>
+        {
+            entity.ToTable("data_migrations");
+            entity.HasKey(value => value.Id);
+            entity.Property(value => value.Id).HasMaxLength(100);
+            entity.Property(value => value.Details).HasMaxLength(1000);
         });
     }
 }
