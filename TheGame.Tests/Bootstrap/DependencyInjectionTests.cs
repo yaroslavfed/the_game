@@ -32,7 +32,9 @@ public sealed class DependencyInjectionTests
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<StoreViewModel>));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<ModeSelectionViewModel>));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<BattleViewModel>));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<KnowledgeBaseViewModel>));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IBattleEngine));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IAsyncDelay));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IApplicationErrorService));
     }
 }

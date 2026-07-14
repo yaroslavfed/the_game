@@ -8,5 +8,25 @@
         Height="900"
         Width="1600"
         WindowState="Maximized">
-    <rxui:RoutedViewHost x:Name="ViewHost" Router="{Binding Router}" />
+    <Grid>
+        <rxui:RoutedViewHost x:Name="ViewHost" Router="{Binding Router}" />
+        <Border VerticalAlignment="Top" HorizontalAlignment="Center" Margin="24"
+                Padding="18,12" Background="#FFE57373" CornerRadius="8">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Errors.Message}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Errors.Message}" Foreground="White" FontSize="18" VerticalAlignment="Center"/>
+                <Button Content="×" Command="{Binding DismissErrorCommand}" Margin="18,0,0,0"
+                        Background="Transparent" Foreground="White" BorderThickness="0" FontSize="22"/>
+            </StackPanel>
+        </Border>
+    </Grid>
 </rxui:ReactiveWindow>

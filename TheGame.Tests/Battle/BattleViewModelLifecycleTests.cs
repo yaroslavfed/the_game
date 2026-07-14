@@ -45,7 +45,7 @@ public sealed class BattleViewModelLifecycleTests
         var session = new UserSession();
         session.SignIn("player");
         return new BattleViewModel(
-            new ShellViewModel(),
+            new ShellViewModel(new TestErrorService()),
             session,
             new PlayerRepository(),
             new InventoryCatalog(),
@@ -54,6 +54,15 @@ public sealed class BattleViewModelLifecycleTests
             delay,
             new BattleTimingOptions(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1)),
             new NavigationService());
+    }
+
+    private sealed class TestErrorService : IApplicationErrorService
+    {
+        public string? Message => null;
+        public void Clear() { }
+        public void OnCompleted() { }
+        public void OnError(Exception error) { }
+        public void OnNext(Exception value) { }
     }
 
     private sealed class ControlledDelay : IAsyncDelay

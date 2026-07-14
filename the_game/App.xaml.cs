@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ReactiveUI;
 using ReactiveUI.Builder;
 using System.Windows;
 using the_game.Navigation;
+using the_game.Lifecycle;
 using the_game.ViewModels;
 using the_game.Views;
 
@@ -17,14 +17,16 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        RxAppBuilder.CreateReactiveUIBuilder()
-            .WithCoreServices()
-            .BuildApp();
-
         HostApplicationBuilder builder = Host.CreateApplicationBuilder(e.Args);
         builder.Services.AddTheGameDesktop();
 
         _host = builder.Build();
+
+        RxAppBuilder.CreateReactiveUIBuilder()
+            .WithExceptionHandler(_host.Services.GetRequiredService<IApplicationErrorService>())
+            .WithCoreServices()
+            .BuildApp();
+
         await _host.StartAsync();
 
         MainWindow = _host.Services.GetRequiredService<ShellWindow>();
