@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ReactiveUI;
+using ReactiveUI.Builder;
 using System.Windows;
 using the_game.Navigation;
 using the_game.ViewModels;
@@ -14,6 +16,10 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+
+        RxAppBuilder.CreateReactiveUIBuilder()
+            .WithCoreServices()
+            .BuildApp();
 
         HostApplicationBuilder builder = Host.CreateApplicationBuilder(e.Args);
         builder.Services.AddTheGameDesktop();

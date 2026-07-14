@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using TheGame.Core.Battle;
+using the_game.Lifecycle;
 using the_game.Navigation;
 using the_game.ViewModels;
 using the_game.Views;
@@ -32,5 +33,6 @@ public sealed class DependencyInjectionTests
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<ModeSelectionViewModel>));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<BattleViewModel>));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IBattleEngine));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IAsyncDelay));
     }
 }
