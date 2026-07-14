@@ -89,6 +89,24 @@ public sealed class SqliteUserDatabaseTests : IDisposable
         Assert.True(File.Exists(Path.Combine(paths.UserDataDirectory, "accounts.json")));
     }
 
+    [Fact]
+    public async Task Initializer_BaselinesDatabasePreviouslyCreatedWithEnsureCreated()
+    {
+        CancellationToken token = TestContext.Current.CancellationToken;
+        IAppPaths paths = new AppPaths(_directory, Path.Combine(_directory, "data"));
+        Directory.CreateDirectory(paths.UserDataDirectory);
+        var factory = new UserContextFactory(paths.UserDatabasePath);
+        await using (UserDataDbContext legacyContext = factory.CreateDbContext())
+            await legacyContext.Database.EnsureCreatedAsync(token);
+
+        await new UserDatabaseInitializer(paths, factory).InitializeAsync(token);
+
+        await using UserDataDbContext context = factory.CreateDbContext();
+        Assert.Empty(await context.Database.GetPendingMigrationsAsync(token));
+        Assert.Equal(1, await context.Database.SqlQueryRaw<int>(
+            "SELECT COUNT(*) AS Value FROM __EFMigrationsHistory").SingleAsync(token));
+    }
+
     public void Dispose()
     {
         SqliteConnection.ClearAllPools();
