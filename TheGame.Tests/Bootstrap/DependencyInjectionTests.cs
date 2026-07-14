@@ -24,5 +24,8 @@ public sealed class DependencyInjectionTests
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(ShellViewModel));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(INavigationService));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<SplashViewModel>));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<MainMenuViewModel>));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<SettingsViewModel>));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<AboutViewModel>));
     }
 }

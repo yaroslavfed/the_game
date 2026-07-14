@@ -6,10 +6,11 @@ namespace the_game.ViewModels;
 
 public sealed class SplashViewModel : ReactiveObject, IRoutableViewModel
 {
-    public SplashViewModel(ShellViewModel hostScreen, ILegacyNavigationBridge legacyNavigation)
+    public SplashViewModel(ShellViewModel hostScreen, INavigationService navigation)
     {
         HostScreen = hostScreen;
-        ContinueCommand = ReactiveCommand.Create(legacyNavigation.OpenMainMenu);
+        ContinueCommand = ReactiveCommand.CreateFromTask(
+            () => navigation.NavigateToAsync<MainMenuViewModel>());
     }
 
     public string? UrlPathSegment => "splash";
