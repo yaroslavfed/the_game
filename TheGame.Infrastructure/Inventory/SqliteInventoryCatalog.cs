@@ -10,8 +10,8 @@ public sealed class SqliteInventoryCatalog(IDbContextFactory<GameContentDbContex
     {
         await using GameContentDbContext context = await contextFactory.CreateDbContextAsync(cancellationToken);
         return await context.Items.AsNoTracking()
-            .Where(item => item.Id == itemId && item.IsActive)
-            .Select(item => new InventoryItem(item.Id, item.Kind, item.Power, item.Price, item.Rarity))
+            .Where(item => item.Id == itemId)
+            .Select(item => new InventoryItem(item.Id, item.Kind, item.Power, item.Price, item.Rarity, item.IsActive))
             .SingleOrDefaultAsync(cancellationToken);
     }
 
@@ -22,7 +22,7 @@ public sealed class SqliteInventoryCatalog(IDbContextFactory<GameContentDbContex
             .Where(item => item.IsActive)
             .OrderBy(item => item.SortOrder)
             .ThenBy(item => item.Id)
-            .Select(item => new InventoryItem(item.Id, item.Kind, item.Power, item.Price, item.Rarity))
+            .Select(item => new InventoryItem(item.Id, item.Kind, item.Power, item.Price, item.Rarity, item.IsActive))
             .ToArrayAsync(cancellationToken);
     }
 }

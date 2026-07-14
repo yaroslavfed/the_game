@@ -42,6 +42,42 @@ public sealed class SqliteContentCatalogTests
         Assert.Equal("Raider", (await enemies.GetAsync("2", TestContext.Current.CancellationToken))?.Name);
     }
 
+    [Fact]
+    public async Task Initializer_AtomicallyUpdatesVersionAndKeepsRemovedItemAsTombstone()
+    {
+        using var paths = new TemporaryPaths();
+        string seedPath = Path.Combine(paths.ApplicationDirectory, "content.seed.json");
+        await File.WriteAllTextAsync(seedPath,
+            Seed("1.0", """
+            { "id": "101", "kind": "Weapon", "name": "Old sword", "power": 10, "price": 100, "rarity": 1, "description": null },
+            { "id": "102", "kind": "Weapon", "name": "Current sword", "power": 20, "price": 200, "rarity": 2, "description": null }
+            """), TestContext.Current.CancellationToken);
+        var initializer = new ContentDatabaseInitializer(paths);
+        await initializer.InitializeAsync(TestContext.Current.CancellationToken);
+        await File.WriteAllTextAsync(seedPath,
+            Seed("2.0", """
+            { "id": "102", "kind": "Weapon", "name": "Updated sword", "power": 25, "price": 220, "rarity": 2, "description": null }
+            """), TestContext.Current.CancellationToken);
+
+        await initializer.InitializeAsync(TestContext.Current.CancellationToken);
+
+        var catalog = new SqliteInventoryCatalog(new ContentContextFactory(paths.ContentDatabasePath));
+        InventoryItem? removed = await catalog.GetAsync("101", TestContext.Current.CancellationToken);
+        InventoryItem? updated = await catalog.GetAsync("102", TestContext.Current.CancellationToken);
+        Assert.False(removed!.IsActive);
+        Assert.Equal(25, updated!.Power);
+        Assert.Equal(["102"], (await catalog.GetAllAsync(TestContext.Current.CancellationToken)).Select(item => item.Id));
+    }
+
+    private static string Seed(string version, string items) => $$"""
+        {
+          "schemaVersion": 1,
+          "contentVersion": "{{version}}",
+          "items": [{{items}}],
+          "enemies": []
+        }
+        """;
+
     private sealed class ContentContextFactory(string databasePath) : IDbContextFactory<GameContentDbContext>
     {
         public GameContentDbContext CreateDbContext()
