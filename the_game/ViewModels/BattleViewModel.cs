@@ -1,24 +1,32 @@
 using ReactiveUI;
 using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Reactive.Disposables;
 using TheGame.Core.Battle;
 using TheGame.Core.Inventory;
 using TheGame.Core.Players;
+using the_game.Lifecycle;
 using the_game.Navigation;
 
 namespace the_game.ViewModels;
 
-public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel
+public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActivatableViewModel
 {
     private readonly IUserSession _userSession;
     private readonly IPlayerRepository _players;
     private readonly IInventoryCatalog _inventory;
     private readonly IEnemyCatalog _enemies;
     private readonly IBattleEngine _engine;
+    private readonly IAsyncDelay _delay;
+    private readonly BattleTimingOptions _timing;
     private PlayerProfile? _player;
     private BattleSession? _session;
     private BattleEnemy? _selectedEnemy;
     private string? _message;
+    private CancellationToken _lifecycleToken;
+    private bool _isActive;
+    private bool _isTurnInProgress;
+    private bool _isHealCoolingDown;
 
     public BattleViewModel(
         ShellViewModel hostScreen,
@@ -27,6 +35,8 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel
         IInventoryCatalog inventory,
         IEnemyCatalog enemies,
         IBattleEngine engine,
+        IAsyncDelay delay,
+        BattleTimingOptions timing,
         INavigationService navigation)
     {
         HostScreen = hostScreen;
@@ -35,21 +45,49 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel
         _inventory = inventory;
         _enemies = enemies;
         _engine = engine;
+        _delay = delay;
+        _timing = timing;
 
         LoadCommand = ReactiveCommand.CreateFromTask(LoadAsync);
         var canAttack = this.WhenAnyValue(
             viewModel => viewModel.SelectedEnemy,
             viewModel => viewModel.Session,
-            (enemy, session) => enemy?.IsAlive == true && session?.Status == BattleStatus.InProgress);
+            viewModel => viewModel.IsTurnInProgress,
+            (enemy, session, isBusy) =>
+                enemy?.IsAlive == true && session?.Status == BattleStatus.InProgress && !isBusy);
         AttackCommand = ReactiveCommand.CreateFromTask(AttackAsync, canAttack);
-        HealCommand = ReactiveCommand.Create(Heal, this.WhenAnyValue(
+        var canHeal = this.WhenAnyValue(
             viewModel => viewModel.Session,
-            session => session?.Status == BattleStatus.InProgress && session.Hero.Health < session.Hero.MaxHealth));
+            viewModel => viewModel.IsTurnInProgress,
+            viewModel => viewModel.IsHealCoolingDown,
+            (session, isBusy, isCoolingDown) =>
+                session?.Status == BattleStatus.InProgress &&
+                session.Hero.Health < session.Hero.MaxHealth &&
+                !isBusy &&
+                !isCoolingDown);
+        HealCommand = ReactiveCommand.CreateFromTask(HealAsync, canHeal);
         BackCommand = ReactiveCommand.CreateFromTask(navigation.GoBackAsync);
+
+        this.WhenActivated(disposables =>
+        {
+            var cancellation = new CancellationTokenSource();
+            _lifecycleToken = cancellation.Token;
+            _isActive = true;
+            IsTurnInProgress = false;
+            IsHealCoolingDown = false;
+            disposables.Add(LoadCommand.Execute().Subscribe());
+            disposables.Add(Disposable.Create(() =>
+            {
+                _isActive = false;
+                cancellation.Cancel();
+                cancellation.Dispose();
+            }));
+        });
     }
 
     public string? UrlPathSegment => "battle";
     public IScreen HostScreen { get; }
+    public ViewModelActivator Activator { get; } = new();
     public ObservableCollection<BattleEnemy> Enemies { get; } = [];
     public BattleSession? Session
     {
@@ -66,36 +104,48 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel
         get => _message;
         private set => this.RaiseAndSetIfChanged(ref _message, value);
     }
+    public bool IsTurnInProgress
+    {
+        get => _isTurnInProgress;
+        private set => this.RaiseAndSetIfChanged(ref _isTurnInProgress, value);
+    }
+    public bool IsHealCoolingDown
+    {
+        get => _isHealCoolingDown;
+        private set => this.RaiseAndSetIfChanged(ref _isHealCoolingDown, value);
+    }
     public ReactiveCommand<Unit, Unit> LoadCommand { get; }
     public ReactiveCommand<Unit, Unit> AttackCommand { get; }
     public ReactiveCommand<Unit, Unit> HealCommand { get; }
     public ReactiveCommand<Unit, Unit> BackCommand { get; }
 
-    private async Task LoadAsync(CancellationToken cancellationToken)
+    private async Task LoadAsync(CancellationToken commandToken)
     {
+        using CancellationTokenSource cancellation = LinkToLifecycle(commandToken);
+        CancellationToken token = cancellation.Token;
         if (_userSession.PlayerId is null)
         {
             Message = "Активный профиль не найден";
             return;
         }
 
-        PlayerProfile? player = await _players.GetAsync(_userSession.PlayerId, cancellationToken);
-        IReadOnlyList<EnemyDefinition> definitions = await _enemies.GetAllAsync(cancellationToken);
+        PlayerProfile? player = await _players.GetAsync(_userSession.PlayerId, token);
+        IReadOnlyList<EnemyDefinition> definitions = await _enemies.GetAllAsync(token);
         if (player is null || definitions.Count == 0)
         {
             Message = "Не удалось подготовить бой";
             return;
         }
 
-        InventoryItem? weapon = await _inventory.GetAsync(player.EquippedWeaponId, cancellationToken);
-        InventoryItem? armor = await _inventory.GetAsync(player.EquippedArmorId, cancellationToken);
+        InventoryItem? weapon = await _inventory.GetAsync(player.EquippedWeaponId, token);
+        InventoryItem? armor = await _inventory.GetAsync(player.EquippedArmorId, token);
+        token.ThrowIfCancellationRequested();
         var hero = new BattleHero(
             100 + player.Level * 4,
             100 + player.Level * 4,
             weapon?.Power ?? 10,
             armor?.Power ?? 0);
-        BattleEnemy[] wave = definitions
-            .Take(3)
+        BattleEnemy[] wave = definitions.Take(3)
             .Select((definition, index) => BattleEnemy.Create($"enemy-{index + 1}", definition))
             .ToArray();
 
@@ -104,38 +154,59 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel
         Message = "Выберите противника";
     }
 
-    private async Task AttackAsync(CancellationToken cancellationToken)
+    private async Task AttackAsync(CancellationToken commandToken)
     {
         if (Session is null || SelectedEnemy is null)
         {
             return;
         }
 
+        using CancellationTokenSource cancellation = LinkToLifecycle(commandToken);
+        CancellationToken token = cancellation.Token;
+        IsTurnInProgress = true;
         BattleSession updated = _engine.Attack(Session, SelectedEnemy.Id);
-        if (updated.Status == BattleStatus.InProgress)
+        ApplySession(updated);
+        try
         {
-            BattleEnemy? retaliatingEnemy = updated.Enemies.FirstOrDefault(enemy => enemy.IsAlive);
-            if (retaliatingEnemy is not null)
+            if (updated.Status == BattleStatus.InProgress)
             {
-                updated = _engine.EnemyAttack(updated, retaliatingEnemy.Id);
+                Message = "Противник готовит ответ";
+                await _delay.DelayAsync(_timing.EnemyResponseDelay, token);
+                BattleEnemy? enemy = updated.Enemies.FirstOrDefault(candidate => candidate.IsAlive);
+                if (enemy is not null)
+                {
+                    updated = _engine.EnemyAttack(updated, enemy.Id);
+                    token.ThrowIfCancellationRequested();
+                    ApplySession(updated);
+                }
+            }
+
+            if (updated.Status == BattleStatus.Victory && _player is not null)
+            {
+                _player = _player with { Money = _player.Money + updated.Reward };
+                await _players.SaveAsync(_player, token);
+            }
+            token.ThrowIfCancellationRequested();
+            Message = updated.Status switch
+            {
+                BattleStatus.Victory => $"Победа! Награда: {updated.Reward}",
+                BattleStatus.Defeat => "Поражение",
+                _ => "Ход завершён"
+            };
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+        }
+        finally
+        {
+            if (_isActive)
+            {
+                IsTurnInProgress = false;
             }
         }
-
-        ApplySession(updated);
-        if (updated.Status == BattleStatus.Victory && _player is not null)
-        {
-            _player = _player with { Money = _player.Money + updated.Reward };
-            await _players.SaveAsync(_player, cancellationToken);
-        }
-        Message = updated.Status switch
-        {
-            BattleStatus.Victory => $"Победа! Награда: {updated.Reward}",
-            BattleStatus.Defeat => "Поражение",
-            _ => "Ход завершён"
-        };
     }
 
-    private void Heal()
+    private async Task HealAsync(CancellationToken commandToken)
     {
         if (Session is null)
         {
@@ -144,7 +215,24 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel
 
         ApplySession(_engine.Heal(Session, 0.5));
         Message = "Здоровье восстановлено";
+        IsHealCoolingDown = true;
+        using CancellationTokenSource cancellation = LinkToLifecycle(commandToken);
+        try
+        {
+            await _delay.DelayAsync(_timing.HealCooldown, cancellation.Token);
+            if (_isActive)
+            {
+                IsHealCoolingDown = false;
+                Message = "Лечение снова доступно";
+            }
+        }
+        catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+        {
+        }
     }
+
+    private CancellationTokenSource LinkToLifecycle(CancellationToken commandToken) =>
+        CancellationTokenSource.CreateLinkedTokenSource(commandToken, _lifecycleToken);
 
     private void ApplySession(BattleSession session)
     {

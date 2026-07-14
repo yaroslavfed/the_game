@@ -20,6 +20,8 @@ public static class DependencyInjection
         services.AddSingleton<IViewLocator, DependencyInjectionViewLocator>();
         services.AddSingleton<INavigationService, ReactiveNavigationService>();
         services.AddSingleton<IApplicationLifetime, WpfApplicationLifetime>();
+        services.AddSingleton<IAsyncDelay, SystemAsyncDelay>();
+        services.AddSingleton(BattleTimingOptions.Default);
         services.AddSingleton<UserSession>();
         services.AddSingleton<IUserSession>(provider => provider.GetRequiredService<UserSession>());
 
