@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using TheGame.Core.Inventory;
 using TheGame.Core.Players;
 using the_game.Navigation;
+using the_game.Presentation;
 
 namespace the_game.ViewModels;
 
@@ -17,6 +18,7 @@ public sealed class StoreViewModel : ReactiveObject, IRoutableViewModel
     private InventoryItem? _selectedItem;
     private PlayerProfile? _player;
     private string? _message;
+    private ScreenState _state = ScreenState.Loading();
 
     public StoreViewModel(ShellViewModel hostScreen, IUserSession session, IPlayerRepository players, IInventoryCatalog catalog, IStoreService store, INavigationService navigation)
     {
@@ -34,6 +36,7 @@ public sealed class StoreViewModel : ReactiveObject, IRoutableViewModel
     public InventoryItem? SelectedItem { get => _selectedItem; set => this.RaiseAndSetIfChanged(ref _selectedItem, value); }
     public PlayerProfile? Player { get => _player; private set => this.RaiseAndSetIfChanged(ref _player, value); }
     public string? Message { get => _message; private set => this.RaiseAndSetIfChanged(ref _message, value); }
+    public ScreenState State { get => _state; private set => this.RaiseAndSetIfChanged(ref _state, value); }
     public ReactiveCommand<Unit, Unit> LoadCommand { get; }
     public ReactiveCommand<Unit, Unit> BuyCommand { get; }
     public ReactiveCommand<Unit, Unit> EquipCommand { get; }
@@ -41,10 +44,33 @@ public sealed class StoreViewModel : ReactiveObject, IRoutableViewModel
 
     private async Task LoadAsync(CancellationToken token)
     {
-        if (_session.PlayerId is null) return;
-        Player = await _players.GetAsync(_session.PlayerId, token);
-        Items.Clear();
-        foreach (InventoryItem item in await _catalog.GetAllAsync(token)) Items.Add(item);
+        State = ScreenState.Loading();
+        try
+        {
+            if (_session.PlayerId is null)
+            {
+                State = ScreenState.Error("Сессия пользователя завершена");
+                return;
+            }
+
+            Player = await _players.GetAsync(_session.PlayerId, token);
+            if (Player is null)
+            {
+                State = ScreenState.Error("Профиль игрока не найден");
+                return;
+            }
+
+            Items.Clear();
+            foreach (InventoryItem item in await _catalog.GetAllAsync(token)) Items.Add(item);
+            State = Items.Count == 0
+                ? ScreenState.Empty("В магазине пока нет предметов")
+                : ScreenState.Content();
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+        catch (Exception)
+        {
+            State = ScreenState.Error("Не удалось загрузить магазин. Попробуйте ещё раз.");
+        }
     }
 
     private async Task BuyAsync(CancellationToken token)
