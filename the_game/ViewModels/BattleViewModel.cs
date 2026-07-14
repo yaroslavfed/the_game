@@ -19,6 +19,7 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActiv
     private readonly IBattleEngine _engine;
     private readonly IAsyncDelay _delay;
     private readonly BattleTimingOptions _timing;
+    private IReadOnlyList<EnemyDefinition> _enemyDefinitions = [];
     private PlayerProfile? _player;
     private BattleSession? _session;
     private BattleEnemy? _selectedEnemy;
@@ -27,6 +28,7 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActiv
     private bool _isActive;
     private bool _isTurnInProgress;
     private bool _isHealCoolingDown;
+    private int _wave = 1;
 
     public BattleViewModel(
         ShellViewModel hostScreen,
@@ -62,6 +64,7 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActiv
             viewModel => viewModel.IsHealCoolingDown,
             (session, isBusy, isCoolingDown) =>
                 session?.Status == BattleStatus.InProgress &&
+                _player?.Level >= 50 &&
                 session.Hero.Health < session.Hero.MaxHealth &&
                 !isBusy &&
                 !isCoolingDown);
@@ -114,6 +117,11 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActiv
         get => _isHealCoolingDown;
         private set => this.RaiseAndSetIfChanged(ref _isHealCoolingDown, value);
     }
+    public int Wave
+    {
+        get => _wave;
+        private set => this.RaiseAndSetIfChanged(ref _wave, value);
+    }
     public ReactiveCommand<Unit, Unit> LoadCommand { get; }
     public ReactiveCommand<Unit, Unit> AttackCommand { get; }
     public ReactiveCommand<Unit, Unit> HealCommand { get; }
@@ -145,12 +153,10 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActiv
             100 + player.Level * 4,
             weapon?.Power ?? 10,
             armor?.Power ?? 0);
-        BattleEnemy[] wave = definitions.Take(3)
-            .Select((definition, index) => BattleEnemy.Create($"enemy-{index + 1}", definition))
-            .ToArray();
-
-        ApplySession(BattleSession.Start(hero, wave));
         _player = player;
+        _enemyDefinitions = definitions;
+        Wave = 1;
+        StartWave(hero);
         Message = "Выберите противника";
     }
 
@@ -183,8 +189,14 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActiv
 
             if (updated.Status == BattleStatus.Victory && _player is not null)
             {
-                _player = _player with { Money = _player.Money + updated.Reward };
-                await _players.SaveAsync(_player, token);
+                PlayerProfile rewarded = ApplyWaveReward(_player, updated.Reward);
+                await _players.SaveAsync(rewarded, token);
+                _player = rewarded with { Revision = rewarded.Revision + 1 };
+                token.ThrowIfCancellationRequested();
+                Wave++;
+                StartWave(updated.Hero);
+                Message = $"Волна {Wave}. Награда за предыдущую: {updated.Reward}";
+                return;
             }
             token.ThrowIfCancellationRequested();
             Message = updated.Status switch
@@ -233,6 +245,35 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActiv
 
     private CancellationTokenSource LinkToLifecycle(CancellationToken commandToken) =>
         CancellationTokenSource.CreateLinkedTokenSource(commandToken, _lifecycleToken);
+
+    private void StartWave(BattleHero hero)
+    {
+        int enemyCount = Math.Min(9, Wave + 2);
+        BattleEnemy[] enemies = Enumerable.Range(0, enemyCount)
+            .Select(index => BattleEnemy.Create(
+                $"wave-{Wave}-enemy-{index + 1}",
+                _enemyDefinitions[index % _enemyDefinitions.Count]))
+            .ToArray();
+        ApplySession(BattleSession.Start(hero, enemies));
+    }
+
+    private PlayerProfile ApplyWaveReward(PlayerProfile player, int reward)
+    {
+        int level = player.Level;
+        int experience = player.Experience + reward;
+        while (experience >= 100)
+        {
+            experience -= 100;
+            level++;
+        }
+        return player with
+        {
+            Money = player.Money + reward,
+            Experience = experience,
+            Level = level,
+            HighestWave = Math.Max(player.HighestWave, Wave)
+        };
+    }
 
     private void ApplySession(BattleSession session)
     {

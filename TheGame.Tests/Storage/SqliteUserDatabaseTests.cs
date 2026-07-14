@@ -173,6 +173,23 @@ public sealed class SqliteUserDatabaseTests : IDisposable
     }
 
     [Fact]
+    public async Task Initializer_ReportsMalformedLegacyJsonAsDataFormatError()
+    {
+        CancellationToken token = TestContext.Current.CancellationToken;
+        IAppPaths paths = new AppPaths(_directory, Path.Combine(_directory, "data"));
+        Directory.CreateDirectory(paths.UserDataDirectory);
+        await File.WriteAllTextAsync(Path.Combine(paths.UserDataDirectory, "accounts.json"),
+            """{ "accounts": [{ "login": "Player", "playerId": "1", "salt": "not-base64" }] }""",
+            token);
+        var factory = new UserContextFactory(paths.UserDatabasePath);
+
+        DataFormatException exception = await Assert.ThrowsAsync<DataFormatException>(() =>
+            new UserDatabaseInitializer(paths, factory, new LegacyUserDataMigrator(paths, factory))
+                .InitializeAsync(token));
+        Assert.Contains("accounts.json", exception.Message);
+    }
+
+    [Fact]
     public async Task Initializer_MigratesVersionedJsonAccountAndProfile()
     {
         CancellationToken token = TestContext.Current.CancellationToken;

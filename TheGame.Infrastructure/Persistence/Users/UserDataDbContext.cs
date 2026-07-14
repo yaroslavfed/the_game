@@ -31,6 +31,7 @@ public sealed class UserDataDbContext(DbContextOptions<UserDataDbContext> option
                 table.HasCheckConstraint("ck_players_level", "level >= 1");
                 table.HasCheckConstraint("ck_players_experience", "experience >= 0");
                 table.HasCheckConstraint("ck_players_money", "money >= 0");
+                table.HasCheckConstraint("ck_players_highest_wave", "HighestWave >= 0");
                 table.HasCheckConstraint("ck_players_revision", "revision >= 0");
             });
             entity.HasKey(value => value.Id);

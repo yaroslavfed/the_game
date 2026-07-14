@@ -55,20 +55,37 @@ public sealed class LegacyUserDataMigrator(
         string jsonPath = Path.Combine(paths.UserDataDirectory, "accounts.json");
         if (File.Exists(jsonPath))
         {
-            await using FileStream stream = File.OpenRead(jsonPath);
-            using JsonDocument document = await JsonDocument.ParseAsync(stream, cancellationToken: token);
-            JsonElement array = document.RootElement.ValueKind == JsonValueKind.Array
-                ? document.RootElement
-                : document.RootElement.GetProperty("accounts");
-            foreach (JsonElement item in array.EnumerateArray())
+            try
             {
-                string login = item.GetProperty("login").GetString()!;
-                var account = new ImportedAccount(
-                    login, Normalize(login), item.GetProperty("playerId").GetString()!,
-                    Convert.FromBase64String(item.GetProperty("salt").GetString()!),
-                    Convert.FromBase64String(item.GetProperty("hash").GetString()!),
-                    item.GetProperty("iterations").GetInt32());
-                result[account.NormalizedLogin] = account;
+                await using FileStream stream = File.OpenRead(jsonPath);
+                using JsonDocument document = await JsonDocument.ParseAsync(stream, cancellationToken: token);
+                JsonElement array = document.RootElement.ValueKind == JsonValueKind.Array
+                    ? document.RootElement
+                    : document.RootElement.GetProperty("accounts");
+                if (array.ValueKind != JsonValueKind.Array)
+                    throw new DataFormatException($"Legacy account document '{jsonPath}' does not contain an account array.");
+                foreach (JsonElement item in array.EnumerateArray())
+                {
+                    string login = RequiredString(item, "login");
+                    string playerId = RequiredString(item, "playerId");
+                    byte[] salt = Convert.FromBase64String(RequiredString(item, "salt"));
+                    byte[] hash = Convert.FromBase64String(RequiredString(item, "hash"));
+                    int iterations = item.GetProperty("iterations").GetInt32();
+                    if (iterations <= 0 || salt.Length == 0 || hash.Length == 0)
+                        throw new DataFormatException($"Legacy account document '{jsonPath}' contains invalid credentials.");
+                    var account = new ImportedAccount(
+                        login, Normalize(login), playerId, salt, hash, iterations);
+                    result[account.NormalizedLogin] = account;
+                }
+            }
+            catch (DataFormatException)
+            {
+                throw;
+            }
+            catch (Exception exception) when (exception is JsonException or KeyNotFoundException or
+                                               InvalidOperationException or FormatException)
+            {
+                throw new DataFormatException($"Legacy account document '{jsonPath}' is invalid.", exception);
             }
         }
 
@@ -96,11 +113,23 @@ public sealed class LegacyUserDataMigrator(
         string jsonPath = Path.Combine(paths.PlayersDirectory, $"{playerId}.json");
         if (File.Exists(jsonPath))
         {
-            await using FileStream stream = File.OpenRead(jsonPath);
-            PlayerDocument? document = await JsonSerializer.DeserializeAsync<PlayerDocument>(stream, JsonOptions, token);
-            if (document is null || document.SchemaVersion != 1 || document.Profile.Id != playerId)
-                throw new DataFormatException($"Legacy player document '{jsonPath}' is invalid.");
-            return document.Profile;
+            try
+            {
+                await using FileStream stream = File.OpenRead(jsonPath);
+                PlayerDocument? document = await JsonSerializer.DeserializeAsync<PlayerDocument>(stream, JsonOptions, token);
+                if (document is null || document.SchemaVersion != 1 || document.Profile is null ||
+                    document.Profile.Id != playerId)
+                    throw new DataFormatException($"Legacy player document '{jsonPath}' is invalid.");
+                return document.Profile;
+            }
+            catch (DataFormatException)
+            {
+                throw;
+            }
+            catch (JsonException exception)
+            {
+                throw new DataFormatException($"Legacy player document '{jsonPath}' is invalid.", exception);
+            }
         }
 
         string textPath = Path.Combine(paths.LegacyUsersDirectory, $"{playerId}.txt");
@@ -122,7 +151,7 @@ public sealed class LegacyUserDataMigrator(
         return new PlayerEntity
         {
             Id = profile.Id, Nickname = profile.Nickname, Level = profile.Level, Experience = profile.Experience,
-            Money = profile.Money, CreatedAt = now, UpdatedAt = now,
+            Money = profile.Money, HighestWave = profile.HighestWave, CreatedAt = now, UpdatedAt = now,
             Items = profile.OwnedWeaponIds.Select(id => new PlayerItemEntity
                 { ItemId = id, Kind = InventoryItemKind.Weapon, AcquiredAt = now, Source = "legacy-migration" })
                 .Concat(profile.OwnedArmorIds.Select(id => new PlayerItemEntity
@@ -134,6 +163,13 @@ public sealed class LegacyUserDataMigrator(
     }
 
     private static string Normalize(string login) => login.Trim().ToUpperInvariant();
+    private static string RequiredString(JsonElement element, string propertyName)
+    {
+        string? value = element.GetProperty(propertyName).GetString();
+        return string.IsNullOrWhiteSpace(value)
+            ? throw new DataFormatException($"Legacy account field '{propertyName}' is required.")
+            : value;
+    }
     private static string Value(string line)
     {
         int separatorIndex = line.IndexOf(": ", StringComparison.Ordinal);
@@ -150,5 +186,5 @@ public sealed class LegacyUserDataMigrator(
     private static string[] SplitIds(string value) =>
         value.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
     private sealed record ImportedAccount(string Login, string NormalizedLogin, string PlayerId, byte[] Salt, byte[] Hash, int Iterations);
-    private sealed record PlayerDocument(int SchemaVersion, PlayerProfile Profile);
+    private sealed record PlayerDocument(int SchemaVersion, PlayerProfile? Profile);
 }

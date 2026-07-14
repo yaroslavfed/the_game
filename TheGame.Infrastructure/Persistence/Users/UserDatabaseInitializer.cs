@@ -14,6 +14,7 @@ public sealed class UserDatabaseInitializer(
     ILogger<UserDatabaseInitializer>? logger = null) : IUserDatabaseInitializer
 {
     private const string InitialMigration = "20260714105808_InitialUserSchema";
+    private const string HighestWaveMigration = "20260714113950_AddPlayerHighestWave";
     private const string EfProductVersion = "10.0.9";
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
@@ -105,6 +106,10 @@ public sealed class UserDatabaseInitializer(
             await context.Database.ExecuteSqlInterpolatedAsync(
                 $"INSERT OR IGNORE INTO __EFMigrationsHistory (MigrationId, ProductVersion) VALUES ({InitialMigration}, {EfProductVersion});",
                 cancellationToken);
+            if (await ColumnExistsAsync(connection, "players", "HighestWave", cancellationToken))
+                await context.Database.ExecuteSqlInterpolatedAsync(
+                    $"INSERT OR IGNORE INTO __EFMigrationsHistory (MigrationId, ProductVersion) VALUES ({HighestWaveMigration}, {EfProductVersion});",
+                    cancellationToken);
         }
         finally
         {
@@ -123,6 +128,25 @@ public sealed class UserDatabaseInitializer(
         parameter.ParameterName = "$name";
         parameter.Value = tableName;
         command.Parameters.Add(parameter);
+        return Convert.ToInt64(await command.ExecuteScalarAsync(cancellationToken)) > 0;
+    }
+
+    private static async Task<bool> ColumnExistsAsync(
+        DbConnection connection,
+        string tableName,
+        string columnName,
+        CancellationToken cancellationToken)
+    {
+        await using DbCommand command = connection.CreateCommand();
+        command.CommandText = "SELECT COUNT(*) FROM pragma_table_info($table) WHERE name = $column;";
+        DbParameter tableParameter = command.CreateParameter();
+        tableParameter.ParameterName = "$table";
+        tableParameter.Value = tableName;
+        command.Parameters.Add(tableParameter);
+        DbParameter columnParameter = command.CreateParameter();
+        columnParameter.ParameterName = "$column";
+        columnParameter.Value = columnName;
+        command.Parameters.Add(columnParameter);
         return Convert.ToInt64(await command.ExecuteScalarAsync(cancellationToken)) > 0;
     }
 }

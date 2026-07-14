@@ -48,6 +48,8 @@ public sealed class ContentDatabaseInitializer(
             throw new DataFormatException($"Unsupported content schema version {seed.SchemaVersion}.");
         if (string.IsNullOrWhiteSpace(seed.ContentVersion))
             throw new DataFormatException("Content version is required.");
+        if (seed.Items is null || seed.Enemies is null)
+            throw new DataFormatException("Content seed must contain item and enemy collections.");
         if (seed.Items.Select(item => item.Id).Distinct(StringComparer.Ordinal).Count() != seed.Items.Count)
             throw new DataFormatException("Content seed contains duplicate item IDs.");
         if (seed.Items.Any(item =>
@@ -142,7 +144,11 @@ public sealed class ContentDatabaseInitializer(
         Rarity = item.Rarity, Description = item.Description, IsActive = true, SortOrder = index
     };
 
-    private sealed record ContentSeed(int SchemaVersion, string ContentVersion, IReadOnlyList<SeedItem> Items, IReadOnlyList<SeedEnemy> Enemies);
+    private sealed record ContentSeed(
+        int SchemaVersion,
+        string ContentVersion,
+        IReadOnlyList<SeedItem> Items,
+        IReadOnlyList<SeedEnemy> Enemies);
     private sealed record SeedItem(string Id, InventoryItemKind Kind, string Name, int Power, int Price, int Rarity, string? Description);
     private sealed record SeedEnemy(string Id, string Rank, string Name, double Health, double Damage, double Protection, int Reward);
 }
