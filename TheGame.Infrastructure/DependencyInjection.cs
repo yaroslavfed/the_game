@@ -30,11 +30,12 @@ public static class DependencyInjection
             IAppPaths paths = provider.GetRequiredService<IAppPaths>();
             options.UseSqlite($"Data Source={paths.UserDatabasePath};Foreign Keys=True;Default Timeout=5;Pooling=True");
         });
+        services.AddSingleton<IContentDatabaseInitializer, ContentDatabaseInitializer>();
         services.AddSingleton<LegacyPlayerRepository>();
         services.AddSingleton<JsonPlayerRepository>();
         services.AddSingleton<IPlayerRepository, MigratingPlayerRepository>();
-        services.AddSingleton<IInventoryCatalog, LegacyInventoryCatalog>();
-        services.AddSingleton<IEnemyCatalog, LegacyEnemyCatalog>();
+        services.AddSingleton<IInventoryCatalog, SqliteInventoryCatalog>();
+        services.AddSingleton<IEnemyCatalog, SqliteEnemyCatalog>();
         services.AddSingleton<IAuthenticationService, AuthenticationService>();
         services.AddSingleton<IStoreService, StoreService>();
         services.AddSingleton<IBattleEngine, BattleEngine>();

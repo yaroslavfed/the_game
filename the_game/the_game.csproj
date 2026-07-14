@@ -28,6 +28,10 @@
 
   <ItemGroup>
     <Resource Include="test.jpg" />
+    <Content Include="Content\content.seed.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>content.seed.json</TargetPath>
+    </Content>
   </ItemGroup>
 
 </Project>

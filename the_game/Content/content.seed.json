@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "1.0.0",
+  "items": [
+    { "id": "10", "kind": "Weapon", "name": "Учебный меч", "power": 10, "price": 0, "rarity": 0, "description": "Стартовое оружие." },
+    { "id": "101", "kind": "Weapon", "name": "Стальной меч", "power": 18, "price": 200, "rarity": 1, "description": "Надёжный клинок." },
+    { "id": "102", "kind": "Weapon", "name": "Клинок ветерана", "power": 28, "price": 450, "rarity": 2, "description": "Оружие опытного бойца." },
+    { "id": "20", "kind": "Armor", "name": "Учебная броня", "power": 3, "price": 0, "rarity": 0, "description": "Стартовая защита." },
+    { "id": "201", "kind": "Armor", "name": "Кольчуга", "power": 10, "price": 180, "rarity": 1, "description": "Лёгкая металлическая броня." },
+    { "id": "202", "kind": "Armor", "name": "Латы стража", "power": 18, "price": 420, "rarity": 2, "description": "Тяжёлая защита городской стражи." }
+  ],
+  "enemies": [
+    { "id": "training-dummy", "rank": "0", "name": "Тренировочный манекен", "health": 60, "damage": 5, "protection": 0, "reward": 10 },
+    { "id": "raider", "rank": "1", "name": "Разбойник", "health": 100, "damage": 12, "protection": 3, "reward": 30 },
+    { "id": "guardian", "rank": "2", "name": "Страж", "health": 160, "damage": 18, "protection": 8, "reward": 60 }
+  ]
+}
