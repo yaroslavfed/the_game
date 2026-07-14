@@ -6,6 +6,17 @@ namespace TheGame.Infrastructure.Inventory;
 
 public sealed class LegacyInventoryCatalog(IAppPaths paths) : IInventoryCatalog
 {
+    public async Task<IReadOnlyList<InventoryItem>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        if (!Directory.Exists(paths.LegacyInventoryDirectory)) return [];
+        var items = new List<InventoryItem>();
+        foreach (string file in Directory.EnumerateFiles(paths.LegacyInventoryDirectory, "*.txt").Order())
+        {
+            InventoryItem? item = await GetAsync(Path.GetFileNameWithoutExtension(file), cancellationToken);
+            if (item is not null) items.Add(item);
+        }
+        return items;
+    }
     public async Task<InventoryItem?> GetAsync(
         string itemId,
         CancellationToken cancellationToken = default)
