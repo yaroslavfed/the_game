@@ -1,0 +1,10 @@
+<rxui:ReactiveUserControl x:Class="the_game.Views.ProfileView" x:TypeArguments="viewModels:ProfileViewModel"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:rxui="http://reactiveui.net" xmlns:viewModels="clr-namespace:the_game.ViewModels" Loaded="OnLoaded">
+ <Grid Background="#10141B"><Border Margin="64" Padding="48" Background="#CC1C222D" CornerRadius="12"><Grid>
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <StackPanel><TextBlock Text="ПРОФИЛЬ" Style="{StaticResource PageTitleStyle}"/><TextBlock Text="{Binding Profile.Nickname}" Foreground="White" FontSize="40" Margin="0,20,0,0"/><TextBlock Text="{Binding Error}" Foreground="#FFE57373"/></StackPanel>
+  <UniformGrid Grid.Row="1" Columns="3" Margin="0,40"><StackPanel><TextBlock Text="УРОВЕНЬ" Foreground="#FF788391"/><TextBlock Text="{Binding Profile.Level}" Foreground="White" FontSize="32"/></StackPanel><StackPanel><TextBlock Text="ОПЫТ" Foreground="#FF788391"/><TextBlock Text="{Binding Profile.Experience}" Foreground="White" FontSize="32"/></StackPanel><StackPanel><TextBlock Text="ЗОЛОТО" Foreground="#FF788391"/><TextBlock Text="{Binding Profile.Money}" Foreground="White" FontSize="32"/></StackPanel></UniformGrid>
+  <StackPanel Grid.Row="2" Orientation="Horizontal"><Button Content="МАГАЗИН (СКОРО)" IsEnabled="False" Style="{StaticResource MenuButtonStyle}"/><Button Content="ИГРАТЬ (СКОРО)" IsEnabled="False" Style="{StaticResource MenuButtonStyle}"/><Button Content="ВЫЙТИ ИЗ ПРОФИЛЯ" Command="{Binding LogoutCommand}" Style="{StaticResource MenuButtonStyle}"/></StackPanel>
+ </Grid></Border></Grid>
+</rxui:ReactiveUserControl>

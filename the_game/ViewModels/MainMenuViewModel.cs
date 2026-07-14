@@ -2,6 +2,7 @@ using ReactiveUI;
 using System.Reactive;
 using the_game.Lifecycle;
 using the_game.Navigation;
+using TheGame.Core.Players;
 
 namespace the_game.ViewModels;
 
@@ -10,11 +11,13 @@ public sealed class MainMenuViewModel : ReactiveObject, IRoutableViewModel
     public MainMenuViewModel(
         ShellViewModel hostScreen,
         INavigationService navigation,
-        ILegacyNavigationBridge legacyNavigation,
+        IUserSession session,
         IApplicationLifetime applicationLifetime)
     {
         HostScreen = hostScreen;
-        PlayCommand = ReactiveCommand.Create(legacyNavigation.OpenMainMenu);
+        PlayCommand = ReactiveCommand.CreateFromTask(() => session.IsAuthenticated
+            ? navigation.NavigateToAsync<ProfileViewModel>()
+            : navigation.NavigateToAsync<AuthenticationViewModel>());
         SettingsCommand = ReactiveCommand.CreateFromTask(
             () => navigation.NavigateToAsync<SettingsViewModel>());
         AboutCommand = ReactiveCommand.CreateFromTask(
