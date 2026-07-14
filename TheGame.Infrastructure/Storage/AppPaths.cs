@@ -16,7 +16,7 @@ public sealed class AppPaths : IAppPaths
 
     public string UserDataDirectory { get; }
 
-    public string ContentDatabasePath => Path.Combine(ApplicationDirectory, "content.db");
+    public string ContentDatabasePath => Path.Combine(UserDataDirectory, "content.db");
 
     public string UserDatabasePath => Path.Combine(UserDataDirectory, "userdata.db");
 

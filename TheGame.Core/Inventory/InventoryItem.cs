@@ -11,4 +11,5 @@ public sealed record InventoryItem(
     InventoryItemKind Kind,
     int Power,
     int Price,
-    int Rarity);
+    int Rarity,
+    bool IsActive = true);

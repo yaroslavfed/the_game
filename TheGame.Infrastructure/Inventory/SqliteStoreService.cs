@@ -12,7 +12,7 @@ public sealed class SqliteStoreService(
     public async Task<StoreResult> PurchaseAsync(string playerId, string itemId, CancellationToken cancellationToken = default)
     {
         InventoryItem? item = await catalog.GetAsync(itemId, cancellationToken);
-        if (item is null) return new(false, "Предмет не найден");
+        if (item is null || !item.IsActive) return new(false, "Предмет недоступен");
         return await SqliteRetryPolicy.ExecuteAsync(
             token => PurchaseCoreAsync(playerId, item, token), cancellationToken);
     }
@@ -41,7 +41,7 @@ public sealed class SqliteStoreService(
     public async Task<StoreResult> EquipAsync(string playerId, string itemId, CancellationToken cancellationToken = default)
     {
         InventoryItem? item = await catalog.GetAsync(itemId, cancellationToken);
-        if (item is null) return new(false, "Предмет не найден");
+        if (item is null || !item.IsActive) return new(false, "Предмет недоступен");
         return await SqliteRetryPolicy.ExecuteAsync(
             token => EquipCoreAsync(playerId, item, token), cancellationToken);
     }
