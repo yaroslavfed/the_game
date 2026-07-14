@@ -7,6 +7,8 @@ using TheGame.Core.Inventory;
 using TheGame.Core.Players;
 using the_game.Lifecycle;
 using the_game.Navigation;
+using System.Windows.Input;
+using the_game.Input;
 
 namespace the_game.ViewModels;
 
@@ -39,7 +41,8 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActiv
         IBattleEngine engine,
         IAsyncDelay delay,
         BattleTimingOptions timing,
-        INavigationService navigation)
+        INavigationService navigation,
+        IKeyBindingService? bindings = null)
     {
         HostScreen = hostScreen;
         _userSession = userSession;
@@ -70,6 +73,9 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActiv
                 !isCoolingDown);
         HealCommand = ReactiveCommand.CreateFromTask(HealAsync, canHeal);
         BackCommand = ReactiveCommand.CreateFromTask(navigation.GoBackAsync);
+        AttackKey = bindings?.GetKey(GameAction.Attack) ?? Key.A;
+        HealKey = bindings?.GetKey(GameAction.Heal) ?? Key.H;
+        ExitBattleKey = bindings?.GetKey(GameAction.ExitBattle) ?? Key.Escape;
 
         this.WhenActivated(disposables =>
         {
@@ -126,6 +132,9 @@ public sealed class BattleViewModel : ReactiveObject, IRoutableViewModel, IActiv
     public ReactiveCommand<Unit, Unit> AttackCommand { get; }
     public ReactiveCommand<Unit, Unit> HealCommand { get; }
     public ReactiveCommand<Unit, Unit> BackCommand { get; }
+    public Key AttackKey { get; }
+    public Key HealKey { get; }
+    public Key ExitBattleKey { get; }
 
     private async Task LoadAsync(CancellationToken commandToken)
     {

@@ -3,19 +3,31 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:rxui="http://reactiveui.net"
-        xmlns:viewModels="clr-namespace:the_game.ViewModels">
+        xmlns:viewModels="clr-namespace:the_game.ViewModels"
+        xmlns:input="clr-namespace:the_game.Input">
     <Grid Background="#10141B">
         <Border Width="720" Padding="48" Background="#CC1C222D" CornerRadius="12">
             <StackPanel>
-                <TextBlock Text="НАСТРОЙКИ" Style="{StaticResource PageTitleStyle}" />
-                <TextBlock Margin="0,20,0,8" Text="Громкость музыки" Foreground="#FFB3B3B3" FontSize="20" />
-                <Slider Minimum="0" Maximum="100" Value="70" IsEnabled="False" />
-                <TextBlock Margin="0,28,0,8" Text="Громкость эффектов" Foreground="#FFB3B3B3" FontSize="20" />
-                <Slider Minimum="0" Maximum="100" Value="80" IsEnabled="False" />
-                <TextBlock Margin="0,28,0,32"
-                           Text="Сохранение настроек будет подключено после переноса пользовательской сессии."
-                           TextWrapping="Wrap" Foreground="#FF788391" FontSize="16" />
-                <Button Content="НАЗАД" Command="{Binding BackCommand}" Style="{StaticResource MenuButtonStyle}" />
+                <TextBlock Text="НАСТРОЙКИ УПРАВЛЕНИЯ" Style="{StaticResource PageTitleStyle}" FontSize="38"/>
+                <TextBlock Margin="0,12,0,24" Text="Нажмите на клавишу действия, затем нажмите новую клавишу. При конфликте назначения поменяются местами."
+                           TextWrapping="Wrap" Foreground="#FFADB5C0" FontSize="16"/>
+
+                <Grid Margin="0,5"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="180"/></Grid.ColumnDefinitions>
+                    <TextBlock Text="Атака" Foreground="White" FontSize="22" VerticalAlignment="Center"/>
+                    <Button Grid.Column="1" Content="{Binding AttackKey}" Command="{Binding BeginRebindCommand}" CommandParameter="{x:Static input:GameAction.Attack}" Style="{StaticResource MenuButtonStyle}"/>
+                </Grid>
+                <Grid Margin="0,5"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="180"/></Grid.ColumnDefinitions>
+                    <TextBlock Text="Лечение" Foreground="White" FontSize="22" VerticalAlignment="Center"/>
+                    <Button Grid.Column="1" Content="{Binding HealKey}" Command="{Binding BeginRebindCommand}" CommandParameter="{x:Static input:GameAction.Heal}" Style="{StaticResource MenuButtonStyle}"/>
+                </Grid>
+                <Grid Margin="0,5"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="180"/></Grid.ColumnDefinitions>
+                    <TextBlock Text="Выйти из боя" Foreground="White" FontSize="22" VerticalAlignment="Center"/>
+                    <Button Grid.Column="1" Content="{Binding ExitBattleKey}" Command="{Binding BeginRebindCommand}" CommandParameter="{x:Static input:GameAction.ExitBattle}" Style="{StaticResource MenuButtonStyle}"/>
+                </Grid>
+
+                <TextBlock Margin="0,18,0,8" Text="{Binding StatusMessage}" Foreground="#FFE6C76B" FontSize="18"/>
+                <Button Content="СБРОСИТЬ" Command="{Binding ResetCommand}" Style="{StaticResource MenuButtonStyle}"/>
+                <Button Content="НАЗАД" Command="{Binding BackCommand}" Style="{StaticResource MenuButtonStyle}"/>
             </StackPanel>
         </Border>
     </Grid>

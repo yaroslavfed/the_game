@@ -4,6 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:rxui="http://reactiveui.net"
     xmlns:viewModels="clr-namespace:the_game.ViewModels">
+    <UserControl.InputBindings>
+        <KeyBinding Key="{Binding AttackKey}" Command="{Binding AttackCommand}"/>
+        <KeyBinding Key="{Binding HealKey}" Command="{Binding HealCommand}"/>
+        <KeyBinding Key="{Binding ExitBattleKey}" Command="{Binding BackCommand}"/>
+    </UserControl.InputBindings>
     <Grid Background="#10141B" Margin="48">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

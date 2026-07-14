@@ -7,6 +7,7 @@ using the_game.Views;
 using the_game.Lifecycle;
 using TheGame.Core.Players;
 using the_game.Session;
+using the_game.Input;
 
 namespace the_game;
 
@@ -27,6 +28,7 @@ public static class DependencyInjection
         services.AddSingleton(BattleTimingOptions.Default);
         services.AddSingleton<UserSession>();
         services.AddSingleton<IUserSession>(provider => provider.GetRequiredService<UserSession>());
+        services.AddSingleton<IKeyBindingService, KeyBindingService>();
 
         services.AddTransient<SplashViewModel>();
         services.AddTransient<SplashView>();
