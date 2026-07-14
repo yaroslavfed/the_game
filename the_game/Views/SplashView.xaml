@@ -5,15 +5,13 @@
         xmlns:rxui="http://reactiveui.net"
         xmlns:viewModels="clr-namespace:the_game.ViewModels"
         Focusable="True"
+        PreviewKeyDown="OnPreviewKeyDown"
         Loaded="OnLoaded">
-    <UserControl.InputBindings>
-        <KeyBinding Key="Enter" Command="{Binding ContinueCommand}" />
-    </UserControl.InputBindings>
-
-    <Grid>
+    <Grid Background="#FF0B1018">
         <MediaElement x:Name="BackgroundMedia"
                       LoadedBehavior="Manual"
                       Stretch="UniformToFill"
+                      MediaFailed="OnMediaFailed"
                       MediaEnded="OnMediaEnded" />
 
         <Grid>

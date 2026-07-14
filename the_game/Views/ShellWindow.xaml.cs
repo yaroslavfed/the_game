@@ -10,6 +10,8 @@ public partial class ShellWindow : ReactiveWindow<ShellViewModel>
         InitializeComponent();
 
         ViewModel = viewModel;
+        DataContext = viewModel;
+        ViewHost.Router = viewModel.Router;
         ViewHost.ViewLocator = viewLocator;
     }
 }

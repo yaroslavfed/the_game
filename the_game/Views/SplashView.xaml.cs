@@ -1,6 +1,7 @@
 using ReactiveUI;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using TheGame.Core.Storage;
 using the_game.ViewModels;
 
@@ -18,12 +19,37 @@ public partial class SplashView : ReactiveUserControl<SplashViewModel>
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        Focus();
-        BackgroundMedia.Source = new Uri(Path.Combine(
+        Keyboard.Focus(this);
+        string mediaPath = Path.Combine(
             _paths.ApplicationDirectory,
             "background_video",
-            "backdrop.mp4"));
+            "backdrop.mp4");
+
+        if (!File.Exists(mediaPath))
+        {
+            BackgroundMedia.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        BackgroundMedia.Source = new Uri(mediaPath);
         BackgroundMedia.Play();
+    }
+
+    private void OnPreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Enter || ViewModel is null)
+        {
+            return;
+        }
+
+        e.Handled = true;
+        ViewModel.ContinueCommand.Execute().Subscribe();
+    }
+
+    private void OnMediaFailed(object sender, ExceptionRoutedEventArgs e)
+    {
+        BackgroundMedia.Stop();
+        BackgroundMedia.Visibility = Visibility.Collapsed;
     }
 
     private void OnMediaEnded(object sender, RoutedEventArgs e)

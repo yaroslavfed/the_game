@@ -26,6 +26,7 @@ public partial class App : Application
         RxAppBuilder.CreateReactiveUIBuilder()
             .WithExceptionHandler(_host.Services.GetRequiredService<IApplicationErrorService>())
             .WithCoreServices()
+            .WithWpf()
             .BuildApp();
 
         await _host.StartAsync();

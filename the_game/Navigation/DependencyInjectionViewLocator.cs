@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
+using System.Windows;
 
 namespace the_game.Navigation;
 
@@ -17,6 +18,20 @@ public sealed class DependencyInjectionViewLocator(IServiceProvider services) : 
         }
 
         Type viewType = typeof(IViewFor<>).MakeGenericType(instance.GetType());
-        return services.GetService(viewType) as IViewFor;
+        IViewFor? view = services.GetService(viewType) as IViewFor;
+
+        if (view is null)
+        {
+            return null;
+        }
+
+        view.ViewModel = instance;
+
+        if (view is FrameworkElement element)
+        {
+            element.DataContext = instance;
+        }
+
+        return view;
     }
 }
