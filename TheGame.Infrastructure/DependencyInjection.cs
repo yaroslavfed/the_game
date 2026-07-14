@@ -22,6 +22,7 @@ public static class DependencyInjection
         services.AddSingleton<IEnemyCatalog, LegacyEnemyCatalog>();
         services.AddSingleton<IAuthenticationService, AuthenticationService>();
         services.AddSingleton<IStoreService, StoreService>();
+        services.AddSingleton<IBattleEngine, BattleEngine>();
 
         return services;
     }

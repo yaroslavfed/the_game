@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
+using TheGame.Core.Battle;
 using the_game.Navigation;
 using the_game.ViewModels;
 using the_game.Views;
@@ -28,5 +29,6 @@ public sealed class DependencyInjectionTests
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<SettingsViewModel>));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<AboutViewModel>));
         Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<StoreViewModel>));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IBattleEngine));
     }
 }
