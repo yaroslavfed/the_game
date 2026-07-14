@@ -64,6 +64,54 @@ public sealed class SqliteUserDatabaseTests : IDisposable
     }
 
     [Fact]
+    public async Task PlayerRepository_RejectsStaleProfileSave()
+    {
+        CancellationToken token = TestContext.Current.CancellationToken;
+        IAppPaths paths = new AppPaths(_directory, Path.Combine(_directory, "data"));
+        var factory = new UserContextFactory(paths.UserDatabasePath);
+        await new UserDatabaseInitializer(paths, factory).InitializeAsync(token);
+        string playerId = (await new SqliteAuthenticationService(factory)
+            .RegisterAsync("Player", "secret-123", token)).PlayerId!;
+        var repository = new SqlitePlayerRepository(factory);
+        var first = await repository.GetAsync(playerId, token);
+        var stale = await repository.GetAsync(playerId, token);
+
+        await repository.SaveAsync(first! with { Money = 100 }, token);
+
+        await Assert.ThrowsAsync<TheGame.Core.Players.PlayerConcurrencyException>(
+            () => repository.SaveAsync(stale! with { Money = 200 }, token));
+        Assert.Equal(100, (await repository.GetAsync(playerId, token))!.Money);
+    }
+
+    [Fact]
+    public async Task ParallelPurchase_ChargesAndGrantsItemOnlyOnce()
+    {
+        CancellationToken token = TestContext.Current.CancellationToken;
+        IAppPaths paths = new AppPaths(_directory, Path.Combine(_directory, "data"));
+        var factory = new UserContextFactory(paths.UserDatabasePath);
+        await new UserDatabaseInitializer(paths, factory).InitializeAsync(token);
+        string playerId = (await new SqliteAuthenticationService(factory)
+            .RegisterAsync("Player", "secret-123", token)).PlayerId!;
+        await using (UserDataDbContext context = factory.CreateDbContext())
+        {
+            PlayerEntity player = await context.Players.SingleAsync(token);
+            player.Money = 500;
+            await context.SaveChangesAsync(token);
+        }
+        var service = new SqliteStoreService(
+            factory, new Catalog(new InventoryItem("101", InventoryItemKind.Weapon, 20, 300, 2)));
+
+        StoreResult[] results = await Task.WhenAll(
+            service.PurchaseAsync(playerId, "101", token),
+            service.PurchaseAsync(playerId, "101", token));
+
+        var profile = await new SqlitePlayerRepository(factory).GetAsync(playerId, token);
+        Assert.Single(results, result => result.IsSuccess);
+        Assert.Equal(200, profile!.Money);
+        Assert.Equal(1, profile.OwnedWeaponIds.Count(id => id == "101"));
+    }
+
+    [Fact]
     public async Task Initializer_MigratesLegacyJsonOnlyOnce()
     {
         CancellationToken token = TestContext.Current.CancellationToken;
@@ -103,7 +151,7 @@ public sealed class SqliteUserDatabaseTests : IDisposable
 
         await using UserDataDbContext context = factory.CreateDbContext();
         Assert.Empty(await context.Database.GetPendingMigrationsAsync(token));
-        Assert.Equal(1, await context.Database.SqlQueryRaw<int>(
+        Assert.Equal(context.Database.GetMigrations().Count(), await context.Database.SqlQueryRaw<int>(
             "SELECT COUNT(*) AS Value FROM __EFMigrationsHistory").SingleAsync(token));
         Assert.Single(Directory.EnumerateFiles(Path.Combine(paths.UserDataDirectory, "backups"), "*.db"));
     }

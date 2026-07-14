@@ -27,13 +27,21 @@ public sealed class SqlitePlayerRepository(IDbContextFactory<UserDataDbContext> 
         player.Level = profile.Level;
         player.Experience = profile.Experience;
         player.Money = profile.Money;
-        player.Revision++;
+        context.Entry(player).Property(value => value.Revision).OriginalValue = profile.Revision;
+        player.Revision = profile.Revision + 1;
         player.UpdatedAt = DateTimeOffset.UtcNow;
         SynchronizeItems(player, profile);
         player.Loadout ??= new PlayerLoadoutEntity { PlayerId = player.Id };
         player.Loadout.WeaponItemId = profile.EquippedWeaponId;
         player.Loadout.ArmorItemId = profile.EquippedArmorId;
-        await context.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException exception)
+        {
+            throw new PlayerConcurrencyException(profile.Id, exception);
+        }
     }
 
     internal static PlayerProfile Map(PlayerEntity player) => new(
@@ -41,7 +49,8 @@ public sealed class SqlitePlayerRepository(IDbContextFactory<UserDataDbContext> 
         player.Loadout?.WeaponItemId ?? string.Empty,
         player.Items.Where(item => item.Kind == InventoryItemKind.Weapon).Select(item => item.ItemId).ToArray(),
         player.Loadout?.ArmorItemId ?? string.Empty,
-        player.Items.Where(item => item.Kind == InventoryItemKind.Armor).Select(item => item.ItemId).ToArray());
+        player.Items.Where(item => item.Kind == InventoryItemKind.Armor).Select(item => item.ItemId).ToArray(),
+        player.Revision);
 
     private static void SynchronizeItems(PlayerEntity player, PlayerProfile profile)
     {
