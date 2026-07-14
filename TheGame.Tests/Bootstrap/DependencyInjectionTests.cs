@@ -1,4 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
+using ReactiveUI;
+using the_game.Navigation;
+using the_game.ViewModels;
+using the_game.Views;
 using Xunit;
 
 namespace the_game.Tests.Bootstrap;
@@ -6,16 +10,19 @@ namespace the_game.Tests.Bootstrap;
 public sealed class DependencyInjectionTests
 {
     [Fact]
-    public void AddTheGameDesktop_RegistersMainWindowAsSingleton()
+    public void AddTheGameDesktop_RegistersShellAndNavigation()
     {
         var services = new ServiceCollection();
 
         services.AddTheGameDesktop();
 
-        ServiceDescriptor registration = Assert.Single(
+        ServiceDescriptor shellRegistration = Assert.Single(
             services,
-            descriptor => descriptor.ServiceType == typeof(MainWindow));
+            descriptor => descriptor.ServiceType == typeof(ShellWindow));
 
-        Assert.Equal(ServiceLifetime.Singleton, registration.Lifetime);
+        Assert.Equal(ServiceLifetime.Singleton, shellRegistration.Lifetime);
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(ShellViewModel));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(INavigationService));
+        Assert.Contains(services, descriptor => descriptor.ServiceType == typeof(IViewFor<SplashViewModel>));
     }
 }
