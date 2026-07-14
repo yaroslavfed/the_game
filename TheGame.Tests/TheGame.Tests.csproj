@@ -18,6 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TheGame.Core\TheGame.Core.csproj" />
+    <ProjectReference Include="..\TheGame.Infrastructure\TheGame.Infrastructure.csproj" />
     <ProjectReference Include="..\the_game\the_game.csproj" />
   </ItemGroup>
 
