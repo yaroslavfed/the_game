@@ -6,6 +6,10 @@ public interface IAppPaths
 
     string UserDataDirectory { get; }
 
+    string ContentDatabasePath { get; }
+
+    string UserDatabasePath { get; }
+
     string PlayersDirectory { get; }
 
     string LegacyUsersDirectory { get; }
