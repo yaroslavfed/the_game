@@ -20,6 +20,9 @@ public static class DependencyInjection
         services.AddSingleton<IViewLocator, DependencyInjectionViewLocator>();
         services.AddSingleton<INavigationService, ReactiveNavigationService>();
         services.AddSingleton<IApplicationLifetime, WpfApplicationLifetime>();
+        services.AddSingleton<ApplicationErrorService>();
+        services.AddSingleton<IApplicationErrorService>(provider =>
+            provider.GetRequiredService<ApplicationErrorService>());
         services.AddSingleton<IAsyncDelay, SystemAsyncDelay>();
         services.AddSingleton(BattleTimingOptions.Default);
         services.AddSingleton<UserSession>();
@@ -69,6 +72,11 @@ public static class DependencyInjection
         services.AddTransient<BattleView>();
         services.AddTransient<IViewFor<BattleViewModel>>(
             provider => provider.GetRequiredService<BattleView>());
+
+        services.AddTransient<KnowledgeBaseViewModel>();
+        services.AddTransient<KnowledgeBaseView>();
+        services.AddTransient<IViewFor<KnowledgeBaseViewModel>>(
+            provider => provider.GetRequiredService<KnowledgeBaseView>());
 
         return services;
     }

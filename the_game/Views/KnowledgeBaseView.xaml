@@ -1,0 +1,17 @@
+<rxui:ReactiveUserControl x:Class="the_game.Views.KnowledgeBaseView"
+    x:TypeArguments="viewModels:KnowledgeBaseViewModel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:rxui="http://reactiveui.net"
+    xmlns:viewModels="clr-namespace:the_game.ViewModels">
+    <Grid Background="#10141B" Margin="64">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <TextBlock Text="БАЗА ЗНАНИЙ" Style="{StaticResource PageTitleStyle}"/>
+        <TabControl Grid.Row="1" Margin="0,32" Background="#FF1C222D" Foreground="White" FontSize="20">
+            <TabItem Header="Оружие"><TextBlock Margin="32" TextWrapping="Wrap" Text="Оружие определяет базовый урон героя. Новое оружие можно купить и экипировать в магазине."/></TabItem>
+            <TabItem Header="Броня"><TextBlock Margin="32" TextWrapping="Wrap" Text="Броня уменьшает входящий урон. Чем выше показатель защиты, тем меньше здоровья теряет герой."/></TabItem>
+            <TabItem Header="Бой"><TextBlock Margin="32" TextWrapping="Wrap" Text="Выберите живого противника и атакуйте. После хода противник отвечает. Победа приносит золото, а лечение имеет время восстановления."/></TabItem>
+        </TabControl>
+        <Button Grid.Row="2" Content="НАЗАД" Command="{Binding BackCommand}" Style="{StaticResource MenuButtonStyle}"/>
+    </Grid>
+</rxui:ReactiveUserControl>
