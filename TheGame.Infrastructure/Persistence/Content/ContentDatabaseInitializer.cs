@@ -50,8 +50,24 @@ public sealed class ContentDatabaseInitializer(
             throw new DataFormatException("Content version is required.");
         if (seed.Items.Select(item => item.Id).Distinct(StringComparer.Ordinal).Count() != seed.Items.Count)
             throw new DataFormatException("Content seed contains duplicate item IDs.");
+        if (seed.Items.Any(item =>
+                string.IsNullOrWhiteSpace(item.Id) || item.Id.Length > 64 ||
+                string.IsNullOrWhiteSpace(item.Name) || item.Name.Length > 200 ||
+                item.Description?.Length > 2000 || item.Power < 0 || item.Price < 0 || item.Rarity < 0 ||
+                !Enum.IsDefined(item.Kind)))
+            throw new DataFormatException("Content seed contains an invalid item.");
+        if (seed.Enemies.Select(enemy => enemy.Id).Distinct(StringComparer.Ordinal).Count() != seed.Enemies.Count)
+            throw new DataFormatException("Content seed contains duplicate enemy IDs.");
         if (seed.Enemies.Select(enemy => enemy.Rank).Distinct(StringComparer.Ordinal).Count() != seed.Enemies.Count)
             throw new DataFormatException("Content seed contains duplicate enemy ranks.");
+        if (seed.Enemies.Any(enemy =>
+                string.IsNullOrWhiteSpace(enemy.Id) || enemy.Id.Length > 64 ||
+                string.IsNullOrWhiteSpace(enemy.Rank) || enemy.Rank.Length > 64 ||
+                string.IsNullOrWhiteSpace(enemy.Name) || enemy.Name.Length > 200 ||
+                !double.IsFinite(enemy.Health) || enemy.Health <= 0 ||
+                !double.IsFinite(enemy.Damage) || enemy.Damage < 0 ||
+                !double.IsFinite(enemy.Protection) || enemy.Protection < 0 || enemy.Reward < 0))
+            throw new DataFormatException("Content seed contains an invalid enemy.");
         return seed;
     }
 

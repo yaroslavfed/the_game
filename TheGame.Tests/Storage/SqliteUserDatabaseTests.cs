@@ -39,6 +39,23 @@ public sealed class SqliteUserDatabaseTests : IDisposable
     }
 
     [Fact]
+    public async Task ParallelRegistration_ReturnsLoginTakenInsteadOfThrowing()
+    {
+        CancellationToken token = TestContext.Current.CancellationToken;
+        IAppPaths paths = new AppPaths(_directory, Path.Combine(_directory, "data"));
+        var factory = new UserContextFactory(paths.UserDatabasePath);
+        await new UserDatabaseInitializer(paths, factory).InitializeAsync(token);
+        var authentication = new SqliteAuthenticationService(factory);
+
+        var results = await Task.WhenAll(
+            authentication.RegisterAsync("Player", "secret-123", token),
+            authentication.RegisterAsync("player", "secret-123", token));
+
+        Assert.Single(results, result => result.IsSuccess);
+        Assert.Single(results, result => !result.IsSuccess && result.Error == "Логин уже занят");
+    }
+
+    [Fact]
     public async Task Purchase_DeductsMoneyAndAddsItemInUserDatabase()
     {
         CancellationToken token = TestContext.Current.CancellationToken;
@@ -138,6 +155,21 @@ public sealed class SqliteUserDatabaseTests : IDisposable
         Assert.Equal(1, await context.Accounts.CountAsync(token));
         Assert.Equal(1, await context.DataMigrations.CountAsync(token));
         Assert.True(File.Exists(Path.Combine(paths.ApplicationDirectory, "id.txt")));
+    }
+
+    [Fact]
+    public async Task Initializer_RejectsMalformedLegacyAccountField()
+    {
+        CancellationToken token = TestContext.Current.CancellationToken;
+        IAppPaths paths = new AppPaths(_directory, Path.Combine(_directory, "data"));
+        Directory.CreateDirectory(paths.ApplicationDirectory);
+        await File.WriteAllLinesAsync(Path.Combine(paths.ApplicationDirectory, "id.txt"),
+            ["MalformedLogin", "Password: secret-123", "ID: 42"], token);
+        var factory = new UserContextFactory(paths.UserDatabasePath);
+
+        await Assert.ThrowsAsync<DataFormatException>(() =>
+            new UserDatabaseInitializer(paths, factory, new LegacyUserDataMigrator(paths, factory))
+                .InitializeAsync(token));
     }
 
     [Fact]

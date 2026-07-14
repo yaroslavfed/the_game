@@ -69,6 +69,30 @@ public sealed class SqliteContentCatalogTests
         Assert.Equal(["102"], (await catalog.GetAllAsync(TestContext.Current.CancellationToken)).Select(item => item.Id));
     }
 
+    [Fact]
+    public async Task Initializer_RejectsDuplicateEnemyIdsBeforeCreatingDatabase()
+    {
+        using var paths = new TemporaryPaths();
+        await File.WriteAllTextAsync(
+            Path.Combine(paths.ApplicationDirectory, "content.seed.json"),
+            """
+            {
+              "schemaVersion": 1,
+              "contentVersion": "invalid",
+              "items": [],
+              "enemies": [
+                { "id": "same", "rank": "1", "name": "First", "health": 10, "damage": 1, "protection": 0, "reward": 1 },
+                { "id": "same", "rank": "2", "name": "Second", "health": 10, "damage": 1, "protection": 0, "reward": 1 }
+              ]
+            }
+            """,
+            TestContext.Current.CancellationToken);
+
+        await Assert.ThrowsAsync<DataFormatException>(() =>
+            new ContentDatabaseInitializer(paths).InitializeAsync(TestContext.Current.CancellationToken));
+        Assert.False(File.Exists(paths.ContentDatabasePath));
+    }
+
     private static string Seed(string version, string items) => $$"""
         {
           "schemaVersion": 1,
