@@ -60,8 +60,8 @@ public sealed class AuthenticationViewModel : ReactiveObject, IRoutableViewModel
     {
         if (string.IsNullOrWhiteSpace(login) || login.Trim().Length < 3)
             return "Логин должен содержать не менее 3 символов";
-        if (password.Length < 6)
-            return "Пароль должен содержать не менее 6 символов";
+        if (password.Length < 8)
+            return "Пароль должен содержать не менее 8 символов";
         if (isRegistration && password != confirmation)
             return "Пароли не совпадают";
         return null;

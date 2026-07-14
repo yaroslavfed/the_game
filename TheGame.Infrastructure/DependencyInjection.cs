@@ -31,13 +31,14 @@ public static class DependencyInjection
             options.UseSqlite($"Data Source={paths.UserDatabasePath};Foreign Keys=True;Default Timeout=5;Pooling=True");
         });
         services.AddSingleton<IContentDatabaseInitializer, ContentDatabaseInitializer>();
+        services.AddSingleton<IUserDatabaseInitializer, UserDatabaseInitializer>();
         services.AddSingleton<LegacyPlayerRepository>();
         services.AddSingleton<JsonPlayerRepository>();
-        services.AddSingleton<IPlayerRepository, MigratingPlayerRepository>();
+        services.AddSingleton<IPlayerRepository, SqlitePlayerRepository>();
         services.AddSingleton<IInventoryCatalog, SqliteInventoryCatalog>();
         services.AddSingleton<IEnemyCatalog, SqliteEnemyCatalog>();
-        services.AddSingleton<IAuthenticationService, AuthenticationService>();
-        services.AddSingleton<IStoreService, StoreService>();
+        services.AddSingleton<IAuthenticationService, SqliteAuthenticationService>();
+        services.AddSingleton<IStoreService, SqliteStoreService>();
         services.AddSingleton<IBattleEngine, BattleEngine>();
 
         return services;
