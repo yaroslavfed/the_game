@@ -1,0 +1,22 @@
+<rxui:ReactiveUserControl x:Class="the_game.Views.SettingsView"
+        x:TypeArguments="viewModels:SettingsViewModel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:rxui="http://reactiveui.net"
+        xmlns:viewModels="clr-namespace:the_game.ViewModels">
+    <Grid Background="#10141B">
+        <Border Width="720" Padding="48" Background="#CC1C222D" CornerRadius="12">
+            <StackPanel>
+                <TextBlock Text="НАСТРОЙКИ" Style="{StaticResource PageTitleStyle}" />
+                <TextBlock Margin="0,20,0,8" Text="Громкость музыки" Foreground="#FFB3B3B3" FontSize="20" />
+                <Slider Minimum="0" Maximum="100" Value="70" IsEnabled="False" />
+                <TextBlock Margin="0,28,0,8" Text="Громкость эффектов" Foreground="#FFB3B3B3" FontSize="20" />
+                <Slider Minimum="0" Maximum="100" Value="80" IsEnabled="False" />
+                <TextBlock Margin="0,28,0,32"
+                           Text="Сохранение настроек будет подключено после переноса пользовательской сессии."
+                           TextWrapping="Wrap" Foreground="#FF788391" FontSize="16" />
+                <Button Content="НАЗАД" Command="{Binding BackCommand}" Style="{StaticResource MenuButtonStyle}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</rxui:ReactiveUserControl>
