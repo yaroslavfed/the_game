@@ -8,7 +8,8 @@
   <PasswordBox x:Name="ConfirmationInput" Margin="0,8" Padding="12" FontSize="20" PasswordChanged="OnConfirmationChanged">
    <PasswordBox.Style><Style TargetType="PasswordBox"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding IsRegistration}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></PasswordBox.Style>
   </PasswordBox>
-  <TextBlock Margin="0,10" Text="{Binding Message}" Foreground="#FFE57373" TextWrapping="Wrap"/>
+  <TextBlock Margin="0,10" Text="{Binding ValidationMessage}" Foreground="#FFE6C76B" TextWrapping="Wrap"/>
+  <TextBlock Margin="0,0,0,10" Text="{Binding Message}" Foreground="#FFE57373" TextWrapping="Wrap"/>
   <Button Content="ПРОДОЛЖИТЬ" Command="{Binding SubmitCommand}" Style="{StaticResource MenuButtonStyle}"/>
   <Button Content="СМЕНИТЬ РЕЖИМ" Command="{Binding ToggleModeCommand}" Style="{StaticResource MenuButtonStyle}"/>
   <Button Content="НАЗАД" Command="{Binding BackCommand}" Style="{StaticResource MenuButtonStyle}"/>
