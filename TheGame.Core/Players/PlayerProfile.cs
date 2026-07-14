@@ -9,4 +9,5 @@ public sealed record PlayerProfile(
     string EquippedWeaponId,
     IReadOnlyList<string> OwnedWeaponIds,
     string EquippedArmorId,
-    IReadOnlyList<string> OwnedArmorIds);
+    IReadOnlyList<string> OwnedArmorIds,
+    int Revision = 0);

@@ -36,6 +36,7 @@ public sealed class UserDataDbContext(DbContextOptions<UserDataDbContext> option
             entity.HasKey(value => value.Id);
             entity.Property(value => value.Id).HasMaxLength(64);
             entity.Property(value => value.Nickname).HasMaxLength(100).IsRequired();
+            entity.Property(value => value.Revision).IsConcurrencyToken();
             entity.HasOne(value => value.Account).WithOne(value => value.Player)
                 .HasForeignKey<PlayerEntity>(value => value.AccountId).OnDelete(DeleteBehavior.Cascade);
         });
