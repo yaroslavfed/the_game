@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "the_game", "the_game\the_ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheGame.Tests", "TheGame.Tests\TheGame.Tests.csproj", "{A6CD7242-A496-42E6-9E41-202E4C431794}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheGame.Core", "TheGame.Core\TheGame.Core.csproj", "{CA715FC4-8B36-44B4-A930-9408DAB3B3DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheGame.Infrastructure", "TheGame.Infrastructure\TheGame.Infrastructure.csproj", "{B80AA156-4A31-4AD1-8847-68B98A1BE076}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{A6CD7242-A496-42E6-9E41-202E4C431794}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6CD7242-A496-42E6-9E41-202E4C431794}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6CD7242-A496-42E6-9E41-202E4C431794}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA715FC4-8B36-44B4-A930-9408DAB3B3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA715FC4-8B36-44B4-A930-9408DAB3B3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA715FC4-8B36-44B4-A930-9408DAB3B3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA715FC4-8B36-44B4-A930-9408DAB3B3DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B80AA156-4A31-4AD1-8847-68B98A1BE076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B80AA156-4A31-4AD1-8847-68B98A1BE076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B80AA156-4A31-4AD1-8847-68B98A1BE076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B80AA156-4A31-4AD1-8847-68B98A1BE076}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
