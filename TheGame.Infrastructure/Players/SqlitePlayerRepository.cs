@@ -27,6 +27,7 @@ public sealed class SqlitePlayerRepository(IDbContextFactory<UserDataDbContext> 
         player.Level = profile.Level;
         player.Experience = profile.Experience;
         player.Money = profile.Money;
+        player.HighestWave = profile.HighestWave;
         context.Entry(player).Property(value => value.Revision).OriginalValue = profile.Revision;
         player.Revision = profile.Revision + 1;
         player.UpdatedAt = DateTimeOffset.UtcNow;
@@ -50,7 +51,8 @@ public sealed class SqlitePlayerRepository(IDbContextFactory<UserDataDbContext> 
         player.Items.Where(item => item.Kind == InventoryItemKind.Weapon).Select(item => item.ItemId).ToArray(),
         player.Loadout?.ArmorItemId ?? string.Empty,
         player.Items.Where(item => item.Kind == InventoryItemKind.Armor).Select(item => item.ItemId).ToArray(),
-        player.Revision);
+        player.Revision,
+        player.HighestWave);
 
     private static void SynchronizeItems(PlayerEntity player, PlayerProfile profile)
     {

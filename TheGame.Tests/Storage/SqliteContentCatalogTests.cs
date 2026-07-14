@@ -93,6 +93,19 @@ public sealed class SqliteContentCatalogTests
         Assert.False(File.Exists(paths.ContentDatabasePath));
     }
 
+    [Fact]
+    public async Task Initializer_RejectsMissingCollectionsAsDataFormatError()
+    {
+        using var paths = new TemporaryPaths();
+        await File.WriteAllTextAsync(
+            Path.Combine(paths.ApplicationDirectory, "content.seed.json"),
+            """{ "schemaVersion": 1, "contentVersion": "invalid" }""",
+            TestContext.Current.CancellationToken);
+
+        await Assert.ThrowsAsync<DataFormatException>(() =>
+            new ContentDatabaseInitializer(paths).InitializeAsync(TestContext.Current.CancellationToken));
+    }
+
     private static string Seed(string version, string items) => $$"""
         {
           "schemaVersion": 1,

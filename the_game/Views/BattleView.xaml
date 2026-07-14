@@ -18,6 +18,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <TextBlock Text="ПОЛЕ БОЯ" Style="{StaticResource PageTitleStyle}"/>
+                <TextBlock Text="{Binding Wave, StringFormat=Волна: {0}}" Foreground="#FFE6C76B" FontSize="22"/>
                 <TextBlock Text="{Binding Session.Status, StringFormat=Статус: {0}}"
                            Foreground="#FFADB5C0" FontSize="18"/>
             </StackPanel>

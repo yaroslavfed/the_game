@@ -10,4 +10,5 @@ public sealed record PlayerProfile(
     IReadOnlyList<string> OwnedWeaponIds,
     string EquippedArmorId,
     IReadOnlyList<string> OwnedArmorIds,
-    int Revision = 0);
+    int Revision = 0,
+    int HighestWave = 0);

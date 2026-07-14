@@ -21,6 +21,7 @@ public sealed class PlayerEntity
     public int Level { get; set; }
     public int Experience { get; set; }
     public int Money { get; set; }
+    public int HighestWave { get; set; }
     public int Revision { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
